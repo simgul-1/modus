@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../partials/head %>
+</head>
+
+<body>
+    <style>
+        body {
+            padding-top: 53px;
+            background-color: white;
+        }
+    </style>
+
+    <header>
+		<% include ../partials/header %>
+    </header>
+
+    <!-- Carousel -->
+	<div class=row-fluid>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <div class="container-fluid full-screen index-1"></div>
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>Emote yourself through technology</h1>
+                        <p>Search and Rate Movies, Music, TV Shows, Games and much more.</p>
+                        <p><a class="btn btn-lg btn-primary" href="/register" role="button">Signup now</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="container-fluid full-screen index-3"></div>
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>Open API serves the whole audience</h1>
+                        <p>Experience rating through facial expressions</p>
+                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="container-fluid full-screen index-2"></div>
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>Movies in focus</h1>
+                        <p>Search for your favourite movies and upload your data</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <!-- /.carousel -->
+	</div>
+
+    <!-- Marketing messaging and featurettes -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+    <div class="container marketing">
+        <!-- START THE FEATURETTES -->
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+            </div>
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
+                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+            </div>
+        </div>
+
+        <!-- /END THE FEATURETTES -->
+    </div>
+    <!-- FOOTER -->
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/vendor/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/flat-ui.min.js"></script>
+    <script src="js/application.js"></script>
+</body>
+
+</html>

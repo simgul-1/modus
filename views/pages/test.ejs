@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<% include ../partials/head %>
+  </head>
+<body>
+    <style>
+		body {
+
+		padding-top: 53px;
+		background-color: #ececec;
+		}
+		.form-signin .form-control {
+		position: relative;
+		font-size: 16px;
+		height: auto;
+		padding: 10px;
+		margin-bottom: 10px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+				box-sizing: border-box;
+	}
+    </style>
+
+	<header>
+		<% include ../partials/header2 %>
+	</header>
+	
+	<!-- MAIN -->
+	<div class="container">
+	  <div class="row" style="margin-top:20px;">
+		<div class="col-md-5 col-md-offset-4">
+		  <div class="panel panel-info">
+			<div class="panel-heading">
+			  <h3 class="panel-title"><a href="http://bootsnipp.com/user" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back</a> Account Settings </h3>
+			</div>
+			<div class="panel-body">
+											<form method="POST" action="http://bootsnipp.com/user/settings" accept-charset="UTF-8" role="form" id="loginform" class="form-horizontal"><input name="_token" type="hidden" value="KonjNi39KoNfXfP2EoeCobkPqR2KDMEvmO7Ui2NN">
+			  <fieldset>
+				<div class="form-group ">
+				  <label for="email" class="col-lg-4 control-label">Username</label>
+				  <div class="col-lg-8">
+					<input class="form-control" placeholder="Username" name="username" type="text" value="Caelun">
+								  </div>
+
+				</div>
+				<div class="form-group">
+				  <label for="email" class="col-lg-4 control-label">Email</label>
+				  <div class="col-lg-8">
+					<input type="email" disabled class="form-control" id="email" placeholder="vicohl-1@student.ltu.se">
+				  </div>
+				</div>
+
+				<div class="form-group">
+				  <label for="avatar" class="col-lg-4 control-label">Profile Picture</label>
+				  <div class="col-lg-8">
+					<input type="hidden" id="avatar-hidden" name="avatar" value="">
+					<div id="upload-avatar" class="upload-avatar">
+					  <div class="userpic" style="background-image: url('https://secure.gravatar.com/avatar/b25e4b797df46f5f1b56c4205b28b8fa?s=100&amp;r=g&amp;d=mm');">
+						 <div class="js-preview userpic__preview"></div>
+					  </div>
+					  <div class="btn btn-sm btn-success js-fileapi-wrapper">
+						 <div class="js-browse">
+							<span class="btn-txt">Choose</span>
+							<input type="file" name="filedata">
+						 </div>
+						 <div class="js-upload" style="display: none;">
+							<div class="progress progress-success"><div class="js-progress bar"></div></div>
+							<span class="btn-txt">Uploading</span>
+						 </div>
+					  </div>
+					</div>
+				  </div>
+				</div>
+				
+				<input name="stamp" type="hidden">
+
+				<div class="form-group">
+				  <label for="password" class="col-lg-4 control-label">Password</label>
+				  <div class="col-lg-8">
+					<input class="form-control" placeholder="New Password" name="password" type="password" value="">
+				  </div>
+				</div>
+				<div class="form-group">
+				  <label for="password_confirmation" class="col-lg-4 control-label">Confirm Password</label>
+				  <div class="col-lg-8">
+					<input class="form-control" placeholder="Confirm Password" name="password_confirmation" type="password" value="">
+				  </div>
+				</div>
+
+				<div class="form-group">
+				  <label for="github" class="col-lg-4 control-label">Facebook profile</label>
+				  <div class="col-lg-8">
+					
+					<img src="#" alt="Facebook profile"> 
+					 
+					  Not connected. <a href="/login/facebook">Connect?</a>
+								  </div>
+				</div>
+				
+				<div class="form-group">
+				  <label for="github" class="col-lg-4 control-label">Google profile</label>
+				  <div class="col-lg-8">
+					
+					<img src="#" alt="Google profile"> 
+					 
+					  Not connected. <a href="/login/google">Connect?</a>
+								  </div>
+				</div>
+
+				<div class="form-group">
+				  <div class="col-lg-offset-7 col-lg-12">
+					<input class="btn btn-sm" type="reset" value="Reset form"> 
+					<input class="btn btn-info" type="submit" value="Update">
+				  </div>
+				 </div>
+			  </fieldset>
+			  </form>
+			</div>
+		  </div>
+		  <div class="text-right" style="margin-bottom: 30px;">
+			<a href="#" data-toggle="modal" data-target="#delete_account">Delete account</a>
+		  </div>
+		</div>
+		</div>
+		</div>
+	</div>
+	<!-- FOOTER -->
+	<footer>
+		<% include ../partials/footer %>
+	</footer>
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/vendor/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/flat-ui.min.js"></script>
+    <script src="js/application.js"></script>
+  </body>
+</html>

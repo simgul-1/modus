@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+	<% include ../partials/head %>
+  </head>
+<body>
+
+	<header>
+		<% include ../partials/header2 %>
+	</header>
+<div class="container">
+
+	<div class="page-header text-center">
+		<h1> Upload Form</h1>
+		
+	</div>
+
+	<div class="row">
+		<form action="/upload" method="post" enctype="multipart/form-data">
+
+      <input type="text" name="movie_title" placeholder="movie title"/>
+      
+      <input type="file" name="movie_csv">
+
+      <input type="submit">
+    </form>
+	</div>
+	<!-- FOOTER -->
+	<footer>
+		<% include ../partials/footer %>
+	</footer>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/vendor/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/flat-ui.min.js"></script>
+    <script src="js/application.js"></script>
+  </body>
+</html>

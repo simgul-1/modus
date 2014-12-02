@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<% include ../partials/head %>
+  </head>
+<body>
+    <style>
+      body {
+
+        padding-top: 53px;
+		background-color: #ececec;
+      }
+	.form-signin input[type="text"] {
+	  margin-bottom: -1px;
+	  border-bottom-left-radius: 0;
+	  border-bottom-right-radius: 0;
+	}
+
+	.form-signin .middle {
+	  margin-bottom: -1px;
+	  border-top-left-radius: 0;
+	  border-top-right-radius: 0;
+	  border-bottom-left-radius: 0;
+	  border-bottom-right-radius: 0;
+	}
+
+	.form-signin .bottom {
+	  margin-bottom: 10px;
+	  border-top-left-radius: 0;
+	  border-top-right-radius: 0;
+	}
+	.form-signin .form-control {
+	  position: relative;
+	  font-size: 16px;
+	  height: auto;
+	  padding: 10px;
+	  -webkit-box-sizing: border-box;
+	     -moz-box-sizing: border-box;
+	          box-sizing: border-box;
+	}
+    </style>
+
+	<header>
+		<% include ../partials/header %>
+	</header>
+	
+	<div class="container">
+		<div class="row" style="margin-top:40px;">
+			<div class="col-md-4 col-md-offset-4">
+				<h5 style="color:dimgray;">Register now to be part of of the community</h3>
+		
+				<hr class="colorgraph">
+				<form method="POST" action="/register" accept-charset="UTF-8" role="form" class="form-signin">
+					<fieldset>
+						<input class="form-control" placeholder="Username" name="username" type="text">
+						<input class="form-control middle" placeholder="E-mail" name="email" type="text">
+						<input class="form-control middle" placeholder="Password" name="password" type="password" value="">
+						<input class="form-control bottom" placeholder="Confirm Password" name="password_confirmation" type="password" value="">
+						<input class="btn btn-lg btn-primary btn-block" type="submit" value="Register">
+						<p class="text-center" style="margin-top:10px;">OR</p>
+						<a class="btn btn-lg btn-default btn-block" href="/auth/facebook">Register with Facebook</a>
+						<a class="btn btn-lg btn-default btn-block" href="/auth/google">Register with Google</a>
+						<br>
+						<p class="text-center"><a href="/login">Already have an account?</a></p>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- FOOTER -->
+	<footer>
+		<% include ../partials/footer %>
+	</footer>
+	
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/vendor/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/flat-ui.min.js"></script>
+    <script src="js/application.js"></script>
+  </body>
+</html>
