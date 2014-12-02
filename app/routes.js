@@ -7,6 +7,8 @@ module.exports = function(app, passport) {
 	var Parse = require('../app/models/parse');
 	var flash = require('connect-flash');
 	var omdb = require('omdb');
+	var session      = require('express-session');
+
 	// show the home page (will also have our login links)
 	app.get('/', function(req, res) {
 		res.render('pages/index.ejs', {
@@ -34,43 +36,81 @@ module.exports = function(app, passport) {
 		res.redirect('/');
 	});
 
-	app.post('/search', function(req, res) {
+	// POST REQUEST TO SEARCH
+	app.post('/search', isLoggedIn, function(req, res) {
+
+		function getMovies(arg, callback){
+			console.log('In getMovies');
+
+			console.log('searching for '+arg);
+			
+			omdb.search(arg, function(err, movies) {
+			    if(err) {
+			        return console.error(err);
+			    }
+
+			    if(movies.length < 1) {
+			        return console.log('No movies were found!');
+			    }	
+
+			    var titles = [];
+			   	movies.forEach(function(movie) {
+			        
+			        // If title exists in array, dont push.
+			       	if(titles.indexOf(movie.title) > -1){
+			        	console.log('skipped duplicate title of '+movie.title);
+			        	
+			        }
+			        else{
+			        	titles.push(movie.title);
+			        	console.log('pushed '+movie.title);
+			        }
+			    });
+
+			    // Saves the titles in a session
+			    req.session.titles = titles;
+			    
+			    console.log(req.session.titles);
+			    // Done with the API request
+				callback();
+					
+		    });
+
+			
+		}
 
 		var title = req.body.title;
-		console.log('searching for '+title);
 
-		omdb.search(title, function(err, movies) {
-	    if(err) {
-	        return console.error(err);
-	    }
+		getMovies(title, function() {
+			
+			console.log('Done with API request, redirecting to GET SEARCH');
+			res.redirect('/search');
 
-	    if(movies.length < 1) {
-	        return console.log('No movies were found!');
-	    }	
-
-	    var titles = [];
-	   	movies.forEach(function(movie) {
-	        
-	        // If title exists in array, dont push.
-	       	if(titles.indexOf(movie.title) > -1){
-	        	console.log('skipped duplicate title of '+movie.title);
-	        	
-	        }
-	        else{
-	        	titles.push(movie.title);
-	        	console.log('pushed '+movie.title);
-	        }
-	    });
-	    
-		req.session.titles = titles;
-		console.log(req.session.titles);	   
-	});
-
-	res.redirect('/search');
+		});
 
 	});
 
-	app.post('/search_specific', function(req, res) {
+	// GET REQUEST TO SEARCH
+	app.get('/search', isLoggedIn, function(req, res) {
+		
+		//console.log(req.session);
+		console.log('Here comes session \n'+req.session.titles + '\n');
+		
+		if(req.session.titles.length > 0) {
+		
+		console.log('Got general results from movies');
+		res.render('pages/search.ejs', { title: 'Search', titles: req.session.titles, user: req.user });
+		req.session.titles = null;
+	
+		}
+		else{
+			console.log('error in get search');
+			
+		}
+
+	});
+
+	app.post('/search_specific', isLoggedIn, function(req, res) {
 
 		var title = req.body.title;
 	
@@ -109,29 +149,12 @@ module.exports = function(app, passport) {
 		
 	});
 
-	app.get('/search', function(req, res) {
-		
-		
-		var arr = req.session.titles;
-		if(arr.length > 0) {
-		
-		console.log('Got general results from movies');
-		res.render('pages/search.ejs', { title: 'Search', titles: req.session.titles, user: req.user });
-		req.session.titles = null;
-	
-		}
-		else{
-			console.log('error in get search');
-			
-		}
-
-	});
-
-	app.get('/search_specific', function(req, res) {
+	app.get('/search_specific', isLoggedIn, function(req, res) {
 		if(req.session.result) {
 		
 		console.log('Got result from movie in RESULT page');
-		res.render('pages/search.ejs', { title: 'Search', movie: req.session.result });
+		
+		res.render('pages/search_specific.ejs', { title: 'Search', movie: req.session.result, user: req.user });
 		req.session.result = null;
 	
 		}

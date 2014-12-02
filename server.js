@@ -3,26 +3,23 @@
 // set up ======================================================================
 // get all the tools we need
 var express  = require('express');
-var app      = express();
 var port     = process.env.PORT || 3003;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
-
 var fs 		 = require('fs');
-
 var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
-//var Parse = require('../app/models/parse');
-
 var configDB = require('./config/database.js');
 
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
 
 require('./config/passport')(passport); // pass passport for configuration
+
+var app = express();
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
@@ -34,7 +31,10 @@ app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs'); // set up ejs for templating
 
 // required for passport
-app.use(session({ secret: 'hakunamatata' })); // session secret
+app.use(session({
+  secret: 'hakunamatata',
+}));
+app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
@@ -52,5 +52,4 @@ fs.readdirSync(__dirname + '/app/models').forEach(function(filename) {
 
 // launch ======================================================================
 app.listen(port);
-console.log('The magic happens on port ' + port);
 
