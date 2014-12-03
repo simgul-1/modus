@@ -16,9 +16,9 @@ module.exports = {
 	},
 
     'googleAuth' : {
-        'clientID'      : '306233627276-gcvp2t22c3f6a3rvdi2pn3m6gq77c8ee.apps.googleusercontent.com',
-        'clientSecret'  : 'H6Xf-tQKrVeduBi7R_KdVyOp',
-        'callbackURL'   : 'http://wayland.campus.ltu.se:3003/auth/google/callback'
+        'clientID'      : '387127984694-bhb4maaj9di77f48qhbohmi1lljgunqv.apps.googleusercontent.com',
+        'clientSecret'  : 'KDmuaqNAhqk69ZgXD7TEGS7d',
+        'callbackURL'   : 'http://wayland.campus.ltu.se:3000/auth/google/callback'
     }
 
 };
