@@ -107,7 +107,7 @@ module.exports = function(app, passport) {
 		getMovies(title, function() {
 			
 			console.log('Done with API request, redirecting to GET SEARCH');
-			//res.redirect('/search');
+			res.redirect('/search');
 
 		});
 
