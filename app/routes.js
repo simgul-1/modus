@@ -29,6 +29,13 @@ module.exports = function(app, passport) {
 			user : req.user
 		});
 	});
+	
+	// PROFILE SECTION =========================
+	app.get('/uploads', isLoggedIn, function(req, res) {
+		res.render('pages/uploads.ejs', {
+			user : req.user
+		});
+	});
 
 	// LOGOUT ==============================
 	app.get('/logout', function(req, res) {
