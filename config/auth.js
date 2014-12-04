@@ -2,12 +2,8 @@
 // TEST MESSAGE
 // expose our config directly to our application using module.exports
 
-
-
-
-// --------- REAL DEAL MODUS GREJER -------------- 
-// Kommentera ut alla andra innan ni commitar och pushar
-
+// ---------------------- THE REAL DEAL ---------------------------
+// ---------- kommentera ut erat innan ni commitar och pushar!!! ---------------------
 module.exports = {
 
 	'facebookAuth' : {
@@ -23,13 +19,6 @@ module.exports = {
     }
 
 };
-
-
-
-
-
-
-
 // // SIMONS GREJER
 // module.exports = {
 
@@ -47,7 +36,18 @@ module.exports = {
 
 // };
 
-// VICTORS GREJER
 
-
-// MAXIMES GREJER
+/*
+VICTORs grejer 
+	'facebookAuth' : {
+		'clientID' 		: '747475465332188', // your App ID
+		'clientSecret' 	: 'bc95afdb4fb1705cb77ca6a389f3d6d0', // your App Secret
+		'callbackURL' 	: 'localhost:3000/auth/facebook/callback'
+	},
+	'googleAuth' : {
+        'clientID'      : '989951666354-cc28vjs8sp6ls5jo6pns7jf55a6e4jh6.apps.googleusercontent.com',
+        'clientSecret'  : 'uNNAMhPAck4hzHOCduvTsY0L',
+        'callbackURL'   : 'localhost:3000/auth/google/callback'
+    }
+};
+*/
