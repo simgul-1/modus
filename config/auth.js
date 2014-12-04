@@ -9,15 +9,9 @@ module.exports = {
 		'callbackURL' 	: 'http://wayland.campus.ltu.se:3000/auth/facebook/callback'
 	},
 
-	'twitterAuth' : {
-		'consumerKey' 		: 'zmMnO2zeOFiphz3V4Dwrmcmda',
-		'consumerSecret' 	: 'jilLB44jaCeLTonfUR1dwxW29XPVEB2v7HQbQT66dIQqGllk6m',
-		'callbackURL' 		: 'http://wayland.campus.ltu.se:3003/auth/twitter/callback'
-	},
-
     'googleAuth' : {
-        'clientID'      : '387127984694-bhb4maaj9di77f48qhbohmi1lljgunqv.apps.googleusercontent.com',
-        'clientSecret'  : 'KDmuaqNAhqk69ZgXD7TEGS7d',
+        'clientID'      : '306233627276-39g2sp77ef5cnr91s4f9jrmrql6vqj29.apps.googleusercontent.com',
+        'clientSecret'  : 'y3pt0MK11DBpD-sALETkwhky',
         'callbackURL'   : 'http://wayland.campus.ltu.se:3000/auth/google/callback'
     }
 
