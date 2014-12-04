@@ -23,7 +23,7 @@ module.exports = {
 // module.exports = {
 
 // 	'facebookAuth' : {
-// 		'clientID' 		: '755401647847627', // your App ID
+// 		'clientID' 	: '755401647847627', // your App ID
 // 		'clientSecret' 	: 'c34694134dc78bf83523b4cf6eca4f0c', // your App Secret
 // 		'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
 // 	},
@@ -57,7 +57,7 @@ module.exports = {
 
 */
 
-/*
+/* Maxime
 module.exports = {
 	'facebookAuth' : {
 		'clientID' 		: '1519354678350842', // your App ID
