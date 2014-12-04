@@ -40,7 +40,7 @@ module.exports = function(app, passport) {
 	app.post('/search', isLoggedIn, function(req, res) {
 
 		function getMovies(arg, callback){
-			console.log('In getMovies');
+			console.log('In search post');
 
 			console.log('searching for '+arg);
 			
@@ -53,24 +53,40 @@ module.exports = function(app, passport) {
 			        return console.log('No movies were found!');
 			    }	
 
-			    var titles = [];
+			    
+			    // Array containing all results
+			    var results = [];
+			   	// Array containing titles
+			    var moviedata = [];
+
 			   	movies.forEach(function(movie) {
 			        
 			        // If title exists in array, dont push.
-			       	if(titles.indexOf(movie.title) > -1){
-			        	console.log('skipped duplicate title of '+movie.title);
+			       	// if(titles.indexOf(movie.title) > -1){
+			        // 	console.log('skipped duplicate title of '+movie.title);
 			        	
-			        }
-			        else{
-			        	titles.push(movie.title);
-			        	console.log('pushed '+movie.title);
-			        }
+			        // }
+			        //else{
+			        	
+			        	moviedata = [
+			        		movie.title, 
+			        		movie.year,
+			        		movie.poster
+			        	];
+
+			        	results.push(moviedata);
+			        	//titles.push(movie.title);
+			        	//console.log('pushed '+movie.title);
+			        //}
 			    });
 
+			   	var json_results = JSON.parse(JSON.stringify(results))
 			    // Saves the titles in a session
-			    req.session.titles = titles;
+			    req.session.results = json_results;
 			    
-			    console.log(req.session.titles);
+			    console.log('HEre comes results:');
+			    console.log(req.session.results);
+			    
 			    // Done with the API request
 				callback();
 					
@@ -84,7 +100,7 @@ module.exports = function(app, passport) {
 		getMovies(title, function() {
 			
 			console.log('Done with API request, redirecting to GET SEARCH');
-			res.redirect('/search');
+			//res.redirect('/search');
 
 		});
 
