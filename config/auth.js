@@ -1,6 +1,9 @@
 // config/auth.js
 // TEST MESSAGE
 // expose our config directly to our application using module.exports
+
+// ---------------------- THE REAL DEAL ---------------------------
+// ---------- kommentera ut erat innan ni commitar och pushar!!! ---------------------
 module.exports = {
 
 	'facebookAuth' : {
