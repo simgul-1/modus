@@ -7,7 +7,7 @@ module.exports = function(app, passport) {
 	var Parse = require('../app/models/parse');
 	var flash = require('connect-flash');
 	var omdb = require('omdb');
-	var session      = require('express-session');
+	var session = require('express-session');
 
 	// show the home page (will also have our login links)
 	app.get('/', function(req, res) {
