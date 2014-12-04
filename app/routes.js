@@ -189,8 +189,8 @@ module.exports = function(app, passport) {
 	    //STOPPA IN SKITEN I DATABASEN
 	    var parse = new Parse({
 	      data : data,
-	      created : Date.now(),
-	      name  : csv_file,
+	      creation_time : Date.now(),
+	      path  : csv_file,
 	      movie_title: req.body.movie_title
 	     });
 	    console.log("data comes here:  ");
