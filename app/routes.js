@@ -9,6 +9,7 @@ module.exports = function(app, passport) {
 	var omdb = require('omdb');
 	var session = require('express-session');
 
+
 	// show the home page (will also have our login links)
 	app.get('/', function(req, res) {
 		res.render('pages/index.ejs', {
@@ -35,6 +36,8 @@ module.exports = function(app, passport) {
 		req.logout();
 		res.redirect('/');
 	});
+
+
 
 	// POST REQUEST TO SEARCH
 	app.post('/search', isLoggedIn, function(req, res) {
