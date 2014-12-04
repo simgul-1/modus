@@ -1,76 +1,76 @@
 <!doctype html>
 <html>
-  <head>
-	<% include ../partials/head %>
-  </head>
+
+<head>
+    <% include ../partials/head %>
+</head>
+
 <body>
+    <header>
+        <% include ../partials/header %>
+    </header>
+    <div class="container">
 
-	<header>
-		<% include ../partials/header %>
-	</header>
-<div class="container">
+        <div class="page-header text-center">
+            <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+            <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+        </div>
 
-	<div class="page-header text-center">
-		<h1><span class="fa fa-anchor"></span> Profile Page</h1>
-		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
-	</div>
+        <div class="row">
 
-	<div class="row">
+            <!-- FACEBOOK INFORMATION -->
+            <div class="col-sm-6">
+                <div class="well">
+                    <h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
 
-		<!-- FACEBOOK INFORMATION -->
-		<div class="col-sm-6">
-			<div class="well">
-				<h3 class="text-primary"><span class="fa fa-facebook"></span> Facebook</h3>
+                    <!-- check if the user has this token (is the user authenticated with this social account) -->
+                    <% if (user.facebook.token) { %>
+                        <p>
+							<strong>id</strong>: <%= user.facebook.id %><br>
+							<strong>token</strong>: <%= user.facebook.token %><br>
+							<strong>email</strong>: <%= user.facebook.email %><br>
+							<strong>name</strong>: <%= user.facebook.name %><br>
+                        </p>
 
-				<!-- check if the user has this token (is the user authenticated with this social account) -->
-				<% if (user.facebook.token) { %>
-					<p>
-						<strong>id</strong>: <%= user.facebook.id %><br>
-						<strong>token</strong>: <%= user.facebook.token %><br>
-						<strong>email</strong>: <%= user.facebook.email %><br>
-						<strong>name</strong>: <%= user.facebook.name %><br>
-					</p>
+                        <a href="/unlink/facebook" class="btn btn-primary">Unlink</a>
+                        <% } else { %>
+                            <a href="/connect/facebook" class="btn btn-primary">Connect Facebook</a>
+                            <% } %>
 
-					<a href="/unlink/facebook" class="btn btn-primary">Unlink</a>
-				<% } else { %>
-					<a href="/connect/facebook" class="btn btn-primary">Connect Facebook</a>
-				<% } %>
+                </div>
+            </div>
 
-			</div>
-		</div>
-	</div>
-	<div class="row">
+            <!-- GOOGLE INFORMATION -->
+            <div class="col-sm-6">
+                <div class="well">
+                    <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google+</h3>
 
-		<!-- GOOGLE INFORMATION -->
-		<div class="col-sm-6">
-			<div class="well">
-				<h3 class="text-danger"><span class="fa fa-google-plus"></span> Google+</h3>
+                    <% if (user.google.token) { %>
+                        <p>
+							<strong>id</strong>: <%= user.google.id %><br>
+							<strong>token</strong>: <%= user.google.token %><br>
+							<strong>email</strong>: <%= user.google.email %><br>
+							<strong>name</strong>: <%= user.google.name %>
+                        </p>
 
-				<% if (user.google.token) { %>
-					<p>
-						<strong>id</strong>: <%= user.google.id %><br>
-						<strong>token</strong>: <%= user.google.token %><br>
-						<strong>email</strong>: <%= user.google.email %><br>
-						<strong>name</strong>: <%= user.google.name %>
-					</p>
+                        <a href="/unlink/google" class="btn btn-danger">Unlink</a>
+                        <% } else { %>
+                            <a href="/connect/google" class="btn btn-danger">Connect Google</a>
+                            <% } %>
 
-					<a href="/unlink/google" class="btn btn-danger">Unlink</a>
-				<% } else { %>
-					<a href="/connect/google" class="btn btn-danger">Connect Google</a>
-				<% } %>
-
-			</div>
-		</div>
-	</div>
-</div>
-	<!-- FOOTER -->
-	<footer>
-		<% include ../partials/footer %>
-	</footer>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FOOTER -->
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/vendor/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/flat-ui.min.js"></script>
     <script src="js/application.js"></script>
-  </body>
+</body>
+
 </html>

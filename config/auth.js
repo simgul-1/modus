@@ -25,7 +25,7 @@ module.exports = {
 // module.exports = {
 
 // 	'facebookAuth' : {
-// 		'clientID' 		: '755401647847627', // your App ID
+// 		'clientID' 	: '755401647847627', // your App ID
 // 		'clientSecret' 	: 'c34694134dc78bf83523b4cf6eca4f0c', // your App Secret
 // 		'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
 // 	},
@@ -59,8 +59,18 @@ module.exports = {
 
 
 
-/*
-SIMON
+/* Maxime
+module.exports = {
+	'facebookAuth' : {
+		'clientID' 		: '1519354678350842', // your App ID
+		'clientSecret' 	: 'ac5c66ec2fdfb9fa5dd43ad40dd5668f', // your App Secret
+		'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
+	},
+	'googleAuth' : {
+        'clientID'      : '306233627276-b79uhq3u80nvrqgnensgbm69t888sair.apps.googleusercontent.com',
+        'clientSecret'  : 'AyPOn6G-fYUm0A2N5cULhB3--sALETkwhky',
+        'callbackURL'   : 'http://localhost:3000/auth/google/callback'
+    }
+};
 */
-
 
