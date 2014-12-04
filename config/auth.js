@@ -16,8 +16,26 @@ module.exports = {
     }
 
 };
+// // SIMONS GREJER
+// module.exports = {
+
+// 	'facebookAuth' : {
+// 		'clientID' 		: '755401647847627', // your App ID
+// 		'clientSecret' 	: 'c34694134dc78bf83523b4cf6eca4f0c', // your App Secret
+// 		'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
+// 	},
+
+// 	'googleAuth' : {
+//         'clientID'      : '351216799888-iu82s6pj86mjpetrhh06ta4sk80uslql.apps.googleusercontent.com',
+//         'clientSecret'  : 'L5K8j_lBkvJaH00RY6a3XREK',
+//         'callbackURL'   : 'http://localhost:3000/auth/google/callback'
+//     }
+
+// };
+
+
 /*
-VICTOR 
+VICTORs grejer 
 
 	'facebookAuth' : {
 		'clientID' 		: '747475465332188', // your App ID
