@@ -39,20 +39,26 @@ module.exports = {
 
 /*
 VICTORs grejer 
+module.exports = {
+
 	'facebookAuth' : {
 		'clientID' 		: '747475465332188', // your App ID
 		'clientSecret' 	: 'bc95afdb4fb1705cb77ca6a389f3d6d0', // your App Secret
 		'callbackURL' 	: 'localhost:3000/auth/facebook/callback'
 	},
+
 	'googleAuth' : {
         'clientID'      : '989951666354-cc28vjs8sp6ls5jo6pns7jf55a6e4jh6.apps.googleusercontent.com',
         'clientSecret'  : 'uNNAMhPAck4hzHOCduvTsY0L',
         'callbackURL'   : 'localhost:3000/auth/google/callback'
-    }
+    	}
+
 };
+
 */
 
 /*
 SIMON
 */
+
 
