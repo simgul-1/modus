@@ -58,7 +58,17 @@ module.exports = {
 */
 
 /*
-SIMON
+module.exports = {
+	'facebookAuth' : {
+		'clientID' 		: '1519354678350842', // your App ID
+		'clientSecret' 	: 'ac5c66ec2fdfb9fa5dd43ad40dd5668f', // your App Secret
+		'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
+	},
+	'googleAuth' : {
+        'clientID'      : '306233627276-b79uhq3u80nvrqgnensgbm69t888sair.apps.googleusercontent.com',
+        'clientSecret'  : 'AyPOn6G-fYUm0A2N5cULhB3--sALETkwhky',
+        'callbackURL'   : 'http://localhost:3000/auth/google/callback'
+    }
+};
 */
-
 
