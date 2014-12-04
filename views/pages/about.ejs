@@ -14,60 +14,65 @@
     </style>
 
     <header>
-		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-			<div class="container">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span>
-					</button>
-					<a class="navbar-brand" href="/">Modus</a>
-				</div>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                    </button>
+                    <a class="navbar-brand" href="/">Modus</a>
+                </div>
 
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="navbar-collapse-5">
-					<ul class="nav navbar-nav">
-						<li><a href="/"><span class="fui-home"></span> Home</a>
-						</li>
-						<li class="active"><a href="/about"><span class="fui-info-circle"></span> About</a>
-						</li>
-					</ul>
-					<form class="navbar-form navbar-left" action="/search" method="post" role="search">
-						<div class="form-group">
-							<div class="input-group">
-								<input class="form-control" id="navbarInput-01" name="title" type="search" placeholder="Search">
-								<span class="input-group-btn">
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="navbar-collapse-5">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/"><span class="fui-home"></span> Home</a>
+                        </li>
+                        <li class="active"><a href="/about"><span class="fui-info-circle"></span> About</a>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-left" action="/search" method="post" role="search">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control" id="navbarInput-01" name="title" type="search" placeholder="Search">
+                                <span class="input-group-btn">
 						  <button type="submit" class="btn"><span class="fui-search"></span>
-								</button>
-								</span>
-							</div>
-						</div>
-					</form>
-					<!-- check if the user is logged in -->
-					<% if (user) { %>
-					  <ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-						  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= user.google.name %> <b class="caret"></b></a>
-						  <ul class="dropdown-menu">
-							<li><a href="/uploads">My Uploads</a></li>
-							<li class="divider"></li>
-							<li><a href="/logout">Logout</a></li>
-						  </ul>
-						</li>
-						<li><a href="/profile"><span class="visible-sm visible-xs">Settings<span class="fui-gear"></span></span><span class="visible-md visible-lg"><span class="fui-gear"></span></span></a></li>
-					  </ul>
-					<% } else { %>
-					<form class="navbar-right">
-						<ul class="nav navbar-nav">
-							<a class="btn btn-danger" href="/auth/google">Google</a>
-							<a class="btn btn-info" href="/auth/facebook">Facebook</a>
-						</ul>
-					</form>
-					<% } %>
-				</div>
-				<!-- /.navbar-collapse -->
-			</div>
-		</nav>
+                                </button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- check if the user is logged in -->
+                    <% if (user) { %>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <%= user.google.name %> <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/uploads">My Uploads</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li><a href="/logout">Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="/profile"><span class="visible-sm visible-xs">Settings<span class="fui-gear"></span></span><span class="visible-md visible-lg"><span class="fui-gear"></span></span></a>
+                            </li>
+                        </ul>
+                        <% } else { %>
+                            <form class="navbar-right">
+                                <ul class="nav navbar-nav">
+                                    <a class="btn btn-danger" href="/auth/google">Google</a>
+                                    <a class="btn btn-info" href="/auth/facebook">Facebook</a>
+                                </ul>
+                            </form>
+                            <% } %>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+        </nav>
     </header>
 
     <!-- =========================CAROUSEL========================= -->
@@ -98,7 +103,7 @@
 
     <div class="container text-center">
         <div class="row">
-            <h5 class="team-color">Our team</h5>
+            <h3 class="team-color">Our team</h3>
         </div>
         <div class="row">
             <h6 class="team-desc">We are a small team of three Master Students in Computer Science and Engineering</h6>
@@ -161,13 +166,13 @@
 
     </div>
     <!-- /.container -->
-
+	<hr>
     <div class="container-fluid text-center white-background">
         <div class="row-fluid">
             <div class="section col-lg-12">
                 <div class="big-message">
                     <div class="row">
-                        <h5 class="team-color">Built with</h5>
+                        <h3 class="team-color">Built with</h3>
                     </div>
                     <div class="row">
                         <img src="img/about/about_packages.png" alt="" usemap="#Map" />
@@ -181,22 +186,13 @@
                             <area alt="MongoDB" title="" href="http://www.mongodb.org/" shape="rect" coords="219,337,372,483" />
                             <area alt="CSV" title="" href="http://csv.adaltas.com/" shape="rect" coords="552,331,694,483" />
                         </map>
-                    </div>
-                    <div>
-                    </div>
+                    </div><br>
                 </div>
             </div>
         </div>
     </div>
     <!-- FOOTER -->
-    <footer>
-        <% include ../partials/footer %>
-    </footer>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/vendor/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/flat-ui.min.js"></script>
-    <script src="js/application.js"></script>
+    <% include ../partials/footer %>
 </body>
 
 </html>
