@@ -40,12 +40,13 @@ module.exports = {
     }
 
 };
-
 */
-/*
+
+
 
 
 //VICTORs grejer 
+/*
 module.exports = {
 
 
@@ -64,5 +65,5 @@ module.exports = {
 
 };
 
-
+*/
 

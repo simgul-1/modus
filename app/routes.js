@@ -46,7 +46,7 @@ module.exports = function(app, passport) {
 
 
 
-	// POST REQUEST TO SEARCH
+	// POST REQUEST TO GENERAL SEARCH 
 	app.post('/search', function(req, res) {
 
 		function getMovies(arg, callback){
@@ -244,13 +244,15 @@ module.exports = function(app, passport) {
 	});
 
 	//===============================================================================================================================
-	app.get('/searchresults', function(req, res) {
+	app.get('/search/movie', function(req, res) {
 		
+		var title = req.query['title'];
+		console.log(title);
 
-		console.log('Got result for single search');
+		console.log('Searching for '+title);
 		
 		omdb.get( {title: title}, true, function(err, movie){
-		console.log('getting movie info');
+		console.log('getting info for '+title);
 
 		if(err) {
 			return console.log(err);
@@ -278,11 +280,15 @@ module.exports = function(app, passport) {
 
 		});
 
-		res.render('pages/searchresults.ejs', { title: 'Search', movie: movieinfo, user: req.user });
+		res.render('pages/search_movie.ejs', { movie: movieinfo, user: req.user });
 		req.session.result = null;
 	
 		
 
+	});
+
+	app.get('/search/audio', function(req, res) {
+		// search specific song or audio
 	});
 
 	
