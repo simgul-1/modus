@@ -246,43 +246,55 @@ module.exports = function(app, passport) {
 	//===============================================================================================================================
 	app.get('/search/movie', function(req, res) {
 		
-		var title = req.query['title'];
-		console.log(title);
+		function getMovieInfo(arg, callback) {
 
-		console.log('Searching for '+title);
-		
-		omdb.get( {title: title}, true, function(err, movie){
-		console.log('getting info for '+title);
-
-		if(err) {
-			return console.log(err);
-		}
-
-		if(!movie) {
-			return console.log('No movie found');
-		}
-
-		console.log('Movie title searched for is: '+movie.title+' and the year is '+movie.year);
-		
-		console.log('movie.title is '+movie.title);
-		console.log('movie.year is '+movie.year);
-		console.log('movie.plot is '+movie.plot);
-		//console.log('movie.poster is '+movie.poster);
-		console.log('movie.imdb.rating is '+movie.imdb.rating);
-		req.session.result = {
+			console.log('Searching for '+title);
 			
-			title: movie.title,
-			year: movie.year,
-			plot: movie.plot,
-			poster: movie.poster,
-			rating: movie.imdb.rating
-		};
+			omdb.get( {title: title}, true, function(err, movie){
+				console.log('getting info for '+movie.title);
 
+				if(err) {
+					return console.log(err);
+				}
+
+				if(!movie) {
+					return console.log('No movie found');
+				}
+
+				req.session.movieinfo = {
+					
+					title: movie.title,
+					year: movie.year,
+					plot: movie.plot,
+					poster: movie.poster,
+					rating: movie.imdb.rating
+				
+				};
+				
+				callback();
+			});
+		}
+
+
+		var title = req.query['title'];
+		
+		getMovieInfo(title, function() {
+			
+			console.log('Done getting movie info, rendering page');
+			info = req.session.movieinfo;
+			movieinfo = JSON.parse(JSON.stringify(info));
+			
+			console.log('movie info is \n');
+			console.log(movieinfo);
+			console.log('\n');
+			res.render('pages/search_movie.ejs', { movie: movieinfo, user: req.user });
+			req.session.movieinfo = null;
+			
 		});
+		
+		
 
-		res.render('pages/search_movie.ejs', { movie: movieinfo, user: req.user });
-		req.session.result = null;
-	
+		
 		
 
 	});
