@@ -3,12 +3,21 @@ http://wayland.campus.ltu.se:3000
 
 The Modus project is a media rating search engine website combined with an E3 wristband monitor from [https://www.empatica.com/].
 
-## Built with:
+## Front end:
+- Node.js [http://nodejs.org/]
+- Bootstrap [http://getbootstrap.com/]
+- FlatUI [https://designmodo.github.io/Flat-UI/]
+
+## Back end:
 - MongoDB
 - Latest Node.js with NPM
 - Facebook and Google developer apps
-- Bootstrap, FlatUI
+- Bootstrap, Fl
 - OMdb API
+
+## Authentication:
+- Facebook Developers [https://developers.facebook.com/]
+- Google Developers [https://console.developers.google.com/]
 
 ## How do I run this?
 
