@@ -299,7 +299,7 @@ module.exports = function(app, passport) {
 
 	});
 
-	app.get('/search/audio', function(req, res) {
+	app.get('/audio', function(req, res) {
 		// search specific song or audio
 	});
 
