@@ -41,13 +41,17 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 // routes ======================================================================
 require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
-
+require('./algoritm/temperature')(app);
 // set the default tmpdir for uploads (IMPORTANT)
 process.env.TMPDIR = './tmp';
 
 //load all files in models dir
 fs.readdirSync(__dirname + '/app/models').forEach(function(filename) {
     if (~filename.indexOf('js')) require(__dirname + '/app/models/' + filename)
+});
+
+fs.readdirSync(__dirname + '/algoritm').forEach(function(filename) {
+    if (~filename.indexOf('js')) require(__dirname + '/algoritm/' + filename)
 });
 
 // launch ======================================================================
