@@ -1,7 +1,7 @@
 # Modus
 http://wayland.campus.ltu.se:3000
 
-The Modus project is a media rating search engine combined with an Empatica wristband monitor (https://www.empatica.com/).
+The Modus project is a media rating search engine website combined with an E3 wristband monitor from [https://www.empatica.com/].
 
 ## Built with:
 - MongoDB
@@ -9,7 +9,6 @@ The Modus project is a media rating search engine combined with an Empatica wris
 - Facebook and Google developer apps
 - Bootstrap, FlatUI
 - OMdb API
-
 
 ## How do I run this?
 
