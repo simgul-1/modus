@@ -24,7 +24,7 @@ module.exports = {
 
 
 /*
- SIMONS GREJER
+//SIMONS GREJER
 module.exports = {
 
 	'facebookAuth' : {
