@@ -47,7 +47,7 @@ module.exports = function(app, passport) {
 
 
 	// POST REQUEST TO SEARCH
-	app.post('/search', isLoggedIn, function(req, res) {
+	app.post('/search', function(req, res) {
 
 		function getMovies(arg, callback){
 			console.log('In search post');
@@ -65,10 +65,17 @@ module.exports = function(app, passport) {
 
 			    
 			    // Array containing all results
-			    var results = [];
-			   	// Array containing titles
+			    //var result = [];
+			    
+			   	// Array for all movies
+			   	// var all_movies = {
+			   	// 	moviedata: []
+			   	// };
+			   	
 			    var moviedata = [];
-
+			    var poster;
+			    var movieplot;
+			    var movierating;
 			   	movies.forEach(function(movie) {
 			        
 			        // If title exists in array, dont push.
@@ -77,25 +84,43 @@ module.exports = function(app, passport) {
 			        	
 			        // }
 			        //else{
-			        	
-			        	moviedata = [
-			        		movie.title, 
-			        		movie.year,
-			        		movie.poster
-			        	];
+			      	
+			        // --- DO FULL SEARCH ON EVERY SPECIFIC MOVIE
+			       
 
-			        	results.push(moviedata);
+
+			        // DO POSTER REQUEST HERE
+
+			        //---------------------
+
+			        moviedata.push({
+			        	"title" : movie.title,
+			     		"year" : movie.year,
+			     		"plot" : movieplot,
+			     		"rating" : movierating,
+			     		"poster" : poster
+			        });
+			        	
+			     	
+			        
+			        
 			        	//titles.push(movie.title);
 			        	//console.log('pushed '+movie.title);
 			        //}
 			    });
 
-			   	var json_results = JSON.parse(JSON.stringify(results))
-			    // Saves the titles in a session
-			    req.session.results = json_results;
+
+			   	//result.push(all_movies);
+
+			   	//var json_result = JSON.parse(JSON.stringify(moviedata));
+			    var json_result = moviedata;
+
+				console.log('Here comes json result:');
+			    console.log(json_result);
 			    
-			    console.log('HEre comes results:');
-			    console.log(req.session.results);
+			    // Saves the titles in a session
+			    req.session.result = json_result;
+			    
 			    
 			    // Done with the API request
 				callback();
@@ -117,26 +142,40 @@ module.exports = function(app, passport) {
 	});
 
 	// GET REQUEST TO SEARCH
-	app.get('/search', isLoggedIn, function(req, res) {
+	app.get('/search', function(req, res) {
 		
-		//console.log(req.session);
-		console.log('Here comes session \n'+req.session.titles + '\n');
+		console.log('in get search');
+		var result = req.session.result;
+		json_result = JSON.stringify(result);
 		
-		if(req.session.titles.length > 0) {
+		console.log('Here comes session \n'+ json_result + '\n');
 		
-		console.log('Got general results from movies');
-		res.render('pages/search.ejs', { title: 'Search', titles: req.session.titles, user: req.user });
-		req.session.titles = null;
-	
+		var check = null;
+		for (member in json_result) {
+			if (json_result[member] != null){
+				var check = true;
+				console.log("iiitttsss truuuu3");
+				break;
+			}
+			else{
+			console.log('No movies found!');
+			
+			
+			}
+		}
+		if(check){
+			console.log('Got general results from movies');
+			res.render('pages/search.ejs', { result: result, user: req.user });
+			req.session.result = null;
+			
 		}
 		else{
 			console.log('error in get search');
-			
 		}
-
+		
 	});
 
-	app.post('/search_specific', isLoggedIn, function(req, res) {
+	app.post('/search_specific', function(req, res) {
 
 		var title = req.body.title;
 	
@@ -175,7 +214,37 @@ module.exports = function(app, passport) {
 		
 	});
 
-	app.get('/search_specific', isLoggedIn, function(req, res) {
+
+	//===============================================================================================================================
+	app.post('/search_poster', function(req, res) {
+
+		//var title = req.body.title;
+		console.log("getting poster");
+		console.log(__dirname);
+		var stream = fs.createReadStream(__dirname + '/poster.jpeg');
+    	stream.pipe(res);
+
+		// omdb.poster( {title: title}, true, function(err, movie){
+		// 	if(err){
+		// 		console.log('error'+ err);
+		// 	}
+		// 	else{
+		// 		console.log('found poster');
+		// 		console.log(movie);
+	
+		// 	}				
+			
+		// });
+		// var poster = omdb.poster('hulk');
+
+		
+		// stream = fs.createReadStream(poster);
+		// console.log('stream'+stream);
+		
+	});
+
+	//===============================================================================================================================
+	app.get('/search_specific', function(req, res) {
 		if(req.session.result) {
 		
 		console.log('Got result from movie in RESULT page');

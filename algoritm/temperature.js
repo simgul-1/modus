@@ -36,12 +36,11 @@ app.get('/algo/:parse_id',function(req,res){
 });
 
 app.get('/algo',function(req,res){
-
+	
 	Parse.find({filename: 'TEMP.csv'}, function(err, info){
 		info.forEach(function(object){
 			var data = object.data;
 			var min = findMin(data);
-
 			console.log(min);
 		})
 		

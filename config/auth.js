@@ -5,6 +5,7 @@
 // ---------------------- THE REAL DEAL ---------------------------
 // ---------- kommentera ut erat innan ni commitar och pushar!!! ---------------------
 
+
 module.exports = {
 
 	'facebookAuth' : {
@@ -21,44 +22,54 @@ module.exports = {
 
 };
 
-// // SIMONS GREJER
-// module.exports = {
-
-// 	'facebookAuth' : {
-// 		'clientID' 	: '755401647847627', // your App ID
-// 		'clientSecret' 	: 'c34694134dc78bf83523b4cf6eca4f0c', // your App Secret
-// 		'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
-// 	},
-
-// 	'googleAuth' : {
-//         'clientID'      : '351216799888-iu82s6pj86mjpetrhh06ta4sk80uslql.apps.googleusercontent.com',
-//         'clientSecret'  : 'L5K8j_lBkvJaH00RY6a3XREK',
-//         'callbackURL'   : 'http://localhost:3000/auth/google/callback'
-//     }
-
-// };
-
 
 /*
+ SIMONS GREJER
+module.exports = {
+
+	'facebookAuth' : {
+		'clientID' 		: '755401647847627', // your App ID
+		'clientSecret' 	: 'c34694134dc78bf83523b4cf6eca4f0c', // your App Secret
+		'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
+	},
+
+	'googleAuth' : {
+        'clientID'      : '351216799888-iu82s6pj86mjpetrhh06ta4sk80uslql.apps.googleusercontent.com',
+        'clientSecret'  : 'L5K8j_lBkvJaH00RY6a3XREK',
+        'callbackURL'   : 'http://localhost:3000/auth/google/callback'
+    }
+
+};
+
+*/
+/*
+
+
 //VICTORs grejer 
 module.exports = {
+
 
 	'facebookAuth' : {
 		'clientID' 	: '747475465332188', // your App ID
 		'clientSecret' 	: 'bc95afdb4fb1705cb77ca6a389f3d6d0', // your App Secret
 		'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
 	},
-
 	'googleAuth' : {
         'clientID'      : '989951666354-cc28vjs8sp6ls5jo6pns7jf55a6e4jh6.apps.googleusercontent.com',
         'clientSecret'  : 'uNNAMhPAck4hzHOCduvTsY0L',
-        'callbackURL'   : 'http://localhost:3000/auth/google/callback'
+	'callbackURL'   : 'http://localhost:3000/auth/google/callback'
     	}
 
-};
 
+<<<<<<< HEAD
 
 */
+=======
+};
+*/
+
+
+>>>>>>> c1bf5006a8ad282b6da345f32cf14591a4daee5d
 /* Maxime
 module.exports = {
 	'facebookAuth' : {
@@ -73,4 +84,5 @@ module.exports = {
     }
 };
 */
+
 
