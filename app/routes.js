@@ -244,7 +244,7 @@ module.exports = function(app, passport) {
 	});
 
 	//===============================================================================================================================
-	app.get('/search/movie', function(req, res) {
+	app.get('/movie', function(req, res) {
 		
 		function getMovieInfo(arg, callback) {
 
@@ -287,7 +287,7 @@ module.exports = function(app, passport) {
 			console.log('movie info is \n');
 			console.log(movieinfo);
 			console.log('\n');
-			res.render('pages/search_movie.ejs', { movie: movieinfo, user: req.user });
+			res.render('pages/movie.ejs', { movie: movieinfo, user: req.user });
 			req.session.movieinfo = null;
 			
 		});
