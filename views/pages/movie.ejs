@@ -29,13 +29,28 @@
         <div class="row">
             <div class="col-md-3">
                 <a href="#" class="thumbnail">
-                    <img src="http://i.imgur.com/J4f10YO.jpg" alt="...">
+                    <img src="img/poster.jpg" alt="...">
                 </a>
             </div>
             <div class="col-md-9">
-                <h5>The Incredible Hulk <span class="text-muted">(2008)</span></h5>
-                <p>Rating: <b>6,9</b>/10 from 267 409 users</p>
-                <p>Bruce Banner, a scientist on the run from the U.S. Government must find a cure for the monster he emerges whenever he loses his temper. However, Banner then must fight a soldier whom unleashes himself as a threat stronger than he.</p>
+               
+
+
+                <% moviedata.forEach(function(msgObj){ %>
+            
+                    <h5><%= msgObj.title %><span class="text-muted"> (<%= msgObj.year %>)</span></h5>
+                        
+                    <p>IMDb rating: <b><%= msgObj.rating %></b>/10 from <%= msgObj.votes %> users</p>
+                    <p><%= msgObj.plot %></p>
+
+                    
+                
+            
+                <% }); %>
+
+               
+               
+               
             </div>
         <!--
             <div class="col-md-4">

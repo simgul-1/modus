@@ -248,9 +248,9 @@ module.exports = function(app, passport) {
 		
 		function getMovieInfo(arg, callback) {
 
-			console.log('Searching for '+title);
+			console.log('Searching for '+arg);
 			
-			omdb.get( {title: title}, true, function(err, movie){
+			omdb.get( {title: arg}, true, function(err, movie){
 				console.log('getting info for '+movie.title);
 
 				if(err) {
@@ -261,15 +261,21 @@ module.exports = function(app, passport) {
 					return console.log('No movie found');
 				}
 
-				req.session.movieinfo = {
+
+				 var moviedata = [];
+			    
+			     moviedata.push({
+			        	"title" : movie.title,
+			     		"year" : movie.year,
+			     		"plot" : movie.plot,
+			     		"rating" : movie.imdb.rating,
+			     		"votes" : movie.imdb.votes,
+			     		"runtime" : movie.runtime
+			     		
+			     });
+
+			     req.session.moviedata = moviedata;
 					
-					title: movie.title,
-					year: movie.year,
-					plot: movie.plot,
-					poster: movie.poster,
-					rating: movie.imdb.rating
-				
-				};
 				
 				callback();
 			});
@@ -281,14 +287,14 @@ module.exports = function(app, passport) {
 		getMovieInfo(title, function() {
 			
 			console.log('Done getting movie info, rendering page');
-			info = req.session.movieinfo;
-			movieinfo = JSON.parse(JSON.stringify(info));
+			moviedata = req.session.moviedata;
+			//moviedata = JSON.parse(JSON.stringify(info));
 			
-			console.log('movie info is \n');
-			console.log(movieinfo);
+			console.log('movie data is \n');
+			console.log(moviedata);
 			console.log('\n');
-			res.render('pages/movie.ejs', { movie: movieinfo, user: req.user });
-			req.session.movieinfo = null;
+			res.render('pages/movie.ejs', { movie: moviedata, user: req.user });
+			req.session.moviedata = null;
 			
 		});
 		
