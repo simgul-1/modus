@@ -4,37 +4,38 @@
 
 // ---------------------- THE REAL DEAL ---------------------------
 // ---------- kommentera ut erat innan ni commitar och pushar!!! ---------------------
-module.exports = {
-
-	'facebookAuth' : {
-		'clientID' 		: '755027641218361', // your App ID
-		'clientSecret' 	: '1efc2e1c22ca3198be3d32b04db2aa00', // your App Secret
-		'callbackURL' 	: 'http://wayland.campus.ltu.se:3000/auth/facebook/callback'
-	},
-
-	'googleAuth' : {
-        'clientID'      : '387127984694-bhb4maaj9di77f48qhbohmi1lljgunqv.apps.googleusercontent.com',
-        'clientSecret'  : 'KDmuaqNAhqk69ZgXD7TEGS7d',
-        'callbackURL'   : 'http://wayland.campus.ltu.se:3000/auth/google/callback'
-    }
-
-};
-// // SIMONS GREJER
 // module.exports = {
 
 // 	'facebookAuth' : {
-// 		'clientID' 		: '755401647847627', // your App ID
-// 		'clientSecret' 	: 'c34694134dc78bf83523b4cf6eca4f0c', // your App Secret
-// 		'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
+// 		'clientID' 		: '755027641218361', // your App ID
+// 		'clientSecret' 	: '1efc2e1c22ca3198be3d32b04db2aa00', // your App Secret
+// 		'callbackURL' 	: 'http://wayland.campus.ltu.se:3000/auth/facebook/callback'
 // 	},
 
 // 	'googleAuth' : {
-//         'clientID'      : '351216799888-iu82s6pj86mjpetrhh06ta4sk80uslql.apps.googleusercontent.com',
-//         'clientSecret'  : 'L5K8j_lBkvJaH00RY6a3XREK',
-//         'callbackURL'   : 'http://localhost:3000/auth/google/callback'
+//         'clientID'      : '387127984694-bhb4maaj9di77f48qhbohmi1lljgunqv.apps.googleusercontent.com',
+//         'clientSecret'  : 'KDmuaqNAhqk69ZgXD7TEGS7d',
+//         'callbackURL'   : 'http://wayland.campus.ltu.se:3000/auth/google/callback'
 //     }
 
 // };
+
+// SIMONS GREJER
+module.exports = {
+
+	'facebookAuth' : {
+		'clientID' 		: '755401647847627', // your App ID
+		'clientSecret' 	: 'c34694134dc78bf83523b4cf6eca4f0c', // your App Secret
+		'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
+	},
+
+	'googleAuth' : {
+        'clientID'      : '351216799888-iu82s6pj86mjpetrhh06ta4sk80uslql.apps.googleusercontent.com',
+        'clientSecret'  : 'L5K8j_lBkvJaH00RY6a3XREK',
+        'callbackURL'   : 'http://localhost:3000/auth/google/callback'
+    }
+
+};
 
 
 /*

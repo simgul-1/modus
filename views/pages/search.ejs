@@ -16,77 +16,42 @@
 		<% include ../partials/header %>
 	</header>
 	
+	<!-- Script that sends user to search_specific for the movie clicked. -->
+	
+	<script>
+        $(document).on("click", ".thumbnail", function(e) {
+            bootbox.alert("Hello world!", function() {
+                console.log("Alert Callback");
+            });
+        });
+    </script>
+
+	
+	
 	<div class="container">
 		
+		<div class="row">
+		<% result.forEach(function(msgObj){ %>
+			
+			<div class="col-xs-6 col-md-3">
+				<a class="thumbnail" href="#">
+			  		
+	   					<%= msgObj.title %> (<%= msgObj.year %>)
+	  					
+			  		<img data-src="holder.js/100%x371" height="371" alt="...">
+
+				</a>
+		  	</div>
+		  	
+		<% }) %>
+		</div> 
 		
-
-		 
-		 
-		 <% if (result.length) { %>
-		 	
-		 	<ul>
-		 		<% titles.forEach(function(titles){ %>
-		 			<li><%= titles %></li>
-		 		<% }) %>
-		 	</ul>
-		<% } %>
-		 
-
-		 
-		 
-		<!-- <div class="row">
-		  <div class="col-xs-6 col-md-3">
-			<a href="#" class="thumbnail">
-			  <img data-src="holder.js/100%x371" alt="...">
-			</a>
-		  </div>
-		  <div class="col-xs-6 col-md-3">
-			<a href="#" class="thumbnail">
-			  <img data-src="holder.js/100%x371" alt="...">
-			</a>
-		  </div>
-		  <div class="col-xs-6 col-md-3">
-			<a href="#" class="thumbnail">
-			  <img data-src="holder.js/100%x371" alt="...">
-			</a>
-		  </div>
-		  <div class="col-xs-6 col-md-3">
-			<a href="#" class="thumbnail">
-			  <img data-src="holder.js/100%x371" alt="...">
-			</a>
-		  </div>
-		  <div class="col-xs-6 col-md-3">
-			<a href="#" class="thumbnail">
-			  <img data-src="holder.js/100%x371" alt="...">
-			</a>
-		  </div>
-		  <div class="col-xs-6 col-md-3">
-			<a href="#" class="thumbnail">
-			  <img data-src="holder.js/100%x371" alt="...">
-			</a>
-		  </div>
-		  <div class="col-xs-6 col-md-3">
-			<a href="#" class="thumbnail">
-			  <img data-src="holder.js/100%x371" alt="...">
-			</a>
-		  </div>
-		  <div class="col-xs-6 col-md-3">
-			<a href="#" class="thumbnail">
-			  <img data-src="holder.js/100%x371" alt="...">
-			</a>
-		  </div>		  
-		</div> -->
+				
 		
 	</div> <!-- /container -->
 	<!-- FOOTER -->
 	<footer>
 		<% include ../partials/footer %>
 	</footer>
-	
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/vendor/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/flat-ui.min.js"></script>
-    <script src="js/application.js"></script>
-  </body>
+	</body>
 </html>
