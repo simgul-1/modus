@@ -270,7 +270,10 @@ module.exports = function(app, passport) {
 			     		"plot" : movie.plot,
 			     		"rating" : movie.imdb.rating,
 			     		"votes" : movie.imdb.votes,
-			     		"runtime" : movie.runtime
+			     		"runtime" : movie.runtime,
+			     		"actors" : movie.actors,
+			     		"director" : movie.director,
+			     		"writers" : movie.writers
 			     		
 			     });
 

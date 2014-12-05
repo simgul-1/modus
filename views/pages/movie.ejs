@@ -39,10 +39,15 @@
                 <% moviedata.forEach(function(msgObj){ %>
             
                     <h5><%= msgObj.title %><span class="text-muted"> (<%= msgObj.year %>)</span></h5>
+
                         
-                    <p>IMDb rating: <b><%= msgObj.rating %></b>/10 from <%= msgObj.votes %> users</p>
+                    <p><b>IMDb rating:</b> <b><%= msgObj.rating %></b>/10 from <%= msgObj.votes %> users</p>
+                    <p><b>Runtime:</b> <%= msgObj.runtime %> minutes</p>
                     <p><%= msgObj.plot %></p>
 
+                    <p><b>Director:</b> <%= msgObj.director %></p>
+                    <p><b>Writers:</b> <%= msgObj.writers %></p>
+                    <p><b>Actors:</b> <%= msgObj.actors %></p>
                     
                 
             
