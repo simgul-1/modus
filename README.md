@@ -2,7 +2,9 @@
 - Demo [http://wayland.campus.ltu.se:3000]
 - Blog [https://sites.google.com/site/ltumodus/]
 
-The Modus project is a media rating search engine website combined with an E3 wristband monitor from [https://www.empatica.com/].
+The Modus project is a media rating search engine website combined with an E3 wristband monitor from a new business called Empatica [https://www.empatica.com/]. 
+
+Think IMdb meets scientific data.
 
 ## Front end:
 - jQuery [https://jquery.com/]
