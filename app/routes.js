@@ -244,19 +244,44 @@ module.exports = function(app, passport) {
 	});
 
 	//===============================================================================================================================
-	app.get('/search_specific', function(req, res) {
-		if(req.session.result) {
+	app.get('/searchresults', function(req, res) {
 		
-		console.log('Got result from movie in RESULT page');
+
+		console.log('Got result for single search');
 		
-		res.render('pages/search_specific.ejs', { title: 'Search', movie: req.session.result, user: req.user });
+		omdb.get( {title: title}, true, function(err, movie){
+		console.log('getting movie info');
+
+		if(err) {
+			return console.log(err);
+		}
+
+		if(!movie) {
+			return console.log('No movie found');
+		}
+
+		console.log('Movie title searched for is: '+movie.title+' and the year is '+movie.year);
+		
+		console.log('movie.title is '+movie.title);
+		console.log('movie.year is '+movie.year);
+		console.log('movie.plot is '+movie.plot);
+		//console.log('movie.poster is '+movie.poster);
+		console.log('movie.imdb.rating is '+movie.imdb.rating);
+		req.session.result = {
+			
+			title: movie.title,
+			year: movie.year,
+			plot: movie.plot,
+			poster: movie.poster,
+			rating: movie.imdb.rating
+		};
+
+		});
+
+		res.render('pages/searchresults.ejs', { title: 'Search', movie: movieinfo, user: req.user });
 		req.session.result = null;
 	
-		}
-		else{
-			console.log('error');
-			//res.render('error');
-		}
+		
 
 	});
 
@@ -409,6 +434,8 @@ module.exports = function(app, passport) {
 	});
 
 };
+
+
 
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
