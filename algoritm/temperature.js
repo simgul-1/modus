@@ -1,5 +1,9 @@
 module.exports = function(app) {
 	var Parse = require('../app/models/parse');
+	var mongoose = require('mongoose');
+
+
+
 
 app.get('/algo/:parse_id',function(req,res){
 
@@ -14,14 +18,54 @@ app.get('/algo/:parse_id',function(req,res){
 		var max = findMax(data);
 
 		console.log("Average: " + Average + " Max: " +max + " Min: " +min);
-		
+
+
+		//skit
+
+
+		  //db.collectionNames(function(err, collections){
+		    //  console.log(collections);
+		      
+		      //var test = db.collections('test');
+		      //console.log(test);
+
 
 	});
 
 
 });
 
-}
+app.get('/algo',function(req,res){
+
+	Parse.find({filename: 'TEMP.csv'}, function(err, info){
+		info.forEach(function(object){
+			var data = object.data;
+			var min = findMin(data);
+
+			console.log(min);
+		})
+		
+	});
+
+
+
+
+
+
+	
+
+		res.send(info);
+	});
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -68,4 +112,6 @@ function Aver(array){
 
 function Average(array){
 	console.log(parseFloat(array[1]));
+}
+
 }

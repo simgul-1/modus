@@ -57,8 +57,8 @@ module.exports = {
 
 };
 
-*/
 
+*/
 /* Maxime
 module.exports = {
 	'facebookAuth' : {

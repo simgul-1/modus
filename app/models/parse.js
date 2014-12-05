@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var ParseSchema = new Schema({
 	data 			:[],
 	path 			:String,
+	filename		:String,
 	creation_time 	:Date,
 	movie_title 	:String
 	

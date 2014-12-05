@@ -202,6 +202,7 @@ module.exports = function(app, passport) {
 	    //Parsing function
 	    var parse = require('csv-parse');
 	    var csv_file = req.files.movie_csv.path;
+	    var csv_name = req.files.movie_csv.name;
 	    console.log(csv_file);
 	    console.log('CSV uploaded, moving on to parse...');
 
@@ -217,6 +218,7 @@ module.exports = function(app, passport) {
 	      data : data,
 	      creation_time : Date.now(),
 	      path  : csv_file,
+	      filename: csv_name,
 	      movie_title: req.body.movie_title
 	     });
 	    console.log("data comes here:  ");
