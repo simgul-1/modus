@@ -1,18 +1,19 @@
 module.exports = function(app) {
-	var Parse = require('../app/models/parse');
+	var Upload = require('../app/models/upload');
 	var mongoose = require('mongoose');
 
 
 
 
-app.get('/algo/:parse_id',function(req,res){
+app.get('/algo/:upload_id',function(req,res){
 
 	//p = new Parse();
-	Parse.findById(req.params.parse_id,function(err,parse){
+	Upload.findById(req.params.upload_id,function(err,Upload){
 		if(err)
 			res.send(err);
 
-		var data = parse.data;
+		// Om exakt denna ska användas behöver vi user och movie.
+		var data = upload.data;
 		var Average = Aver(data);
 		var min = findMin(data);
 		var max = findMax(data);

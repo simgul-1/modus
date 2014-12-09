@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../partials/head %>
+</head>
+
+<body>
+    <style>
+        body {
+            padding-top: 73px;
+            background-color: white;
+        }
+    </style>
+
+    <header>
+        <% include ../partials/header %>
+    
+        <!-- GOOGLE ANALYTICS -->
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-57484255-1', 'auto');
+          ga('send', 'pageview');
+
+        </script>
+    </header>
+    <script>
+        $(document).on("click", ".pulse", function(e) {
+            bootbox.alert("Hello world!", function() {
+                console.log("Alert Callback");
+            });
+        });
+    </script>
+	
+    <!-- uploads -->
+    <div class="container">
+        <div class="row" text-center>
+            <div class="col-md-3 text-center">
+                <a href="#" class="thumbnail">
+                    <img src="img/poster.jpg" alt="...">
+                </a>
+    			<% if (user) { %>
+                    <form action="#">
+                      <p class="file">
+                        <input type="file" name="id" lfile="file" />
+                        <label for="file">Upload your data</label>
+                      </p>
+                    </form>
+                    <% } else { %>
+                    Please login to upload data.
+                <% } %>
+            </div>
+            <div class="col-md-9">
+               
+
+
+                <% moviedata.forEach(function(msgObj){ %>
+            
+                    <h5><%= msgObj.title %><span class="text-muted"> (<%= msgObj.year %>)</span></h5>
+
+                        
+                    <p><b>IMDb rating:</b> <b><%= msgObj.rating %></b>/10 from <%= msgObj.votes %> users</p>
+                    <p><b>Runtime:</b> <%= msgObj.runtime %> minutes</p>
+                    <p><%= msgObj.plot %></p>
+
+                    <!-- Fix parser to add a whitespace between directors and writers and all the like -->
+                    <p><b>Director:</b> <%= msgObj.director %></p>
+                    <p><b>Writers:</b>  
+
+                    
+                    <!-- FIXA IMORGON!!!! -->
+                    <% msgObj.writers.forEach(function(obj){ %>
+                         <% if(obj != null){ %>
+                            
+                            <%= obj %> ,
+                         <% } else{ %>
+                         <%= obj %> 
+                        <% } %>
+                    <% }); %>
+                    </p>
+                    <p><b>Actors:</b> <%= msgObj.actors %></p>
+            
+                <% }); %>
+
+            </div>
+        <!--
+            <div class="col-md-4">
+                <h6><span class="fa fa-bar-chart"></span> Your data:</h6> ~ <a class="pulse" href="#"><span class="fa fa-heart-o"></span> Pulse</a>: <b>70 bpm</b>
+                <br> ~ <a href="#"><span class="fa fa-paw"></span> Temperature</a>: <b>27&deg;C</b>
+                <br> ~ <a href="#"><span class="fa fa-tachometer"></span> Excitment</a>: <b>Very High</b>
+            </div>
+        -->
+        </div>
+        <hr>
+        <h5 class="text-center">Modus data</h5>
+        <div class="row">
+            <div class="col-md-12">
+                <h6>Pulse:</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h6>Temperature:</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h6>Excitment:</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h6>Victors armar:</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h6>Victors ben:</h6>
+            </div>
+        </div>
+    </div><!-- /container -->
+    <br>
+    <!-- FOOTER -->
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+</body>
+
+</html>
