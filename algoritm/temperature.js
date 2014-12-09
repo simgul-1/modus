@@ -36,13 +36,43 @@ app.get('/algo/:parse_id',function(req,res){
 });
 
 app.get('/algo',function(req,res){
-	
-	Parse.find({filename: 'TEMP.csv'}, function(err, info){
+
+
+
+	Parse.find({filename: 'IBI.csv'}, function(err, info){
+		//data goes here
+		var data = []
+		count=0;
+		//IBI TO BPM 
+		res.send(info);
 		info.forEach(function(object){
-			var data = object.data;
-			var min = findMin(data);
-			console.log(min);
+			var val = object.data;
+			val.forEach(function(IBI){
+				BPM = (60/IBI[1])
+				data.push(BPM);
+			})
+	
+
+		var min = findMin(data);
+		var max = findMax(data);
+		var average = findAverage(data);
+		var high = findRise(data,average);
+
+		//get time
+		var temp = val.pop();
+		var time = (temp[0]/60);	
+		var result = (time/parseFloat(high));
+
+		console.log("Min: "+ min);
+		console.log("Max: "+ max);
+		console.log("Average: "+ average);
+		console.log("highrises: "+ high.length);
+		console.log("Resultfactor: "+ result);
+		console.log("");
+
 		})
+		console.log('hej');
+
 		
 	});
 
@@ -53,7 +83,7 @@ app.get('/algo',function(req,res){
 
 	
 
-		res.send(info);
+		
 	});
 
 
@@ -96,12 +126,11 @@ function findMax(array){
 
 
 //Function for finding Average value in csv. 
-function Aver(array){
+function findAverage(array){
 	var Average = 0;
 	for(i=0; i < array.length;i++){
 			//skipping first line. 
 		if(i != 0){
-			console.log(array[i]);
 			Average = Average + parseFloat(array[i]);
 		}
 	}
@@ -109,8 +138,25 @@ function Aver(array){
 	return Average;
 }
 
-function Average(array){
-	console.log(parseFloat(array[1]));
+
+//Finding highrises in the csv file, resulting in array with [heartbeatvalue,time of event]
+function findRise (array,average){
+	var counter = 0;
+	var diff =0.85;
+	var time =1;
+	var info = [];
+	for( var i in array){
+		var curr = array[i]
+		var current = array[i]*diff;
+		var previous= array[i-1]*diff;
+		if((current > average) && previous <current*diff){
+			info.push([parseInt(curr)]);
+
+		 }
+		time++;
+	}		
+	return info;
+	
 }
 
 }

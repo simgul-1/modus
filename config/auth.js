@@ -5,7 +5,7 @@
 // ---------------------- THE REAL DEAL ---------------------------
 // ---------- kommentera ut erat innan ni commitar och pushar!!! ---------------------
 
-
+/*
 module.exports = {
 
 	'facebookAuth' : {
@@ -21,7 +21,7 @@ module.exports = {
     }
 
 };
-
+*/
 
 /*
  SIMONS GREJER
@@ -42,7 +42,7 @@ module.exports = {
 };
 
 */
-/*
+
 
 
 //VICTORs grejer 
@@ -59,30 +59,12 @@ module.exports = {
         'clientSecret'  : 'uNNAMhPAck4hzHOCduvTsY0L',
 	'callbackURL'   : 'http://localhost:3000/auth/google/callback'
     	}
-
-
-<<<<<<< HEAD
-
-*/
-=======
-};
-*/
-
-
->>>>>>> c1bf5006a8ad282b6da345f32cf14591a4daee5d
-/* Maxime
-module.exports = {
-	'facebookAuth' : {
-		'clientID' 		: '1519354678350842', // your App ID
-		'clientSecret' 	: 'ac5c66ec2fdfb9fa5dd43ad40dd5668f', // your App Secret
-		'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
-	},
-	'googleAuth' : {
-        'clientID'      : '306233627276-b79uhq3u80nvrqgnensgbm69t888sair.apps.googleusercontent.com',
-        'clientSecret'  : 'AyPOn6G-fYUm0A2N5cULhB3--sALETkwhky',
-        'callbackURL'   : 'http://localhost:3000/auth/google/callback'
     }
-};
-*/
+;
+
+
+
+
+
 
 
