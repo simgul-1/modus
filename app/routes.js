@@ -263,11 +263,12 @@ module.exports = function(app, passport) {
 			     		"runtime" : movie.runtime,
 			     		"actors" : movie.actors,
 			     		"director" : movie.director,
-			     		"writers" : movie.writers
+			     		"writers" : movie.writers,
+			     		"id" : movie.imdb.id
 			     		
 			     });
-
-			     req.session.moviedata = moviedata;
+			    req.session.moviedata = null;
+			    req.session.moviedata = moviedata;
 					
 				
 				callback();
@@ -290,15 +291,10 @@ module.exports = function(app, passport) {
 			console.log(moviedata);
 			console.log('\n');
 			res.render('pages/movie.ejs', { movie: moviedata, user: req.user });
-			req.session.moviedata = null;
+			
 			
 		});
 		
-		
-
-		
-		
-
 	});
 
 	app.get('/audio', function(req, res) {
@@ -307,16 +303,16 @@ module.exports = function(app, passport) {
 
 	
 	// Upload route
-	app.post('/upload', multipartMiddleware, function(req, res) {
-		
-		console.log('uploading');
+	app.post('/upload', multipartMiddleware, isLoggedIn, function(req, res) {
 
+		console.log('uploading');
+		
 		require('should');
 
 	    //Parsing function
 	    var parse = require('csv-parse');
-	    var csv_file = req.files.movie_csv.path;
-	    var csv_name = req.files.movie_csv.name;
+	    var csv_file = req.files.modusdata.path;
+	    var csv_name = req.files.modusdata.name;
 	    console.log(csv_file);
 	    console.log('CSV uploaded, moving on to parse...');
 
@@ -327,18 +323,37 @@ module.exports = function(app, passport) {
 
 	    console.log('Parse done, moving on to save..');
 
+	    if(req.user.facebook.id) {
+	    	var userid = req.user.facebook.id;
+	    }
+	    else if(req.user.google.id) {
+	    	var userid = req.user.google.id;
+	    }
+	    console.log('user_id = '+userid);
+
+	    console.log('================================');
+	    console.log(req.session.moviedata);
+	    console.log('================================');
+
+	    var moviedata = JSON.parse(JSON.stringify((req.session.moviedata)));
+	    imdbid = moviedata['id'];
+	    console.log("---------------------");
+	    console.log('imdbid = '+imdbid);
+	    console.log("---------------------");
 	    //STOPPA IN SKITEN I DATABASEN
 	    var upload = new Upload({
+	      id : imdbid,
 	      data : data,
 	      creation_time : Date.now(),
-	      path  : csv_file,
+	      //path  : csv_file,
 	      filename: csv_name,
-	      movie_title: req.body.movie_title
+	      //movie_title: req.body.movie_title,
+	      user_id: userid
 	     });
-	    console.log("data comes here:  ");
-	    console.log("---------------------");
-	    console.log(data);
-	    console.log("---------------------");
+	    //console.log("data comes here:  ");
+	    //console.log("---------------------");
+	    //console.log(data);
+	    //console.log("---------------------");
 	    upload.save(function(err){
 	     if(err)
 	      res.send(err);
@@ -351,7 +366,7 @@ module.exports = function(app, passport) {
 	    // Message popup when done (not working yet)
 	    console.log(req.flash('info'));
 
-	    res.redirect('/');
+	    res.redirect(req.session.lastPage);
 	    
 
 	});

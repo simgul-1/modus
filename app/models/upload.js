@@ -7,7 +7,7 @@ var UploadSchema = new Schema({
 	filename		:String,
 	creation_time 	:Date,
 	movie_title 	:String,
-	user			:String
+	user_id			:String
 	
 })
 module.exports = mongoose.model('Upload',UploadSchema);
