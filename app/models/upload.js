@@ -3,10 +3,9 @@ var Schema = mongoose.Schema;
 
 var UploadSchema = new Schema({
 	data 			:[],
-	path 			:String,
 	filename		:String,
 	creation_time 	:Date,
-	movie_title 	:String,
+	imdb_id			:String,
 	user_id			:String
 	
 })

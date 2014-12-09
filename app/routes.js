@@ -9,7 +9,6 @@ module.exports = function(app, passport) {
 	var omdb = require('omdb');
 	var session = require('express-session');
 	var request = require('request');
-	var globalshit;
 
 	// show the home page (will also have our login links)
 	app.get('/', function(req, res) {
@@ -27,6 +26,16 @@ module.exports = function(app, passport) {
 		req.session.lastPage = "/about";
 
 		res.render('pages/about.ejs', {
+			user : req.user
+		});
+	});
+	
+	// show the home page (will also have our login links)
+	app.get('/test', function(req, res) {
+		// Sessions to register what to send user to after login etc.
+		req.session.lastPage = "/test";
+
+		res.render('pages/test.ejs', {
 			user : req.user
 		});
 	});
@@ -240,6 +249,8 @@ module.exports = function(app, passport) {
 
 	//===============================================================================================================================
 	app.get('/movie', function(req, res) {
+		
+		console.log('in /movie');
 		// Sessions to register what to send user to after login etc.
 		req.session.lastPage = "/movie?title="+req.query['title'];
 
@@ -274,7 +285,12 @@ module.exports = function(app, passport) {
 			     		"id" : movie.imdb.id
 			     		
 			     });
+			    // Clearing previous sessions
 			    req.session.moviedata = null;
+			    req.session.imdbid = null;
+
+			    // Saving sessions
+			    req.session.imdbid = movie.imdb.id;
 			    req.session.moviedata = moviedata;
 					
 				
@@ -286,7 +302,7 @@ module.exports = function(app, passport) {
 		var title = req.query['title'];
 		
 		// Session to remember what user searched for
-		req.session.movie = title;
+		//req.session.movie = title;
 
 		getMovieInfo(title, function() {
 			
@@ -294,8 +310,8 @@ module.exports = function(app, passport) {
 			moviedata = req.session.moviedata;
 			//moviedata = JSON.parse(JSON.stringify(info));
 			
-			console.log('movie data is \n');
-			console.log(moviedata);
+			//console.log('movie data is \n');
+			//console.log(moviedata);
 			console.log('\n');
 			res.render('pages/movie.ejs', { movie: moviedata, user: req.user });
 			
@@ -329,14 +345,15 @@ module.exports = function(app, passport) {
 	    var parser = parse({delimiter: ','}, function(err, data){
 
 	    console.log('Parse done, moving on to save..');
-
+	    console.log()
 	    if(req.user.facebook.id) {
 	    	var userid = req.user.facebook.id;
 	    }
 	    else if(req.user.google.id) {
 	    	var userid = req.user.google.id;
 	    }
-	    console.log('user_id = '+userid);
+	    // Getting IMDb_id from sessions
+	    imdbid = req.session.imdbid;
 
 	    console.log('================================');
 	    console.log(req.session.moviedata[1]);
@@ -346,18 +363,23 @@ module.exports = function(app, passport) {
 	    imdbid = moviedata['id'];
 	    console.log("---------------------");
 	    console.log('imdbid = '+imdbid);
-	   	console.log('globalshit: ' + globalshit);
 	    console.log("---------------------");
+
+	    console.log('user_id = '+userid);
+	    console.log('imdb_id = '+imdbid);
+
+	    
+	    
+
 	    //STOPPA IN SKITEN I DATABASEN
 	    var upload = new Upload({
-	      id : imdbid,
-	      data : data,
-	      creation_time : Date.now(),
-	      //path  : csv_file,
-	      filename: csv_name,
-	      //movie_title: req.body.movie_title,
-	      user_id: userid
-	     });
+	      	data : data,
+			filename: csv_name,
+	      	creation_time : Date.now(),
+	      	imdb_id : imdbid,		
+	      	user_id: userid
+	      
+	    });
 	    //console.log("data comes here:  ");
 	    //console.log("---------------------");
 	    //console.log(data);
@@ -365,7 +387,9 @@ module.exports = function(app, passport) {
 	    upload.save(function(err){
 	     if(err)
 	      res.send(err);
-	     console.log('Data saved from ' + csv_file );
+	     console.log('Data saved from ' + csv_file);
+	    
+
 	    });
 	    
 	    });
