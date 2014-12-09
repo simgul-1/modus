@@ -9,6 +9,7 @@ module.exports = function(app, passport) {
 	var omdb = require('omdb');
 	var session = require('express-session');
 	var request = require('request');
+	var globalshit;
 
 	// show the home page (will also have our login links)
 	app.get('/', function(req, res) {
@@ -54,6 +55,12 @@ module.exports = function(app, passport) {
 	app.get('/logout', function(req, res) {
 		req.logout();
 		res.redirect('/');
+	});
+
+	// GRAPH ==============================
+		app.get('/graph', function(req, res) {
+		
+		res.render('pages/algo.ejs');
 	});
 
 
@@ -253,7 +260,7 @@ module.exports = function(app, passport) {
 
 
 				var moviedata = [];
-			    
+			    globalshit = movie.imdb.id;
 			    moviedata.push({
 			        	"title" : movie.title,
 			     		"year" : movie.year,
@@ -332,13 +339,14 @@ module.exports = function(app, passport) {
 	    console.log('user_id = '+userid);
 
 	    console.log('================================');
-	    console.log(req.session.moviedata);
+	    console.log(req.session.moviedata[1]);
 	    console.log('================================');
 
 	    var moviedata = JSON.parse(JSON.stringify((req.session.moviedata)));
 	    imdbid = moviedata['id'];
 	    console.log("---------------------");
 	    console.log('imdbid = '+imdbid);
+	   	console.log('globalshit: ' + globalshit);
 	    console.log("---------------------");
 	    //STOPPA IN SKITEN I DATABASEN
 	    var upload = new Upload({

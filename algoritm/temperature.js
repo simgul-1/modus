@@ -79,22 +79,10 @@ app.get('/algo',function(req,res){
 		console.log(tot + " TOT ");
 		})
 
-		var min;
-		var max;
-		var average;
-		var result;
 
 		
 	});
 
-
-
-
-
-
-	
-
-		
 	});
 
 
