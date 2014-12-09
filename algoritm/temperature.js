@@ -1,7 +1,7 @@
 module.exports = function(app) {
 	var Upload = require('../app/models/upload');
 	var mongoose = require('mongoose');
-
+	//var Parse = require('../app/models/parse');
 
 
 
@@ -37,16 +37,15 @@ app.get('/algo/:upload_id',function(req,res){
 });
 
 app.get('/algo',function(req,res){
-
-
-
-	Parse.find({filename: 'IBI.csv'}, function(err, info){
+	Upload.find({filename: 'IBI.csv'}, function(err, info){
 		//data goes here
-		var data = []
+		
 		count=0;
+		var resultdata =['result'];
 		//IBI TO BPM 
 		res.send(info);
 		info.forEach(function(object){
+			var data = []
 			var val = object.data;
 			val.forEach(function(IBI){
 				BPM = (60/IBI[1])
@@ -61,8 +60,11 @@ app.get('/algo',function(req,res){
 
 		//get time
 		var temp = val.pop();
-		var time = (temp[0]/60);	
-		var result = (time/parseFloat(high));
+		console.log(temp[0]);
+		var time = (temp[0]/60);
+		var result = (time/high.length);
+	 	resultdata.push(result);
+
 
 		console.log("Min: "+ min);
 		console.log("Max: "+ max);
@@ -71,8 +73,16 @@ app.get('/algo',function(req,res){
 		console.log("Resultfactor: "+ result);
 		console.log("");
 
+		console.log(resultdata);
+
+		var tot = findAverage(resultdata);
+		console.log(tot + " TOT ");
 		})
-		console.log('hej');
+
+		var min;
+		var max;
+		var average;
+		var result;
 
 		
 	});

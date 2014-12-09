@@ -342,7 +342,7 @@ module.exports = function(app, passport) {
 	    upload.save(function(err){
 	     if(err)
 	      res.send(err);
-	     console.log('Data saved from ' + csv_file)
+	     console.log('Data saved from ' + csv_file );
 	    });
 	    
 	    });
