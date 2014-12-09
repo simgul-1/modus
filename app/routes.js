@@ -29,6 +29,16 @@ module.exports = function(app, passport) {
 			user : req.user
 		});
 	});
+	
+	// show the home page (will also have our login links)
+	app.get('/test', function(req, res) {
+		// Sessions to register what to send user to after login etc.
+		req.session.lastPage = "/test";
+
+		res.render('pages/test.ejs', {
+			user : req.user
+		});
+	});
 
 	// PROFILE SECTION =========================
 	app.get('/profile', isLoggedIn, function(req, res) {
