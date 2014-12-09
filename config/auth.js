@@ -22,10 +22,7 @@ module.exports = {
     }
 
 };
-<<<<<<< HEAD
 
-=======
->>>>>>> 3531fd257392a37eacac52267010be4c3a800a23
 
 /*
 //Developer mode
@@ -42,12 +39,10 @@ module.exports = {
         'clientSecret'  : 'L5K8j_lBkvJaH00RY6a3XREK',
         'callbackURL'   : 'http://localhost:3000/auth/google/callback'
     }
-<<<<<<< HEAD
+
 
 };
 */
-=======
     
-};
-*/
->>>>>>> 3531fd257392a37eacac52267010be4c3a800a23
+
+
