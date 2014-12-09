@@ -5,7 +5,8 @@
 // ---------------------- THE REAL DEAL ---------------------------
 // ---------- kommentera ut erat innan ni commitar och pushar!!! ---------------------
 
-
+//Live Mode
+/*
 module.exports = {
 
 	'facebookAuth' : {
@@ -21,15 +22,15 @@ module.exports = {
     }
 
 };
+*/
 
 
-/*
-//SIMONS GREJER
+//Developer mode
 module.exports = {
 
 	'facebookAuth' : {
-		'clientID' 		: '755401647847627', // your App ID
-		'clientSecret' 	: 'c34694134dc78bf83523b4cf6eca4f0c', // your App Secret
+		'clientID' 		: '1519354678350842', // your App ID
+		'clientSecret' 	: 'ac5c66ec2fdfb9fa5dd43ad40dd5668f', // your App Secret
 		'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
 	},
 
@@ -40,30 +41,3 @@ module.exports = {
     }
 
 };
-*/
-
-
-
-
-//VICTORs grejer 
-/*
-module.exports = {
-
-
-	'facebookAuth' : {
-		'clientID' 	: '747475465332188', // your App ID
-		'clientSecret' 	: 'bc95afdb4fb1705cb77ca6a389f3d6d0', // your App Secret
-		'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
-	},
-	'googleAuth' : {
-        'clientID'      : '989951666354-cc28vjs8sp6ls5jo6pns7jf55a6e4jh6.apps.googleusercontent.com',
-        'clientSecret'  : 'uNNAMhPAck4hzHOCduvTsY0L',
-	'callbackURL'   : 'http://localhost:3000/auth/google/callback'
-    	}
-
-
-
-};
-
-*/
-
