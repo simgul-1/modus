@@ -5,7 +5,7 @@
 // ---------------------- THE REAL DEAL ---------------------------
 // ---------- kommentera ut erat innan ni commitar och pushar!!! ---------------------
 
-
+/*
 module.exports = {
 
 	'facebookAuth' : {
@@ -21,9 +21,9 @@ module.exports = {
     }
 
 };
+*/
 
 
-/*
 //SIMONS GREJER
 module.exports = {
 
@@ -40,7 +40,7 @@ module.exports = {
     }
 
 };
-*/
+
 
 
 

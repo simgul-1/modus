@@ -6,6 +6,19 @@ The Modus project is a media rating search engine website combined with an E3 wr
 
 Think IMdb meets scientific data.
 
+## API:
+- Add your data to a movie (limited for the time being, security and tampering reasons)
+POST request to http://wayland.campus.ltu.se/upload
+	title : "title"
+
+	ADD key values here
+
+- Get Modus data for a movie
+GET request to http://wayland.campus.ltu.se/movie?title="title"
+
+
+
+
 ## Front end:
 - jQuery [https://jquery.com/]
 - Bootstrap [http://getbootstrap.com/]

@@ -4,14 +4,17 @@ module.exports = function(app, passport) {
 	var multipart = require('connect-multiparty');
 	var multipartMiddleware = multipart();
 	var fs = require('fs');
-	var Parse = require('../app/models/parse');
+	var Upload = require('../app/models/upload');
 	var flash = require('connect-flash');
 	var omdb = require('omdb');
 	var session = require('express-session');
-
+	var request = require('request');
 
 	// show the home page (will also have our login links)
 	app.get('/', function(req, res) {
+		// Sessions to register what to send user to after login etc.
+		req.session.lastPage = "/";
+
 		res.render('pages/index.ejs', {
 			user : req.user
 		}); 
@@ -19,6 +22,9 @@ module.exports = function(app, passport) {
 	
 	// show the home page (will also have our login links)
 	app.get('/about', function(req, res) {
+		// Sessions to register what to send user to after login etc.
+		req.session.lastPage = "/about";
+
 		res.render('pages/about.ejs', {
 			user : req.user
 		});
@@ -26,6 +32,9 @@ module.exports = function(app, passport) {
 
 	// PROFILE SECTION =========================
 	app.get('/profile', isLoggedIn, function(req, res) {
+		// Sessions to register what to send user to after login etc.
+		req.session.lastPage = "/profile";
+
 		res.render('pages/profile.ejs', {
 			user : req.user
 		});
@@ -33,6 +42,9 @@ module.exports = function(app, passport) {
 	
 	// PROFILE SECTION =========================
 	app.get('/uploads', isLoggedIn, function(req, res) {
+		// Sessions to register what to send user to after login etc.
+		req.session.lastPage = "/uploads";
+
 		res.render('pages/uploads.ejs', {
 			user : req.user
 		});
@@ -62,33 +74,12 @@ module.exports = function(app, passport) {
 			    if(movies.length < 1) {
 			        return console.log('No movies were found!');
 			    }	
-
-			    
-			    // Array containing all results
-			    //var result = [];
-			    
-			   	// Array for all movies
-			   	// var all_movies = {
-			   	// 	moviedata: []
-			   	// };
 			   	
 			    var moviedata = [];
 			    var poster;
-			    var movieplot;
-			    var movierating;
+			 
 			   	movies.forEach(function(movie) {
 			        
-			        // If title exists in array, dont push.
-			       	// if(titles.indexOf(movie.title) > -1){
-			        // 	console.log('skipped duplicate title of '+movie.title);
-			        	
-			        // }
-			        //else{
-			      	
-			        // --- DO FULL SEARCH ON EVERY SPECIFIC MOVIE
-			       
-
-
 			        // DO POSTER REQUEST HERE
 
 			        //---------------------
@@ -96,16 +87,11 @@ module.exports = function(app, passport) {
 			        moviedata.push({
 			        	"title" : movie.title,
 			     		"year" : movie.year,
-			     		"plot" : movieplot,
-			     		"rating" : movierating,
+			     		//"plot" : movieplot,
+			     		//"rating" : movierating,
 			     		"poster" : poster
 			        });
-			        	
-			     	
 			        
-			        
-			        	//titles.push(movie.title);
-			        	//console.log('pushed '+movie.title);
 			        //}
 			    });
 
@@ -143,7 +129,9 @@ module.exports = function(app, passport) {
 
 	// GET REQUEST TO SEARCH
 	app.get('/search', function(req, res) {
-		
+		// Sessions to register what to send user to after login etc.
+		req.session.lastPage = "/search";
+
 		console.log('in get search');
 		var result = req.session.result;
 		json_result = JSON.stringify(result);
@@ -175,44 +163,44 @@ module.exports = function(app, passport) {
 		
 	});
 
-	app.post('/search_specific', function(req, res) {
+	// app.post('/search_specific', function(req, res) {
 
-		var title = req.body.title;
+	// 	var title = req.body.title;
 	
-		omdb.get( {title: title}, true, function(err, movie){
-		console.log('getting movie info');
+	// 	omdb.get( {title: title}, true, function(err, movie){
+	// 	console.log('getting movie info');
 
-		if(err) {
-			return console.log(err);
-		}
+	// 	if(err) {
+	// 		return console.log(err);
+	// 	}
 
-		if(!movie) {
-			return console.log('No movie found');
-		}
+	// 	if(!movie) {
+	// 		return console.log('No movie found');
+	// 	}
 
-		console.log('Movie title searched for is: '+movie.title+' and the year is '+movie.year);
+	// 	console.log('Movie title searched for is: '+movie.title+' and the year is '+movie.year);
 		
-		console.log('movie.title is '+movie.title);
-		console.log('movie.year is '+movie.year);
-		console.log('movie.plot is '+movie.plot);
-		//console.log('movie.poster is '+movie.poster);
-		console.log('movie.imdb.rating is '+movie.imdb.rating);
-		req.session.result = {
+	// 	console.log('movie.title is '+movie.title);
+	// 	console.log('movie.year is '+movie.year);
+	// 	console.log('movie.plot is '+movie.plot);
+	// 	//console.log('movie.poster is '+movie.poster);
+	// 	console.log('movie.imdb.rating is '+movie.imdb.rating);
+	// 	req.session.result = {
 			
-			title: movie.title,
-			year: movie.year,
-			plot: movie.plot,
-			poster: movie.poster,
-			rating: movie.imdb.rating
-		};
+	// 		title: movie.title,
+	// 		year: movie.year,
+	// 		plot: movie.plot,
+	// 		poster: movie.poster,
+	// 		rating: movie.imdb.rating
+	// 	};
 
 		
 
-		res.redirect('/search_specific');
+	// 	res.redirect('/search_specific');
 
-		});
+	// 	});
 		
-	});
+	// });
 
 
 	//===============================================================================================================================
@@ -245,7 +233,9 @@ module.exports = function(app, passport) {
 
 	//===============================================================================================================================
 	app.get('/movie', function(req, res) {
-		
+		// Sessions to register what to send user to after login etc.
+		req.session.lastPage = "/movie?title="+req.query['title'];
+
 		function getMovieInfo(arg, callback) {
 
 			console.log('Searching for '+arg);
@@ -262,9 +252,9 @@ module.exports = function(app, passport) {
 				}
 
 
-				 var moviedata = [];
+				var moviedata = [];
 			    
-			     moviedata.push({
+			    moviedata.push({
 			        	"title" : movie.title,
 			     		"year" : movie.year,
 			     		"plot" : movie.plot,
@@ -287,6 +277,9 @@ module.exports = function(app, passport) {
 
 		var title = req.query['title'];
 		
+		// Session to remember what user searched for
+		req.session.movie = title;
+
 		getMovieInfo(title, function() {
 			
 			console.log('Done getting movie info, rendering page');
@@ -335,7 +328,7 @@ module.exports = function(app, passport) {
 	    console.log('Parse done, moving on to save..');
 
 	    //STOPPA IN SKITEN I DATABASEN
-	    var parse = new Parse({
+	    var upload = new Upload({
 	      data : data,
 	      creation_time : Date.now(),
 	      path  : csv_file,
@@ -346,7 +339,7 @@ module.exports = function(app, passport) {
 	    console.log("---------------------");
 	    console.log(data);
 	    console.log("---------------------");
-	    parse.save(function(err){
+	    upload.save(function(err){
 	     if(err)
 	      res.send(err);
 	     console.log('Data saved from ' + csv_file)
@@ -391,7 +384,7 @@ module.exports = function(app, passport) {
 		// handle the callback after facebook has authenticated the user
 		app.get('/auth/facebook/callback',
 			passport.authenticate('facebook', {
-				successRedirect : '/profile',
+				successRedirect : '/auth/success',
 				failureRedirect : '/'
 			}));
 
@@ -403,9 +396,15 @@ module.exports = function(app, passport) {
 		// the callback after google has authenticated the user
 		app.get('/auth/google/callback',
 			passport.authenticate('google', {
-				successRedirect : '/profile',
+				// /auth/sucess is custom made and points user to lastpage
+				successRedirect : '/auth/success',
 				failureRedirect : '/'
 			}));
+
+		app.get('/auth/success', function(req, res) {
+			console.log('In auth/success, redirecting to '+req.session.lastPage);
+			res.redirect(req.session.lastPage || '/');
+		});
 
 // =============================================================================
 // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
@@ -419,7 +418,7 @@ module.exports = function(app, passport) {
 		// handle the callback after facebook has authorized the user
 		app.get('/connect/facebook/callback',
 			passport.authorize('facebook', {
-				successRedirect : '/profile',
+				successRedirect : '/auth/success',
 				failureRedirect : '/'
 			}));
 
@@ -430,8 +429,8 @@ module.exports = function(app, passport) {
 
 		// the callback after google has authorized the user
 		app.get('/connect/google/callback',
-			passport.authorize('google', {
-				successRedirect : '/profile',
+				passport.authorize('google', {
+				successRedirect : '/auth/success',
 				failureRedirect : '/'
 			}));
 
