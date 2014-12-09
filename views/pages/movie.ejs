@@ -38,11 +38,21 @@
 	
     <!-- uploads -->
     <div class="container">
-        <div class="row">
-            <div class="col-md-3">
+        <div class="row" text-center>
+            <div class="col-md-3 text-center">
                 <a href="#" class="thumbnail">
                     <img src="img/poster.jpg" alt="...">
                 </a>
+    			<% if (user) { %>
+                    <form action="#">
+                      <p class="file">
+                        <input type="file" name="id" lfile="file" />
+                        <label for="file">Upload your data</label>
+                      </p>
+                    </form>
+                    <% } else { %>
+                    Please login to upload data.
+                <% } %>
             </div>
             <div class="col-md-9">
                
@@ -73,14 +83,9 @@
                     <% }); %>
                     </p>
                     <p><b>Actors:</b> <%= msgObj.actors %></p>
-                    
-                
             
                 <% }); %>
 
-               
-               
-               
             </div>
         <!--
             <div class="col-md-4">
