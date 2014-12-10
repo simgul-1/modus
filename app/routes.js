@@ -579,16 +579,25 @@ function BPMParse(array, callback){
 	//consolel.log(resultdata);
 	//IBI TO BPM 
 	//res.send(info);
-	count++;
+	
 	var array = JSON.parse(JSON.stringify(array));
 	//console.log('TYPE IS: '+typeof(array));
 	//console.log(array);
+	var min = findMin(array);
+	console.log('min here '+min);
+
+	var max = findMax(array);
+	console.log('max here '+max);
+
+	var rise = findRise(array);
+	console.log('Rises is '+rise);
+
 
 	array.forEach(function(object){
+		count++;
 		
-		
-		console.log('object here');
-		console.log(object);
+		//console.log('object here');
+		//console.log(object);
 		
 		
 		
