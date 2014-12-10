@@ -71,14 +71,18 @@
             </div>
             <div class="col-md-9">
                
-
-
                 <% moviedata.forEach(function(msgObj){ %>
             
                     <h5><%= msgObj.title %><span class="text-muted"> (<%= msgObj.year %>)</span></h5>
 
-                        
-                    <p><b>IMDb rating:</b> <b><%= msgObj.rating %></b>/10 from <%= msgObj.votes %> users</p>
+					<div class="row">   
+						<div class="col-md-6">
+							<p><b>IMDb rating:</b> <b><%= msgObj.rating %></b>/10 from <%= msgObj.votes %> users</p>
+						</div>
+						<div class="col-md-6">
+							<p><b>Modus rating:</b> <b><%= msgObj.rating %></b>/10 from <%= msgObj.votes %> users</p>
+						</div>
+					</div>
                     <p><b>Runtime:</b> <%= msgObj.runtime %> minutes</p>
                     <p><%= msgObj.plot %></p>
 
