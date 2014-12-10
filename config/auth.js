@@ -6,7 +6,7 @@
 // ---------- kommentera ut erat innan ni commitar och pushar!!! ---------------------
 
 //Live Mode
-
+/*
 module.exports = {
 
 	'facebookAuth' : {
@@ -23,8 +23,8 @@ module.exports = {
 
 };
 
+*/
 
-/*
 //Developer mode
 module.exports = {
 
@@ -42,4 +42,3 @@ module.exports = {
 
 
 };
-*/
