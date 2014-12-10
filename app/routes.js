@@ -580,21 +580,21 @@ function BPMParse(array, callback){
 	//IBI TO BPM 
 	//res.send(info);
 	count++;
-	var array = JSON.parse(array);
-	console.log('TYPE IS: '+typeof(array));
-	console.log(array);
+	var array = JSON.parse(JSON.stringify(array));
+	//console.log('TYPE IS: '+typeof(array));
+	//console.log(array);
 
 	array.forEach(function(object){
 		
-		var value = object.data;
+		
 		console.log('object here');
 		console.log(object);
-		console.log('value');
-		console.log(value);
 		
-		for(var i in value){
-			console.log(value[1]);
-		}
+		
+		
+		// for(var i in value){
+		// 	console.log(value[1]);
+		// }
 		
 	})
 	
