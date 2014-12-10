@@ -8,7 +8,7 @@ module.exports = function(app) {
 app.get('/algo/:upload_id',function(req,res){
 
 	//p = new Parse();
-	Upload.findById(req.params.upload_id,function(err,Upload){
+	Upload.findById(req.params.upload_id,function(err,upload){
 		if(err)
 			res.send(err);
 
@@ -37,11 +37,12 @@ app.get('/algo/:upload_id',function(req,res){
 });
 
 app.get('/algo',function(req,res){
-	Upload.find({filename: 'IBI.csv'}, function(err, info){
+	Upload.find({imdb_id: "tt0903624"}, function(err, info){
 		//data goes here
 		
 		count=0;
-		var resultdata =['result'];
+		var resultdata = ['result'];
+		//consolel.log(resultdata);
 		//IBI TO BPM 
 		res.send(info);
 		info.forEach(function(object){
@@ -79,10 +80,7 @@ app.get('/algo',function(req,res){
 		console.log(tot + " TOT ");
 		})
 
-		var min;
-		var max;
-		var average;
-		var result;
+		
 
 		
 	});

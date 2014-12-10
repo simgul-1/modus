@@ -40,10 +40,29 @@ module.exports = function(app, passport) {
 		});
 	});
 	
+	
 	// PROFILE SECTION =========================
 	app.get('/uploads', isLoggedIn, function(req, res) {
 		// Sessions to register what to send user to after login etc.
 		req.session.lastPage = "/uploads";
+
+		// Determine user_id
+		if(req.user.facebook.id) {
+	    	var userid = req.user.facebook.id;
+	    }
+	    else if(req.user.google.id) {
+	    	var userid = req.user.google.id;
+	    }
+
+		// Method for getting all movies where user_id exists
+		Upload.find({user_id: userid}, function(err, info) {
+			info.forEach(function(object){
+
+				console.log(object['imdb_id']);
+
+				// get every movie based on imdb_ids
+			})
+		});
 
 		res.render('pages/uploads.ejs', {
 			user : req.user
@@ -234,6 +253,7 @@ module.exports = function(app, passport) {
 	//===============================================================================================================================
 	app.get('/movie', function(req, res) {
 		
+		
 		console.log('in /movie');
 		// Sessions to register what to send user to after login etc.
 		req.session.lastPage = "/movie?title="+req.query['title'];
@@ -285,9 +305,11 @@ module.exports = function(app, passport) {
 
 		var title = req.query['title'];
 		
+
 		// Session to remember what user searched for
 		//req.session.movie = title;
 
+		// Gets the movie info for specific movie
 		getMovieInfo(title, function() {
 			
 			console.log('Done getting movie info, rendering page');
@@ -297,7 +319,24 @@ module.exports = function(app, passport) {
 			//console.log('movie data is \n');
 			//console.log(moviedata);
 			console.log('\n');
-			res.render('pages/movie.ejs', { movie: moviedata, user: req.user });
+			
+			// Gets the modus data for specific movie
+			BPMParse(req.session.imdbid, function(data, counter){
+				//res.send(hej);
+				var modusdata = data.modusdata.toPrecision(3);
+				var counter = data.counter;
+
+				console.log('Modusdata from BPMParse = '+modusdata+' by '+counter+' persons');
+				
+				// FUNCTION TO GET MEDIUM VALUE FROM ALL MODUS RESULTS FOR SPECIFIC MOVIE
+
+
+				// Renders the page
+				res.render('pages/movie.ejs', { movie: moviedata, modusdata : modusdata, counter: counter, user: req.user });
+			
+			});
+
+
 			
 			
 		});
@@ -342,8 +381,8 @@ module.exports = function(app, passport) {
 	    console.log('user_id = '+userid);
 	    console.log('imdb_id = '+imdbid);
 
-	    
-	    
+	    thing = BPMParse(data);
+	    console.log(thing)
 	    //STOPPA IN SKITEN I DATABASEN
 	    var upload = new Upload({
 	      	data : data,
@@ -479,7 +518,147 @@ module.exports = function(app, passport) {
 		});
 	});
 
+
+
+
+function BPMParse(arg, callback){
+
+	//var Upload = require('../app/models/upload');
+	console.log('in BPMParse');
+
+	Upload.find({imdb_id : arg}, function(err, info){
+		if(err){
+			var response = "N/A";
+			callback(response);
+			return;
+		}
+		else{
+
+			//data goes here
+			console.log(' WANT TO RETURN 1');
+			count=0;
+			var resultdata = ['result'];
+			//consolel.log(resultdata);
+			//IBI TO BPM 
+			//res.send(info);
+			info.forEach(function(object){
+				count++;
+				var data = []
+				var val = object.data;
+				val.forEach(function(IBI){
+					BPM = (60/IBI[1])
+					data.push(BPM);
+				})
+
+				var min = findMin(data);
+				var max = findMax(data);
+				var average = findAverage(data);
+				var high = findRise(data,average);
+
+				//get time
+				var temp = val.pop();
+				console.log(temp[0]);
+				var time = (temp[0]/60);
+				var result = (time/high.length);
+			 	resultdata.push(result);
+
+				console.log("Min: "+ min);
+				console.log("Max: "+ max);
+				console.log("Average: "+ average);
+				console.log("highrises: "+ high.length);
+				console.log("Resultfactor: "+ result);
+				console.log("");
+
+				console.log(resultdata);
+
+				tot = findAverage(resultdata);
+				console.log(tot + " TOT ");
+				
+				console.log(' WANT TO RETURN 2');
+			})
+			console.log(' WANT TO RETURN 3');
+		//console.log('Modus value is : '+tot+' by '+count+' persons');
+		var callbackString = {};
+		callbackString.modusdata = tot;
+		callbackString.counter = count;
+		//console.log('CallbackString (modusdata) = '+callbackString.modusdata);
+		//console.log('CallbackString (counter) = '+callbackString.counter);
+		
+		callback(callbackString);
+		return;		
+		}	
+		
+	})
+	
+	
+	//console.log(' WANT TO RETURN TOT 3');
+	
+	
+}
+
+//Function for finding smallest value in csv. 
+function findMin(array){
+	var min = array[1];
+	for( i=0; i < array.length;i++){
+			//skipping first line and looking for smallest value
+		if(i != 0 && min > array[i]){
+			min = array[i];
+		}
+
+	}
+	return min; 
+}
+
+//Function for finding Biggest value in csv. 
+function findMax(array){
+	var big = array[1];
+	for(i=0; i < array.length;i++){
+			//skipping first line and looking for smallest value
+		if(i != 0 && big < array[i]){
+			big = array[i];
+		}
+
+	}
+	return big; 
+}
+
+
+//Function for finding Average value in csv. 
+function findAverage(array){
+	var Average = 0;
+	for(i=0; i < array.length;i++){
+			//skipping first line. 
+		if(i != 0){
+			Average = Average + parseFloat(array[i]);
+		}
+	}
+	Average = Average/(array.length-1);
+	return Average;
+}
+
+
+//Finding highrises in the csv file, resulting in array with [heartbeatvalue,time of event]
+function findRise (array,average){
+	var counter = 0;
+	var diff =0.85;
+	var time =1;
+	var info = [];
+	for( var i in array){
+		var curr = array[i]
+		var current = array[i]*diff;
+		var previous= array[i-1]*diff;
+		if((current > average) && previous <current*diff){
+			info.push([parseInt(curr)]);
+
+		 }
+		time++;
+	}		
+	return info;
+	
+}
 };
+
+
 
 
 

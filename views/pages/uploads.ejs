@@ -30,7 +30,17 @@
 	</div>
     <script>
         $(document).on("click", ".pulse", function(e) {
-            bootbox.alert("Hello world!", function() {
+            bootbox.alert("I am a nice plot of your pulse", function() {
+                console.log("Alert Callback");
+            });
+        });
+        $(document).on("click", ".temperature", function(e) {
+            bootbox.alert("I am a nice plot of your temperature", function() {
+                console.log("Alert Callback");
+            });
+        });
+        $(document).on("click", ".excitement", function(e) {
+            bootbox.alert("I am a nice plot of your excitement", function() {
                 console.log("Alert Callback");
             });
         });
@@ -50,9 +60,10 @@
                 <p>Bruce Banner, a scientist on the run from the U.S. Government must find a cure for the monster he emerges whenever he loses his temper. However, Banner then must fight a soldier whom unleashes himself as a threat stronger than he.</p>
             </div>
             <div class="col-md-4">
-                <h6><span class="fa fa-bar-chart"></span> Your data:</h6> ~ <a class="pulse" href="#"><span class="fa fa-heart-o"></span> Pulse</a>: <b>70 bpm</b>
-                <br> ~ <a href="#"><span class="fa fa-paw"></span> Temperature</a>: <b>27&deg;C</b>
-                <br> ~ <a href="#"><span class="fa fa-tachometer"></span> Excitment</a>: <b>Very High</b>
+                <h6><span class="fa fa-bar-chart"></span> Your data:</h6> 
+                    ~ <a class="pulse" href="#"><span class="fa fa-heart-o"></span> Pulse</a>: <b>70 bpm</b>
+                <br> ~ <a class="temperature" href="#"><span class="fa fa-paw"></span> Temperature</a>: <b>27&deg;C</b>
+                <br> ~ <a class="excitement" href="#"><span class="fa fa-tachometer"></span> Excitment</a>: <b>Very High</b>
             </div>
         </div>
     </div>
