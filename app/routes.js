@@ -332,17 +332,19 @@ module.exports = function(app, passport) {
 			
 			
 			// Gets the modus data for specific movie
-			BPMParse(req.session.imdbid, function(data, counter){
-				//res.send(hej);
-				var modusdata = data.modusdata.toPrecision(3);
-				var counter = data.counter;
+			ModusCollect(req.session.imdbid, function(data){
+				
+				//var modusdata = data.modusdata.toPrecision(3);
+				//var counter = data.counter;
 
-				console.log('Modusdata from BPMParse = '+modusdata+' by '+counter+' persons');
+				//console.log('Modusdata from BPMParse = '+modusdata+' by '+counter+' persons');
 				
 				// FUNCTION TO GET MEDIUM VALUE FROM ALL MODUS RESULTS FOR SPECIFIC MOVIE
 
 
 				// Renders the page
+				var counter = 0;
+				var modusdata = 0;
 				res.render('pages/movie.ejs', { movie: moviedata, modusdata : modusdata, counter: counter, user: req.user });
 			
 			});
@@ -378,6 +380,12 @@ module.exports = function(app, passport) {
 
 	    var parser = parse({delimiter: ','}, function(err, data){
 
+	    // HANDLE DATA WITH BPMParse
+	    var modusrating = BPMParse(data);
+
+	    //get tot
+
+
 	    console.log('Parse done, moving on to save..');
 	    console.log()
 	    if(req.user.facebook.id) {
@@ -401,6 +409,7 @@ module.exports = function(app, passport) {
 	    //STOPPA IN SKITEN I DATABASEN
 	    var upload = new Upload({
 	      	data : data,
+	      	bpmdata : bpmdata,
 			filename: csv_name,
 	      	creation_time : Date.now(),
 	      	imdb_id : imdbid,		
@@ -524,82 +533,199 @@ module.exports = function(app, passport) {
 		});
 	});
 
-function BPMParse(arg, callback){
-
-	//var Upload = require('../app/models/upload');
-	console.log('in BPMParse');
+function ModusCollect(arg, callback){
+	console.log('in moduscollect');
 
 	Upload.find({imdb_id : arg}, function(err, info){
 		if(err){
 			console.log(' ERROR FINDING MODUSDATA FOR IMDB_ID: '+arg);
-			var callbackString = {};
-			callbackString.modusdata = 0;
-			callbackString.counter = 0;
 			
-			callback(callbackString);
-			return;
 		}
 		else{
-			//data goes here
-			console.log(' WANT TO RETURN 1');
-			count=0;
-			var resultdata = ['result'];
-			//consolel.log(resultdata);
-			//IBI TO BPM 
-			//res.send(info);
+			console.log('In else');
 			info.forEach(function(object){
-				count++;
-				var data = []
-				var val = object.data;
-				val.forEach(function(IBI){
-					BPM = (60/IBI[1])
-					data.push(BPM);
-				})
+				//console.log(object);
+				//modusdata = object.modusdata;
+				//console.log('modusdata is '+modusdata);
 
-				var min = findMin(data);
-				var max = findMax(data);
-				var average = findAverage(data);
-				var high = findRise(data,average);
-
-				//get time
-				var temp = val.pop();
-				console.log(temp[0]);
-				var time = (temp[0]/60);
-				var result = (time/high.length);
-			 	resultdata.push(result);
-
-				console.log("Min: "+ min);
-				console.log("Max: "+ max);
-				console.log("Average: "+ average);
-				console.log("highrises: "+ high.length);
-				console.log("Resultfactor: "+ result);
-				console.log("");
-
-				console.log(resultdata);
-
-				tot = findAverage(resultdata);
-				console.log(tot + " TOT ");
+				// GEt all individual modusdata
+				// add all individual modusdata
+				// split by number of uploads
 				
-				console.log(' WANT TO RETURN 2');
+
+				var callbackString = {};
+				callbackString.modusdata = "";
+				//callbackString.counter = modusdata.length;
+				//console.log(modusdata.length);
+				callback(callbackString);
 			})
-			
-			console.log(' WANT TO RETURN 3');
-			//console.log('Modus value is : '+tot+' by '+count+' persons');
-			var callbackString = {};
-			callbackString.modusdata = tot;
-			callbackString.counter = count;
-			//console.log('CallbackString (modusdata) = '+callbackString.modusdata);
-			//console.log('CallbackString (counter) = '+callbackString.counter);
-			
-			callback(callbackString);
-			return;		
-		}	
+		}
+
 		
 	})
+}
+
+// PARSES ONLY YOUR UPLOADED DATA FOR ONE MOVIE
+function BPMParse(array, callback){
+
+	//var Upload = require('../app/models/upload');
+	console.log('in BPMParse');
+
+	
+	//data goes here
+	console.log(' WANT TO RETURN 1');
+	count=0;
+	var resultdata = ['result'];
+	//consolel.log(resultdata);
+	//IBI TO BPM 
+	//res.send(info);
+	count++;
+	var array = JSON.parse(array);
+	console.log('TYPE IS: '+typeof(array));
+	console.log(array);
+
+	array.forEach(function(object){
+		
+		var value = object.data;
+		console.log('object here');
+		console.log(object);
+		console.log('value');
+		console.log(value);
+		
+		for(var i in value){
+			console.log(value[1]);
+		}
+		
+	})
+	
+	// 	var data = []
+	// 	var val = object.data;
+	// 			val.forEach(function(IBI){
+	// 				BPM = (60/IBI[1])
+	// 				data.push(BPM);
+	// 			})
+
+	// 			var min = findMin(data);
+	// 			var max = findMax(data);
+	// 			var average = findAverage(data);
+	// 			var high = findRise(data,average);
+
+	// 			//get time
+	// 			var temp = val.pop();
+	// 			console.log(temp[0]);
+	// 			var time = (temp[0]/60);
+	// 			var result = (time/high.length);
+	// 		 	resultdata.push(result);
+
+	// 			console.log("Min: "+ min);
+	// 			console.log("Max: "+ max);
+	// 			console.log("Average: "+ average);
+	// 			console.log("highrises: "+ high.length);
+	// 			console.log("Resultfactor: "+ result);
+	// 			console.log("");
+
+	// 			console.log(resultdata);
+
+	// 			tot = findAverage(resultdata);
+	// 			console.log(tot + " TOT ");
+				
+	// 			console.log(' WANT TO RETURN 2');
+	// 		})
+			
+	// 		console.log(' WANT TO RETURN 3');
+	// 		//console.log('Modus value is : '+tot+' by '+count+' persons');
+	// 		var callbackString = {};
+	// 		callbackString.modusdata = tot;
+	// 		callbackString.counter = count;
+	// 		//console.log('CallbackString (modusdata) = '+callbackString.modusdata);
+	// 		//console.log('CallbackString (counter) = '+callbackString.counter);
+			
+	// 		callback(callbackString);
+	// 		return;		
+	// 	}	
+		
+	// })
 	
 	//console.log(' WANT TO RETURN TOT 3');
 	
 }
+
+// function BPMParse(arg, callback){
+
+// 	//var Upload = require('../app/models/upload');
+// 	console.log('in BPMParse');
+
+// 	Upload.find({imdb_id : arg}, function(err, info){
+// 		if(err){
+// 			console.log(' ERROR FINDING MODUSDATA FOR IMDB_ID: '+arg);
+// 			var callbackString = {};
+// 			callbackString.modusdata = 0;
+// 			callbackString.counter = 0;
+			
+// 			callback(callbackString);
+// 			return;
+// 		}
+// 		else{
+// 			//data goes here
+// 			console.log(' WANT TO RETURN 1');
+// 			count=0;
+// 			var resultdata = ['result'];
+// 			//consolel.log(resultdata);
+// 			//IBI TO BPM 
+// 			//res.send(info);
+// 			info.forEach(function(object){
+// 				count++;
+// 				var data = []
+// 				var val = object.data;
+// 				val.forEach(function(IBI){
+// 					BPM = (60/IBI[1])
+// 					data.push(BPM);
+// 				})
+
+// 				var min = findMin(data);
+// 				var max = findMax(data);
+// 				var average = findAverage(data);
+// 				var high = findRise(data,average);
+
+// 				//get time
+// 				var temp = val.pop();
+// 				console.log(temp[0]);
+// 				var time = (temp[0]/60);
+// 				var result = (time/high.length);
+// 			 	resultdata.push(result);
+
+// 				console.log("Min: "+ min);
+// 				console.log("Max: "+ max);
+// 				console.log("Average: "+ average);
+// 				console.log("highrises: "+ high.length);
+// 				console.log("Resultfactor: "+ result);
+// 				console.log("");
+
+// 				console.log(resultdata);
+
+// 				tot = findAverage(resultdata);
+// 				console.log(tot + " TOT ");
+				
+// 				console.log(' WANT TO RETURN 2');
+// 			})
+			
+// 			console.log(' WANT TO RETURN 3');
+// 			//console.log('Modus value is : '+tot+' by '+count+' persons');
+// 			var callbackString = {};
+// 			callbackString.modusdata = tot;
+// 			callbackString.counter = count;
+// 			//console.log('CallbackString (modusdata) = '+callbackString.modusdata);
+// 			//console.log('CallbackString (counter) = '+callbackString.counter);
+			
+// 			callback(callbackString);
+// 			return;		
+// 		}	
+		
+// 	})
+	
+// 	//console.log(' WANT TO RETURN TOT 3');
+	
+// }
 
 //Function for finding smallest value in csv. 
 function findMin(array){

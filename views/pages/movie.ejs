@@ -76,29 +76,18 @@
 							<p><b>IMDb rating:</b> <b><%= msgObj.rating %></b>/10 from <%= msgObj.votes %> users</p>
 						</div>
 						<div class="col-md-6">
-							<p><b>Modus rating:</b> <b><%= modusdata %></b> from <%= counter %> users</p>
-						</div>
+							<p><b>Modus rating:</b> <b><%= modusdata %></b> from <%= counter %> users</p> 
+                            						</div>
 					</div>
                     <p><b>Runtime:</b> <%= msgObj.runtime %> minutes</p>
                     <p><%= msgObj.plot %></p>
 
                     <!-- Fix parser to add a whitespace between directors and writers and all the like -->
                     <p><b>Director:</b> <%= msgObj.director %></p>
-                    <p><b>Writers:</b>  
+                    <p><b>Writers:</b>  <%= msgObj.director %></p>
 
                     
-                    <!-- FIXA IMORGON!!!! -->
-                    <% msgObj.writers.forEach(function(obj){ %>
-                         <% if(obj != null){ %>
-                            
-                            <%= obj %> ,
-                         <% } else{ %>
-                         <%= obj %> 
-                        <% } %>
-                    <% }); %>
-                    </p>
-                    <p><b>Actors:</b> <%= msgObj.actors %></p>
-            
+                    
                 <% }); %>
 
             </div>
