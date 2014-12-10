@@ -366,30 +366,6 @@ module.exports = function(app, passport) {
 		
 		require('should');
 
-
-		// LADDA UPP FILE.csv
-		// PARSE CSV
-		/*
-
-
-		data[]
-		
-
-		BPMPARSE _> DATA[]
-
-		upload.create
-		=>
-		modusvalue
-		data[]
-		imdb_id
-		user_id
-		time
-
-
-
-		*/
-
-
 	    //Parsing function
 	    var parse = require('csv-parse');
 	    var csv_file = req.files.modusdata.path;
