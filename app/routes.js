@@ -421,13 +421,7 @@ module.exports = function(app, passport) {
 	    console.log('user_id = '+userid);
 	    console.log('imdb_id = '+imdbid);
 
-<<<<<<< HEAD
 
-=======
-	    thing = BPMParse(data);
-	    console.log(thing)
-	    
->>>>>>> a03f15f838ccdff14e1ea1069230bb5aa4d31864
 	    //STOPPA IN SKITEN I DATABASEN
 	    var upload = new Upload({
 	      	data : data,
