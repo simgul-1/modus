@@ -29,11 +29,7 @@ app.get('/algo/:upload_id',function(req,res){
 		      
 		      //var test = db.collections('test');
 		      //console.log(test);
-
-
 	});
-
-
 });
 
 app.get('/algo',function(req,res){
@@ -52,7 +48,6 @@ app.get('/algo',function(req,res){
 				BPM = (60/IBI[1])
 				data.push(BPM);
 			})
-	
 
 		var min = findMin(data);
 		var max = findMax(data);
@@ -80,27 +75,9 @@ app.get('/algo',function(req,res){
 		console.log(tot + " TOT ");
 		})
 
-<<<<<<< HEAD
-		
-=======
->>>>>>> 2247d240bfa1f371ef9023e215d43337a54ff416
-
-		
 	});
 
 	});
-
-
-
-
-
-
-
-
-
-
-
-
 
 //Function for finding smallest value in csv. 
 function findMin(array){
