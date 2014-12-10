@@ -1,45 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-	<% include ../partials/head %>
-  </head>
-<body>
-    <style>
-		body {
 
-		padding-top: 53px;
-		background-color: #ececec;
+<head>
+	<% include ../partials/head %>
+</head>
+
+<body>
+	<style>
+		body {
+			padding-top: 53px;
+			background-color: #ececec;
 		}
 		.form-signin .form-control {
-		position: relative;
-		font-size: 16px;
-		height: auto;
-		padding: 10px;
-		margin-bottom: 10px;
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-				box-sizing: border-box;
-	}
-    </style>
+			position: relative;
+			font-size: 16px;
+			height: auto;
+			padding: 10px;
+			margin-bottom: 10px;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+	</style>
 
 	<header>
 		<% include ../partials/header %>
 	</header>
-	
+
 	<!-- MAIN -->
 	<div class="container">
-		<div id="multi"></div>
-		<div id="temp"></div>
-		<div id="eda"></div>
-		<div id="bvp"></div>
-		<div id="acc"></div>
-		<div id="ibi"></div>
+
+		<div class="row" text-center>
+
+			<h4>A success message!</h4>
+			<div class="row">
+				<div class="col-sm-2 text-center">
+					<p>
+						<button class="btn btn-primary sweet-3" onclick="_gaq.push(['_trackEvent', 'example', 'try', 'sweet-3']);">Try It</button>
+					</p>
+				</div>
+			</div>
+			<div id="multi"></div>
+			<div id="temp"></div>
+			<div id="eda"></div>
+			<div id="bvp"></div>
+			<div id="acc"></div>
+			<div id="ibi"></div>
+		</div>
 	</div>
-    <!-- FOOTER -->
-    <footer>
-        <% include ../partials/footer %>
-    </footer>
-	
-	<script src="/js/test.js"></script> <!-- this includes your JS code -->
-  </body>
+	<!-- FOOTER -->
+	<footer>
+		<% include ../partials/footer %>
+	</footer>
+
+	<script src="/js/test.js"></script>
+	<!-- this includes your JS code -->
+
+</body>
+
 </html>
