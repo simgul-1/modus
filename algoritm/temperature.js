@@ -80,19 +80,14 @@ app.get('/algo',function(req,res){
 		console.log(tot + " TOT ");
 		})
 
+<<<<<<< HEAD
 		
+=======
+>>>>>>> 2247d240bfa1f371ef9023e215d43337a54ff416
 
 		
 	});
 
-
-
-
-
-
-	
-
-		
 	});
 
 

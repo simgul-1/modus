@@ -29,6 +29,16 @@ module.exports = function(app, passport) {
 			user : req.user
 		});
 	});
+	
+	// show the home page (will also have our login links)
+	app.get('/test', function(req, res) {
+		// Sessions to register what to send user to after login etc.
+		req.session.lastPage = "/test";
+
+		res.render('pages/test.ejs', {
+			user : req.user
+		});
+	});
 
 	// PROFILE SECTION =========================
 	app.get('/profile', isLoggedIn, function(req, res) {
@@ -73,6 +83,12 @@ module.exports = function(app, passport) {
 	app.get('/logout', function(req, res) {
 		req.logout();
 		res.redirect('/');
+	});
+
+	// GRAPH ==============================
+		app.get('/graph', function(req, res) {
+		
+		res.render('pages/algo.ejs');
 	});
 
 
@@ -275,7 +291,7 @@ module.exports = function(app, passport) {
 
 
 				var moviedata = [];
-			    
+			    globalshit = movie.imdb.id;
 			    moviedata.push({
 			        	"title" : movie.title,
 			     		"year" : movie.year,
@@ -378,11 +394,27 @@ module.exports = function(app, passport) {
 	    // Getting IMDb_id from sessions
 	    imdbid = req.session.imdbid;
 
+	    console.log('================================');
+	    console.log(req.session.moviedata[1]);
+	    console.log('================================');
+
+	    var moviedata = JSON.parse(JSON.stringify((req.session.moviedata)));
+	    imdbid = moviedata['id'];
+	    console.log("---------------------");
+	    console.log('imdbid = '+imdbid);
+	    console.log("---------------------");
+
 	    console.log('user_id = '+userid);
 	    console.log('imdb_id = '+imdbid);
 
+<<<<<<< HEAD
 	    thing = BPMParse(data);
 	    console.log(thing)
+=======
+	    
+	    
+
+>>>>>>> 2247d240bfa1f371ef9023e215d43337a54ff416
 	    //STOPPA IN SKITEN I DATABASEN
 	    var upload = new Upload({
 	      	data : data,
