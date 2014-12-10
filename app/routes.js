@@ -50,7 +50,6 @@ module.exports = function(app, passport) {
 		});
 	});
 	
-	
 	// PROFILE SECTION =========================
 	app.get('/uploads', isLoggedIn, function(req, res) {
 		// Sessions to register what to send user to after login etc.
@@ -91,8 +90,6 @@ module.exports = function(app, passport) {
 		res.render('pages/algo.ejs');
 	});
 
-
-
 	// POST REQUEST TO GENERAL SEARCH 
 	app.post('/search', function(req, res) {
 
@@ -129,7 +126,6 @@ module.exports = function(app, passport) {
 			        
 			        //}
 			    });
-
 
 			   	//result.push(all_movies);
 
@@ -237,7 +233,6 @@ module.exports = function(app, passport) {
 		
 	// });
 
-
 	//===============================================================================================================================
 	app.post('/search_poster', function(req, res) {
 
@@ -268,8 +263,7 @@ module.exports = function(app, passport) {
 
 	//===============================================================================================================================
 	app.get('/movie', function(req, res) {
-		
-		
+
 		console.log('in /movie');
 		// Sessions to register what to send user to after login etc.
 		req.session.lastPage = "/movie?title="+req.query['title'];
@@ -427,7 +421,13 @@ module.exports = function(app, passport) {
 	    console.log('user_id = '+userid);
 	    console.log('imdb_id = '+imdbid);
 
+<<<<<<< HEAD
 
+=======
+	    thing = BPMParse(data);
+	    console.log(thing)
+	    
+>>>>>>> a03f15f838ccdff14e1ea1069230bb5aa4d31864
 	    //STOPPA IN SKITEN I DATABASEN
 	    var upload = new Upload({
 	      	data : data,
@@ -445,7 +445,6 @@ module.exports = function(app, passport) {
 	     if(err)
 	      res.send(err);
 	     console.log('Data saved from ' + csv_file);
-	    
 
 	    });
 	    
@@ -453,7 +452,6 @@ module.exports = function(app, passport) {
 	    stream.pipe(parser);
 
 	    res.redirect(req.session.lastPage);
-	    
 
 	});
 	
@@ -469,10 +467,6 @@ module.exports = function(app, passport) {
 
 	});
 
-	
-
-	
-	
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================
 // =============================================================================
@@ -560,9 +554,6 @@ module.exports = function(app, passport) {
 		});
 	});
 
-
-
-
 function BPMParse(arg, callback){
 
 	//var Upload = require('../app/models/upload');
@@ -579,7 +570,6 @@ function BPMParse(arg, callback){
 			return;
 		}
 		else{
-
 			//data goes here
 			console.log(' WANT TO RETURN 1');
 			count=0;
@@ -637,9 +627,7 @@ function BPMParse(arg, callback){
 		
 	})
 	
-	
 	//console.log(' WANT TO RETURN TOT 3');
-	
 	
 }
 
@@ -669,7 +657,6 @@ function findMax(array){
 	return big; 
 }
 
-
 //Function for finding Average value in csv. 
 function findAverage(array){
 	var Average = 0;
@@ -682,7 +669,6 @@ function findAverage(array){
 	Average = Average/(array.length-1);
 	return Average;
 }
-
 
 //Finding highrises in the csv file, resulting in array with [heartbeatvalue,time of event]
 function findRise (array,average){
@@ -704,10 +690,6 @@ function findRise (array,average){
 	
 }
 };
-
-
-
-
 
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
