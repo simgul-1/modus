@@ -336,6 +336,7 @@ module.exports = function(app, passport) {
 			//console.log(moviedata);
 			console.log('\n');
 			
+			
 			// Gets the modus data for specific movie
 			BPMParse(req.session.imdbid, function(data, counter){
 				//res.send(hej);
@@ -371,6 +372,30 @@ module.exports = function(app, passport) {
 		
 		require('should');
 
+
+		// LADDA UPP FILE.csv
+		// PARSE CSV
+		/*
+
+
+		data[]
+		
+
+		BPMPARSE _> DATA[]
+
+		upload.create
+		=>
+		modusvalue
+		data[]
+		imdb_id
+		user_id
+		time
+
+
+
+		*/
+
+
 	    //Parsing function
 	    var parse = require('csv-parse');
 	    var csv_file = req.files.modusdata.path;
@@ -394,12 +419,7 @@ module.exports = function(app, passport) {
 	    // Getting IMDb_id from sessions
 	    imdbid = req.session.imdbid;
 
-	    console.log('================================');
-	    console.log(req.session.moviedata[1]);
-	    console.log('================================');
-
-	    var moviedata = JSON.parse(JSON.stringify((req.session.moviedata)));
-	    imdbid = moviedata['id'];
+	    
 	    console.log("---------------------");
 	    console.log('imdbid = '+imdbid);
 	    console.log("---------------------");
@@ -407,14 +427,7 @@ module.exports = function(app, passport) {
 	    console.log('user_id = '+userid);
 	    console.log('imdb_id = '+imdbid);
 
-<<<<<<< HEAD
-	    thing = BPMParse(data);
-	    console.log(thing)
-=======
-	    
-	    
 
->>>>>>> 2247d240bfa1f371ef9023e215d43337a54ff416
 	    //STOPPA IN SKITEN I DATABASEN
 	    var upload = new Upload({
 	      	data : data,
@@ -438,9 +451,6 @@ module.exports = function(app, passport) {
 	    
 	    });
 	    stream.pipe(parser);
-
-	    // Message popup when done (not working yet)
-	    console.log(req.flash('info'));
 
 	    res.redirect(req.session.lastPage);
 	    
@@ -560,8 +570,12 @@ function BPMParse(arg, callback){
 
 	Upload.find({imdb_id : arg}, function(err, info){
 		if(err){
-			var response = "N/A";
-			callback(response);
+			console.log(' ERROR FINDING MODUSDATA FOR IMDB_ID: '+arg);
+			var callbackString = {};
+			callbackString.modusdata = 0;
+			callbackString.counter = 0;
+			
+			callback(callbackString);
 			return;
 		}
 		else{
@@ -608,16 +622,17 @@ function BPMParse(arg, callback){
 				
 				console.log(' WANT TO RETURN 2');
 			})
+			
 			console.log(' WANT TO RETURN 3');
-		//console.log('Modus value is : '+tot+' by '+count+' persons');
-		var callbackString = {};
-		callbackString.modusdata = tot;
-		callbackString.counter = count;
-		//console.log('CallbackString (modusdata) = '+callbackString.modusdata);
-		//console.log('CallbackString (counter) = '+callbackString.counter);
-		
-		callback(callbackString);
-		return;		
+			//console.log('Modus value is : '+tot+' by '+count+' persons');
+			var callbackString = {};
+			callbackString.modusdata = tot;
+			callbackString.counter = count;
+			//console.log('CallbackString (modusdata) = '+callbackString.modusdata);
+			//console.log('CallbackString (counter) = '+callbackString.counter);
+			
+			callback(callbackString);
+			return;		
 		}	
 		
 	})
