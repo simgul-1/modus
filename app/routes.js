@@ -51,9 +51,9 @@ module.exports = function(app, passport) {
 	});
 	
 	// PROFILE SECTION =========================
-	app.get('/uploads', isLoggedIn, function(req, res) {
+	app.get('/myuploads', isLoggedIn, function(req, res) {
 		// Sessions to register what to send user to after login etc.
-		req.session.lastPage = "/uploads";
+		req.session.lastPage = "/myuploads";
 
 		// Determine user_id
 		if(req.user.facebook.id) {
@@ -73,7 +73,7 @@ module.exports = function(app, passport) {
 			})
 		});
 
-		res.render('pages/uploads.ejs', {
+		res.render('pages/myuploads.ejs', {
 			user : req.user
 		});
 	});
@@ -381,7 +381,7 @@ module.exports = function(app, passport) {
 	    var parser = parse({delimiter: ','}, function(err, data){
 
 	    // HANDLE DATA WITH BPMParse
-	    var modusrating = BPMParse(data);
+	    var bpmdata = BPMParse(data);
 
 	    //get tot
 
@@ -581,6 +581,7 @@ function BPMParse(array, callback){
 	//res.send(info);
 	
 	var array = JSON.parse(JSON.stringify(array));
+	
 	//console.log('TYPE IS: '+typeof(array));
 	//console.log(array);
 	var min = findMin(array);
@@ -656,7 +657,8 @@ function BPMParse(array, callback){
 	// })
 	
 	//console.log(' WANT TO RETURN TOT 3');
-	
+	callback(bpmdata);
+	return;
 }
 
 // function BPMParse(arg, callback){
