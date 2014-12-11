@@ -332,7 +332,7 @@ module.exports = function(app, passport) {
 			
 			
 			// Gets the modus data for specific movie
-			ModusCollect(req.session.imdbid, function(data){
+			//ModusCollect(req.session.imdbid, function(data){
 				
 				//var modusdata = data.modusdata.toPrecision(3);
 				//var counter = data.counter;
@@ -347,7 +347,7 @@ module.exports = function(app, passport) {
 				var modusdata = 0;
 				res.render('pages/movie.ejs', { movie: moviedata, modusdata : modusdata, counter: counter, user: req.user });
 			
-			});
+//			});
 
 
 			
@@ -382,7 +382,7 @@ module.exports = function(app, passport) {
 
 	    // HANDLE DATA WITH BPMParse
 	    var bpmdata = BPMParse(data);
-
+	    console.log("BPMDATA LALLA: "+ bpmdata);
 	    //get tot
 
 
@@ -416,10 +416,6 @@ module.exports = function(app, passport) {
 	      	user_id: userid
 	      
 	    });
-	    //console.log("data comes here:  ");
-	    //console.log("---------------------");
-	    //console.log(data);
-	    //console.log("---------------------");
 	    upload.save(function(err){
 	     if(err)
 	      res.send(err);
@@ -565,100 +561,66 @@ function ModusCollect(arg, callback){
 	})
 }
 
+
+
+
+
 // PARSES ONLY YOUR UPLOADED DATA FOR ONE MOVIE
 function BPMParse(array, callback){
-
+	console.log(array[0] + " " + array[1] );
 	//var Upload = require('../app/models/upload');
 	console.log('in BPMParse');
 
-	
-	//data goes here
-	console.log(' WANT TO RETURN 1');
-	count=0;
-	var resultdata = ['result'];
+
 	//consolel.log(resultdata);
 	//IBI TO BPM 
 	//res.send(info);
 	
 	var array = JSON.parse(JSON.stringify(array));
+	console.log(array[0] + " " + array[1] );
+
+	//contain only BPM
+	bpmdata = []
+
+	//Getting 2:d value from IBI to convert IBI to BPM. 
+	for(var i in array){
+		IBI = array[i];
+		BPM = (52/IBI[1]);
+		bpmdata.push(BPM);
+	}
+
+	//Get time in minutes.
+	temp = array.pop();
+	var timeend = temp[0];
+	var duration = timeend/60;
+
+	console.log("timeend: " + timeend);
+	console.log("durationg:" +duration);
+
+
 	
-	//console.log('TYPE IS: '+typeof(array));
-	//console.log(array);
-	var min = findMin(array);
-	console.log('min here '+min);
-
-	var max = findMax(array);
-	console.log('max here '+max);
-
-	var rise = findRise(array);
-	console.log('Rises is '+rise);
 
 
-	array.forEach(function(object){
-		count++;
-		
-		//console.log('object here');
-		//console.log(object);
-		
-		
-		
-		// for(var i in value){
-		// 	console.log(value[1]);
-		// }
-		
-	})
 	
-	// 	var data = []
-	// 	var val = object.data;
-	// 			val.forEach(function(IBI){
-	// 				BPM = (60/IBI[1])
-	// 				data.push(BPM);
-	// 			})
+	var min = findMin(bpmdata);
+	var max = findMax(bpmdata);
+	var average = findAverage(bpmdata);
+	var rise = findRise(bpmdata,average).length;
 
-	// 			var min = findMin(data);
-	// 			var max = findMax(data);
-	// 			var average = findAverage(data);
-	// 			var high = findRise(data,average);
+	var bpmvalue = parseFloat(duration/rise);
+	console.log(bpmvalue);
 
-	// 			//get time
-	// 			var temp = val.pop();
-	// 			console.log(temp[0]);
-	// 			var time = (temp[0]/60);
-	// 			var result = (time/high.length);
-	// 		 	resultdata.push(result);
 
-	// 			console.log("Min: "+ min);
-	// 			console.log("Max: "+ max);
-	// 			console.log("Average: "+ average);
-	// 			console.log("highrises: "+ high.length);
-	// 			console.log("Resultfactor: "+ result);
-	// 			console.log("");
+	console.log("Minimum: " + min);
+	console.log("Maximum: " + max);
+	console.log("Average: " + average);
+	console.log("Rises: " + rise);
+	console.log("Time(m): " +duration);
 
-	// 			console.log(resultdata);
 
-	// 			tot = findAverage(resultdata);
-	// 			console.log(tot + " TOT ");
-				
-	// 			console.log(' WANT TO RETURN 2');
-	// 		})
-			
-	// 		console.log(' WANT TO RETURN 3');
-	// 		//console.log('Modus value is : '+tot+' by '+count+' persons');
-	// 		var callbackString = {};
-	// 		callbackString.modusdata = tot;
-	// 		callbackString.counter = count;
-	// 		//console.log('CallbackString (modusdata) = '+callbackString.modusdata);
-	// 		//console.log('CallbackString (counter) = '+callbackString.counter);
-			
-	// 		callback(callbackString);
-	// 		return;		
-	// 	}	
-		
-	// })
 	
-	//console.log(' WANT TO RETURN TOT 3');
-	callback(bpmdata);
-	return;
+	//callback(bpmvalue);
+	return bpmvalue;
 }
 
 // function BPMParse(arg, callback){
