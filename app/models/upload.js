@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var UploadSchema = new Schema({
-	data 			:[],
-	filename		:String,
+	bpmdata 		:[],
+	bpmvalue		:String,
 	creation_time 	:Date,
 	imdb_id			:String,
 	user_id			:String

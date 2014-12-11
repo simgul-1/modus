@@ -323,14 +323,17 @@ module.exports = function(app, passport) {
 		getMovieInfo(title, function() {
 			
 			console.log('Done getting movie info, rendering page');
-			var moviedata = req.session.moviedata;
 
-			console.log('moviedata is IN GETMOVIEINFO '+moviedata);
+			moviedata = req.session.moviedata;
+			//console.log(moviedata);
+			//moviedata = req.session.moviedata;
+
+			//console.log('getMovieInfo => moviedata is '+moviedata);
 			//moviedata = JSON.parse(JSON.stringify(info));
 			
 			//console.log('movie data is \n');
 			//console.log(moviedata);
-			console.log('\n');
+			//console.log('\n');
 			
 			
 			// Gets the modus data for specific movie
@@ -345,8 +348,7 @@ module.exports = function(app, passport) {
 
 
 				// Renders the page
-				var counter = 0;
-				var modusdata = 0;
+				
 				res.render('pages/movie.ejs', { moviedata: moviedata, modusdata : modusdata, counter: counter, user: req.user });
 			
 			});
@@ -380,10 +382,10 @@ module.exports = function(app, passport) {
 	    //PARSAR IGENOM FILEN
 	    stream = fs.createReadStream(csv_file);
 
-	    var parser = parse({delimiter: ','}, function(err, data){
+	    var parser = parse({delimiter: ','}, function(err, bpmdata){
 
 	    // HANDLE DATA WITH BPMParse
-	    var bpmdata = BPMParse(data);
+	    var bpmvalue = BPMParse(bpmdata);
 	    console.log("BPMDATA LALLA: "+ bpmdata);
 	    //get tot
 
@@ -399,11 +401,6 @@ module.exports = function(app, passport) {
 	    // Getting IMDb_id from sessions
 	    imdbid = req.session.imdbid;
 
-	    
-	    console.log("---------------------");
-	    console.log('imdbid = '+imdbid);
-	    console.log("---------------------");
-
 	    console.log('user_id = '+userid);
 	    console.log('imdb_id = '+imdbid);
 
@@ -412,7 +409,6 @@ module.exports = function(app, passport) {
 	    var upload = new Upload({
 	      	bpmdata : bpmdata,
 	      	bpmvalue : bpmvalue,
-			//filename: csv_name,
 	      	creation_time : Date.now(),
 	      	imdb_id : imdbid,		
 	      	user_id: userid
@@ -531,8 +527,8 @@ function ModusCollect(arg, callback){
 
 	Upload.find({imdb_id : arg}, function(err, info){
 		
-		console.log('info comes here '+info);
-		console.log(typeof(info));
+		//console.log('info comes here '+info);
+		//console.log(typeof(info));
 
 		if(err){
 			console.log(err);
@@ -553,7 +549,7 @@ function ModusCollect(arg, callback){
 			var count = 0;
 			var result = 0;
 			info.forEach(function(object){
-				console.log(object);
+				//console.log(object);
 				console.log('BPMValue is: '+object.bpmvalue);
 
 				count++;
@@ -581,22 +577,15 @@ function ModusCollect(arg, callback){
 			callback(callbackString);
 			return;
 		}
-		
+
 		
 	})
 }
 
-	function BPMParse(array, callback){
-		console.log('======================== IN BPMPARSE =======================');
-		var bpmvalue = 5;
-		callback(bpmvalue);
-		return;
-	}
-
 
 
 	// PARSES ONLY YOUR UPLOADED DATA FOR ONE MOVIE
-	function BPMParse2(array, callback){
+	function BPMParse(array, callback){
 		console.log(array[0] + " " + array[1] );
 		//var Upload = require('../app/models/upload');
 		console.log('in BPMParse');
@@ -644,8 +633,8 @@ function ModusCollect(arg, callback){
 		console.log("Time(m): " +duration);
 
 		//console.log(' WANT TO RETURN TOT 3');
-		callback(bpmvalue);
-		return;
+		
+		return (bpmvalue);
 
 	}
 
