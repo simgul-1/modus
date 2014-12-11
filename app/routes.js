@@ -133,7 +133,7 @@ module.exports = function(app, passport) {
 			    var json_result = moviedata;
 
 				console.log('Here comes json result:');
-			    console.log(json_result);
+			    
 			    
 			    // Saves the titles in a session
 			    req.session.result = json_result;
@@ -167,7 +167,7 @@ module.exports = function(app, passport) {
 		var result = req.session.result;
 		json_result = JSON.stringify(result);
 		
-		console.log('Here comes session \n'+ json_result + '\n');
+		//console.log('Here comes session \n'+ json_result + '\n');
 		
 		var check = null;
 		for (member in json_result) {
@@ -535,28 +535,19 @@ function ModusCollect(arg, callback){
 		}
 		
 		else{
-
-			console.log('In moduscollect else');
-			var count = 0;
-			var result = 0;
+			
+			var values = ['Results']
 			
 			info.forEach(function(object){
-				
 				bpmvalue = parseFloat(object.bpmvalue);
-				//console.log(object);
-				console.log('BPMValue is: '+bpmvalue);
+				values.push(bpmvalue);
+				})
+				var count = values.length-1;
+				var result = findAverage(values);
 
-				count++;
-				
-				result = result+bpmvalue;
-				
-				console.log('result is now: '+result);		
+			console.log(values);
+			totalmodusvalue = result;
 
-				
-			})
-
-			totalmodusvalue = result/count;
-			console.log('total modusvalue is: '+result+'/'+count+' = '+totalmodusvalue);
 
 			var callbackString = {};
 			callbackString.modusdata = totalmodusvalue;
