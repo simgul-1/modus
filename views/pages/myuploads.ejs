@@ -48,7 +48,11 @@
 	
     <!-- uploads -->
     <div class="container">
-        Latest upload at the top
+        
+        <!-- FOR EACH MOVIE FOUND RUN THIS -->
+        
+
+        <% allinfo.forEach(function(msgObj){ %>
         <div class="row">
 
             <div class="col-md-2">
@@ -57,9 +61,18 @@
                 </a>
             </div>
             <div class="col-md-6">
-                <h5>The Incredible Hulk <span class="text-muted">(2008)</span></h5>
-                <p>Rating: <b>6,9</b>/10 from 267 409 users</p>
-                <p>Bruce Banner, a scientist on the run from the U.S. Government must find a cure for the monster he emerges whenever he loses his temper. However, Banner then must fight a soldier whom unleashes himself as a threat stronger than he.</p>
+                
+
+                <%= msgObj.title %>
+                <%= msgObj.year %>
+                <%= msgObj.bpmvalye %>
+
+                Your rating / average rating
+                
+
+                
+
+            
             </div>
             <div class="col-md-4">
                 <h6><span class="fa fa-bar-chart"></span> Your data:</h6> 
@@ -67,7 +80,11 @@
                 <br> ~ <a class="temperature" href="#"><span class="fa fa-paw"></span> Temperature</a>: <b>27&deg;C</b>
                 <br> ~ <a class="excitement" href="#"><span class="fa fa-tachometer"></span> Excitment</a>: <b>Very High</b>
             </div>
+
+            
         </div>
+        <% }); %>
+
     </div>
     <hr>
     <!-- /container -->
