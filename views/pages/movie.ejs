@@ -22,7 +22,7 @@
     <div class="container">
         <div class="row" text-center>
             <div class="col-md-3 text-center">
-                <a href="#" class="thumbnail">
+                <a href="#" class="thumbnail" style="margin-top:12px">
                     <img src="img/poster.jpg" alt="...">
                 </a>
     			<% if (user) { %>
@@ -104,7 +104,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h6>Pulse:</h6>
-                <!-- MÅSTE FLYTTAS TILL SEPARAT FIL SEN, PROVAR BARA NU -->
+        <!-- MÅSTE FLYTTAS TILL SEPARAT FIL SEN, PROVAR BARA NU -->
 
         <script src="/js/Chart.min.js"></script>
         <div style="width:100%">
@@ -158,16 +158,11 @@
         window.myLine = new Chart(ctx).Line(lineChartData, {
             responsive: true,
             scaleShowGridLines: false,
-            
-
         });
     }
     </script>
 
-
-
     <!-- END OF CHARTS -->
-
 
             </div>
         </div>
