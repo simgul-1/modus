@@ -586,26 +586,12 @@ function ModusCollect(arg, callback){
 	})
 }
 
-	function BPMParse(array, callback){
-		console.log('======================== IN BPMPARSE =======================');
-		var bpmvalue = 5;
-		callback(bpmvalue);
-		return;
-	}
+
 
 
 
 	// PARSES ONLY YOUR UPLOADED DATA FOR ONE MOVIE
-	function BPMParse2(array, callback){
-		console.log(array[0] + " " + array[1] );
-		//var Upload = require('../app/models/upload');
-		console.log('in BPMParse');
-
-
-		//consolel.log(resultdata);
-		//IBI TO BPM 
-		//res.send(info);
-		
+	function BPMParse(array, callback){
 		var array = JSON.parse(JSON.stringify(array));
 		console.log(array[0] + " " + array[1] );
 
@@ -623,19 +609,12 @@ function ModusCollect(arg, callback){
 		temp = array.pop();
 		var timeend = temp[0];
 		var duration = timeend/60;
-
-		console.log("timeend: " + timeend);
-		console.log("durationg:" +duration);
-
 		
 		var min = findMin(bpmdata);
 		var max = findMax(bpmdata);
 		var average = findAverage(bpmdata);
 		var rise = findRise(bpmdata,average).length;
-
 		var bpmvalue = parseFloat(duration/rise);
-		console.log('bpmvalue is '+bpmvalue);
-
 
 		console.log("Minimum: " + min);
 		console.log("Maximum: " + max);
@@ -649,82 +628,6 @@ function ModusCollect(arg, callback){
 
 	}
 
-	// function BPMParse(arg, callback){
-
-	// 	//var Upload = require('../app/models/upload');
-	// 	console.log('in BPMParse');
-
-	// 	Upload.find({imdb_id : arg}, function(err, info){
-	// 		if(err){
-	// 			console.log(' ERROR FINDING MODUSDATA FOR IMDB_ID: '+arg);
-	// 			var callbackString = {};
-	// 			callbackString.modusdata = 0;
-	// 			callbackString.counter = 0;
-				
-	// 			callback(callbackString);
-	// 			return;
-	// 		}
-	// 		else{
-	// 			//data goes here
-	// 			console.log(' WANT TO RETURN 1');
-	// 			count=0;
-	// 			var resultdata = ['result'];
-	// 			//consolel.log(resultdata);
-	// 			//IBI TO BPM 
-	// 			//res.send(info);
-	// 			info.forEach(function(object){
-	// 				count++;
-	// 				var data = []
-	// 				var val = object.data;
-	// 				val.forEach(function(IBI){
-	// 					BPM = (60/IBI[1])
-	// 					data.push(BPM);
-	// 				})
-
-	// 				var min = findMin(data);
-	// 				var max = findMax(data);
-	// 				var average = findAverage(data);
-	// 				var high = findRise(data,average);
-
-	// 				//get time
-	// 				var temp = val.pop();
-	// 				console.log(temp[0]);
-	// 				var time = (temp[0]/60);
-	// 				var result = (time/high.length);
-	// 			 	resultdata.push(result);
-
-	// 				console.log("Min: "+ min);
-	// 				console.log("Max: "+ max);
-	// 				console.log("Average: "+ average);
-	// 				console.log("highrises: "+ high.length);
-	// 				console.log("Resultfactor: "+ result);
-	// 				console.log("");
-
-	// 				console.log(resultdata);
-
-	// 				tot = findAverage(resultdata);
-	// 				console.log(tot + " TOT ");
-					
-	// 				console.log(' WANT TO RETURN 2');
-	// 			})
-				
-	// 			console.log(' WANT TO RETURN 3');
-	// 			//console.log('Modus value is : '+tot+' by '+count+' persons');
-	// 			var callbackString = {};
-	// 			callbackString.modusdata = tot;
-	// 			callbackString.counter = count;
-	// 			//console.log('CallbackString (modusdata) = '+callbackString.modusdata);
-	// 			//console.log('CallbackString (counter) = '+callbackString.counter);
-				
-	// 			callback(callbackString);
-	// 			return;		
-	// 		}	
-			
-	// 	})
-		
-	// 	//console.log(' WANT TO RETURN TOT 3');
-		
-	// }
 
 	//Function for finding smallest value in csv. 
 	function findMin(array){
