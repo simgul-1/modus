@@ -69,6 +69,8 @@ module.exports = function(app, passport) {
 
 				console.log(object['imdb_id']);
 
+
+
 				// get every movie based on imdb_ids
 			})
 		});
@@ -268,50 +270,6 @@ module.exports = function(app, passport) {
 		// Sessions to register what to send user to after login etc.
 		req.session.lastPage = "/movie?title="+req.query['title'];
 
-		function getMovieInfo(arg, callback) {
-
-			console.log('Searching for '+arg);
-			
-			omdb.get( {title: arg}, true, function(err, movie){
-				console.log('getting info for '+movie.title);
-
-				if(err) {
-					return console.log(err);
-				}
-
-				if(!movie) {
-					return console.log('No movie found');
-				}
-
-
-				var moviedata = [];
-			    globalshit = movie.imdb.id;
-			    moviedata.push({
-			        	"title" : movie.title,
-			     		"year" : movie.year,
-			     		"plot" : movie.plot,
-			     		"rating" : movie.imdb.rating,
-			     		"votes" : movie.imdb.votes,
-			     		"runtime" : movie.runtime,
-			     		"actors" : movie.actors,
-			     		"director" : movie.director,
-			     		"writers" : movie.writers,
-			     		"id" : movie.imdb.id
-			     		
-			     });
-			    // Clearing previous sessions
-			    req.session.moviedata = null;
-			    req.session.imdbid = null;
-
-			    // Saving sessions
-			    req.session.imdbid = movie.imdb.id;
-			    req.session.moviedata = moviedata;
-					
-				
-				callback();
-			});
-		}
-
 
 		var title = req.query['title'];
 		
@@ -320,11 +278,30 @@ module.exports = function(app, passport) {
 		//req.session.movie = title;
 
 		// Gets the movie info for specific movie
-		getMovieInfo(title, function() {
+		getMovieInfo(title, function(moviedata) {
 			
 			console.log('Done getting movie info, rendering page');
+			moviedata = JSON.parse(JSON.stringify(moviedata));
+			
+			moviedata.forEach(function(object){
+				imdbid = object.id;
+				console.log(imdbid);
+			})
+			// Clearing previous sessions
+	    	req.session.moviedata = null;
+	    	req.session.imdbid = null;
 
-			moviedata = req.session.moviedata;
+			// Saving sessions
+			req.session.imdbid = imdbid;
+			req.session.moviedata = moviedata;
+
+			
+
+	    	
+	    	//req.session.imdbid = movie.imdb.id;
+	    	
+			
+
 			//console.log(moviedata);
 			//moviedata = req.session.moviedata;
 
@@ -521,6 +498,44 @@ module.exports = function(app, passport) {
 			res.redirect('/profile');
 		});
 	});
+
+function getMovieInfo(arg, callback) {
+
+	console.log('Searching for '+arg);
+			
+	omdb.get( {title: arg}, true, function(err, movie){
+		
+		console.log('getting info for '+movie.title);
+
+		if(err) {
+			return console.log(err);
+		}
+
+		if(!movie) {
+			return console.log('No movie found');
+		}
+
+		var moviedata = [];
+	    globalshit = movie.imdb.id;
+	    moviedata.push({
+	        	"title" : movie.title,
+	     		"year" : movie.year,
+	     		"plot" : movie.plot,
+	     		"rating" : movie.imdb.rating,
+	     		"votes" : movie.imdb.votes,
+	     		"runtime" : movie.runtime,
+	     		"actors" : movie.actors,
+	     		"director" : movie.director,
+	     		"writers" : movie.writers,
+	     		"id" : movie.imdb.id
+			     		
+	     });
+	   
+		//console.log(moviedata);		
+		callback(moviedata);
+		return;
+	});
+}
 
 function ModusCollect(arg, callback){
 	console.log('in moduscollect');
