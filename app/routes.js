@@ -533,40 +533,28 @@ function ModusCollect(arg, callback){
 		if(err){
 			console.log(err);
 		}
-		else if(info == null){
-			console.log('======================== ERROR FINDING OBJECT IS EMPTY================================');
-			console.log(info);
-			var callbackString = {};
-			callbackString.modusdata = 0;
-			callbackString.counter = 0;		
-			callback(callbackString);
-			return;
-		}
-			
+		
 		else{
 
 			console.log('In moduscollect else');
 			var count = 0;
 			var result = 0;
+			
 			info.forEach(function(object){
+				
+				bpmvalue = parseFloat(object.bpmvalue);
 				//console.log(object);
-				console.log('BPMValue is: '+object.bpmvalue);
+				console.log('BPMValue is: '+bpmvalue);
 
 				count++;
-				result = result+object.bpmvalue;
-
-
-
-				//modusdata = object.modusdata;
-				//console.log('modusdata is '+modusdata);
-
-				// GEt all individual modusdata
-				// add all individual modusdata
-				// split by number of uploads
 				
+				result = result+bpmvalue;
+				
+				console.log('result is now: '+result);		
 
 				
 			})
+
 			totalmodusvalue = result/count;
 			console.log('total modusvalue is: '+result+'/'+count+' = '+totalmodusvalue);
 
