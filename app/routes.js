@@ -323,7 +323,9 @@ module.exports = function(app, passport) {
 		getMovieInfo(title, function() {
 			
 			console.log('Done getting movie info, rendering page');
-			moviedata = req.session.moviedata;
+			var moviedata = req.session.moviedata;
+
+			console.log('moviedata is IN GETMOVIEINFO '+moviedata);
 			//moviedata = JSON.parse(JSON.stringify(info));
 			
 			//console.log('movie data is \n');
@@ -345,7 +347,7 @@ module.exports = function(app, passport) {
 				// Renders the page
 				var counter = 0;
 				var modusdata = 0;
-				res.render('pages/movie.ejs', { movie: moviedata, modusdata : modusdata, counter: counter, user: req.user });
+				res.render('pages/movie.ejs', { moviedata: moviedata, modusdata : modusdata, counter: counter, user: req.user });
 			
 			});
 
@@ -408,9 +410,9 @@ module.exports = function(app, passport) {
 
 	    //STOPPA IN SKITEN I DATABASEN
 	    var upload = new Upload({
-	      	data : data,
 	      	bpmdata : bpmdata,
-			filename: csv_name,
+	      	bpmvalue : bpmvalue,
+			//filename: csv_name,
 	      	creation_time : Date.now(),
 	      	imdb_id : imdbid,		
 	      	user_id: userid
@@ -537,14 +539,37 @@ function ModusCollect(arg, callback){
 	console.log('in moduscollect');
 
 	Upload.find({imdb_id : arg}, function(err, info){
+		
+		console.log('info comes here '+info);
+		console.log(typeof(info));
+
 		if(err){
-			console.log(' ERROR FINDING MODUSDATA FOR IMDB_ID: '+arg);
-			
+			console.log(err);
 		}
+		else if(info == null){
+			console.log('======================== ERROR FINDING OBJECT IS EMPTY================================');
+			console.log(info);
+			var callbackString = {};
+			callbackString.modusdata = 0;
+			callbackString.counter = 0;		
+			callback(callbackString);
+			return;
+		}
+			
 		else{
-			console.log('In else');
+
+			console.log('In moduscollect else');
+			var count = 0;
+			var result = 0;
 			info.forEach(function(object){
-				//console.log(object);
+				console.log(object);
+				console.log('BPMValue is: '+object.bpmvalue);
+
+				count++;
+				result = result+object.bpmvalue;
+
+
+
 				//modusdata = object.modusdata;
 				//console.log('modusdata is '+modusdata);
 
@@ -553,12 +578,17 @@ function ModusCollect(arg, callback){
 				// split by number of uploads
 				
 
-				var callbackString = {};
-				callbackString.modusdata = "";
-				//callbackString.counter = modusdata.length;
-				//console.log(modusdata.length);
-				callback(callbackString);
+				
 			})
+			totalmodusvalue = result/count;
+			console.log('total modusvalue is: '+result+'/'+count+' = '+totalmodusvalue);
+
+			var callbackString = {};
+			callbackString.modusdata = totalmodusvalue;
+			callbackString.counter = count;
+			//console.log(modusdata.length);
+			callback(callbackString);
+			return;
 		}
 
 		
@@ -657,7 +687,7 @@ function BPMParse(array, callback){
 	// })
 	
 	//console.log(' WANT TO RETURN TOT 3');
-	callback(bpmdata);
+	callback(bpmvalue);
 	return;
 }
 
