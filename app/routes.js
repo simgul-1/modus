@@ -80,8 +80,10 @@ module.exports = function(app, passport) {
 						"title" : object.title,
 						"year" : object.year,
 						"bpmvalue" : bpmvalue,
+						"poster_path" : object.poster_path,
 						"bpmdata" : modusdata[i].bpmdata
 					})
+					console.log(allinfo);
 					i++;
 					
 				});
@@ -106,6 +108,7 @@ module.exports = function(app, passport) {
 						    "poster_path" : poster
 
 						});
+						//console.log(movieinfo);
 						
 						return series(modusinfo.shift());
 					
