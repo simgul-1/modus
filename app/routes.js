@@ -9,7 +9,7 @@ module.exports = function(app, passport) {
 	var omdb = require('omdb');
 	var session = require('express-session');
 	var request = require('request');
-	var step = require('step');
+	var Promise = require('bluebird');
 
 	// show the home page (will also have our login links)
 	app.get('/', function(req, res) {
@@ -54,47 +54,67 @@ module.exports = function(app, passport) {
 	app.get('/nigga', function(req, res) {
 
 		allinfo = [];
-		
+		movieinfo = [];
+		modusdata = [];
+		i = 0;
 	    
-
-	    getUploadedMovies("hej", function(data){
-	    	
-	    	data.forEach(function(object){
+	    getUploadedMovies("hej", function(modusinfo){
+			
+			function final2(){
 	    		
-	    		getMovieInfo(object.imdb_id, function(omdb){
+				movieinfo.forEach(function(object){
+					
+					allinfo.push({
+						"title" : object.title,
+						"year" : object.year,
+						"bpmvalue" : modusdata[i].bpmvalue,
+						"bpmdata" : modusdata[i].bpmdata
+					})
+					i++;
+					
+				});
+				//allinfo.push(movieinfo);
+	    		//allinfo.push(modusdata);
+	    		res.send(allinfo);
+	    	}
+			
+			function series2(obj){
+				//console.log(modusinfo);
+				modusdata.push(obj);
 
-	    			omdb.forEach(function(content) {
-	    				allinfo.push({
-	    					//"user_id" : object.user_id,
-	    					"title" : content.title,
-	    					"year" : content.year,
-	    					"bpmvalue" : object.bpmvalue,
-	    					//"bpmdata" : object.bpmdata,
+				if(obj){
+					getMovieInfo(obj.imdb_id, function(omdb){
+						
+						omdb = JSON.parse(JSON.stringify(omdb));
+						console.log('omdb.title');
+						console.log(omdb);
+						movieinfo.push({
+						    "title" : omdb[0]['title'],
+						    "year" : omdb[0]['year'],
+						    "rating" : omdb[0]['rating']
 
+						});
+							
+						
+						return series2(modusinfo.shift());
+					
+					});
+				}
+				else{
+					return final2();
+				}
+			}
 
-	    				});
+			series2(modusinfo.shift());
 
-	    				
-	    			});
-	    			
-	    				//res.send(ourinfo);
-
-	    			
-	    			
-	    		});
-
-    		});
-	    		
-	    });
-
+		})
 
 	});
 
-		
-	
-
-	// PROFILE SECTION =========================
+	// // PROFILE SECTION =========================
 	app.get('/myuploads', isLoggedIn, function(req, res) {
+		
+
 		// Sessions to register what to send user to after login etc.
 		req.session.lastPage = "/myuploads";
 
@@ -107,73 +127,62 @@ module.exports = function(app, passport) {
 	    }
 
 	   
-	    var returndata = [];
-
-	    /*
-	    GET ALL MOVIES I UPLOADED AND THE INFO (bpmvalue, imdb_id, user_id etc)
-
-	    GET OMDB_INFO FOR THESE MOVIES
-
-	    RETURN ONE JSON OBJECT CONTAINING ALL INFO
-	    */
-
-	    // Get all movies user uploaded
 	    allinfo = [];
-
-	    getUploadedMovies(userid, function(data){
-	    	
-	    	data.forEach(function(object){
+		movieinfo = [];
+		modusdata = [];
+		i = 0;
+	    
+	    getUploadedMovies(userid, function(modusinfo){
+			
+			function final(){
 	    		
-	    		getMovieInfo(object.imdb_id, function(omdb){
+				movieinfo.forEach(function(object){
+					
+					// Function to convert string value in "bpmvalue" to precision 3
+					bpmvalue = parseFloat(modusdata[i].bpmvalue).toPrecision(3);
+					
+					allinfo.push({
+						"title" : object.title,
+						"year" : object.year,
+						"bpmvalue" : bpmvalue,
+						"bpmdata" : modusdata[i].bpmdata
+					})
+					i++;
+					
+				});
+				//res.send(allinfo);
+				res.render('pages/myuploads.ejs', { data: allinfo, user: req.user });
+	    	}
+			
+			function series(obj){
+				//console.log(modusinfo);
+				modusdata.push(obj);
 
-	    			omdb.forEach(function(content) {
-	    				allinfo.push({
-	    					//"user_id" : object.user_id,
-	    					"title" : content.title,
-	    					"year" : content.year,
-	    					"bpmvalue" : object.bpmvalue
-	    					//"bpmdata" : object.bpmdata,
+				if(obj){
+					getMovieInfo(obj.imdb_id, function(omdb){
+						
+						omdb = JSON.parse(JSON.stringify(omdb));
+						console.log('omdb.title');
+						console.log(omdb);
+						movieinfo.push({
+						    "title" : omdb[0]['title'],
+						    "year" : omdb[0]['year'],
+						    "rating" : omdb[0]['rating']
 
+						});
+						
+						return series(modusinfo.shift());
+					
+					});
+				}
+				else{
+					return final();
+				}
+			}
 
-	    				});
+			series(modusinfo.shift());
 
-	    				// KÖR 5 GÅNGER
-	    				console.log('4');
-
-	    				//console.log('1');
-	    				
-	    				
-	    			});
-
-	    			// KÖR 5 GÅNGER
-
-	    			req.session.allinfo = allinfo;
-	    			console.log(req.session.allinfo);
-	    			
-	    			//console.log(allinfo);
-	    			//res.send(ourinfo);
-	    			//req.session.allinfo = allinfo;
-	    			//console.log(allinfo);
-	    			console.log('5');
-	    		});
-
-	    		// KÖR 5 GÅNGER INNAN ALLT ANNAT
-	    		console.log('3');
-
-	    		//console.log(allinfo);
-	   			//console.log(req.session.allinfo);
-	   			
-	    	
-	    	});
-    		
-			// FIRST CALLBACK
-			console.log('2');
-	    		
-	    });
-
-	    console.log('1');
-	 
-
+		})
 	 
 		
 	});
@@ -543,8 +552,8 @@ module.exports = function(app, passport) {
 function getUploadedMovies(user, callback){
 	
 	console.log('Getting Uploaded movies for user');
-
-	Upload.find({user_id : "117455612749622948262"}, function(err, info){
+	// "117455612749622948262"
+	Upload.find({user_id : user}, function(err, info){
 		var allmovies = [];
 		info.forEach(function(object) {
 			allmovies.push(object);
@@ -560,7 +569,6 @@ function getUploadedMovies(user, callback){
 //getMovieInfo(imdb, object.imdb_id, function(data){
 function getMovieInfo(value, callback) {
 	
-
 	omdb.get( value, true, function(err, movie){
 		
 		console.log('getting info for '+movie.title);
@@ -588,8 +596,7 @@ function getMovieInfo(value, callback) {
 	     		"id" : movie.imdb.id
 			     		
 	     });
-	   
-		//console.log(moviedata);		
+	  		
 		callback(moviedata);
 		return;
 	});

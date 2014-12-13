@@ -52,22 +52,17 @@
         <!-- FOR EACH MOVIE FOUND RUN THIS -->
         
 
-        <% allinfo.forEach(function(msgObj){ %>
+        <% data.forEach(function(msgObj){ %>
         <div class="row">
-
             <div class="col-md-2">
                 <a href="#" class="thumbnail">
                     <img src="http://i.imgur.com/J4f10YO.jpg" alt="...">
                 </a>
             </div>
             <div class="col-md-6">
-                
+                <%= msgObj['title'] %> (<%= msgObj['year'] %>)
 
-                <%= msgObj.title %>
-                <%= msgObj.year %>
-                <%= msgObj.bpmvalye %>
-
-                Your rating / average rating
+                <br><%= msgObj['bpmvalue'] %>/ average rating
                 
 
                 
