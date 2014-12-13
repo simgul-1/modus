@@ -55,14 +55,14 @@
         <% data.forEach(function(msgObj){ %>
         <div class="row">
             <div class="col-md-2">
-                <a href="#" class="thumbnail">
+                <a href="/movie?title=<% msgObj['title'] %>" class="thumbnail">
                     <img src="http://i.imgur.com/J4f10YO.jpg" alt="...">
                 </a>
             </div>
             <div class="col-md-6">
                 <%= msgObj['title'] %> (<%= msgObj['year'] %>)
 
-                <br><%= msgObj['bpmvalue'] %>/ average rating
+                <br><%= msgObj['bpmvalue'] %> / average rating
                 
 
                 

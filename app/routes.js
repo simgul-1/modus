@@ -9,7 +9,7 @@ module.exports = function(app, passport) {
 	var omdb = require('omdb');
 	var session = require('express-session');
 	var request = require('request');
-	var Promise = require('bluebird');
+	var mdb = require('moviedb')('3e5eb7fc233740076d8b3044de9ef228');
 
 	// show the home page (will also have our login links)
 	app.get('/', function(req, res) {
@@ -32,15 +32,6 @@ module.exports = function(app, passport) {
 	});
 	
 	// show the home page (will also have our login links)
-	app.get('/test', function(req, res) {
-		// Sessions to register what to send user to after login etc.
-		req.session.lastPage = "/test";
-
-		res.render('pages/test.ejs', {
-			user : req.user
-		});
-	});
-
 	// PROFILE SECTION =========================
 	app.get('/profile', isLoggedIn, function(req, res) {
 		// Sessions to register what to send user to after login etc.
@@ -49,68 +40,9 @@ module.exports = function(app, passport) {
 		res.render('pages/profile.ejs', {
 			user : req.user
 		});
-	});
+	});	
 	
-	app.get('/nigga', function(req, res) {
-
-		allinfo = [];
-		movieinfo = [];
-		modusdata = [];
-		i = 0;
-	    
-	    getUploadedMovies("hej", function(modusinfo){
-			
-			function final2(){
-	    		
-				movieinfo.forEach(function(object){
-					
-					allinfo.push({
-						"title" : object.title,
-						"year" : object.year,
-						"bpmvalue" : modusdata[i].bpmvalue,
-						"bpmdata" : modusdata[i].bpmdata
-					})
-					i++;
-					
-				});
-				//allinfo.push(movieinfo);
-	    		//allinfo.push(modusdata);
-	    		res.send(allinfo);
-	    	}
-			
-			function series2(obj){
-				//console.log(modusinfo);
-				modusdata.push(obj);
-
-				if(obj){
-					getMovieInfo(obj.imdb_id, function(omdb){
-						
-						omdb = JSON.parse(JSON.stringify(omdb));
-						console.log('omdb.title');
-						console.log(omdb);
-						movieinfo.push({
-						    "title" : omdb[0]['title'],
-						    "year" : omdb[0]['year'],
-						    "rating" : omdb[0]['rating']
-
-						});
-							
-						
-						return series2(modusinfo.shift());
-					
-					});
-				}
-				else{
-					return final2();
-				}
-			}
-
-			series2(modusinfo.shift());
-
-		})
-
-	});
-
+	
 	// // PROFILE SECTION =========================
 	app.get('/myuploads', isLoggedIn, function(req, res) {
 		
@@ -132,8 +64,11 @@ module.exports = function(app, passport) {
 		modusdata = [];
 		i = 0;
 	    
+	    console.log(userid);
 	    getUploadedMovies(userid, function(modusinfo){
 			
+			console.log('Got uploaded movies for user '+userid);
+
 			function final(){
 	    		
 				movieinfo.forEach(function(object){
@@ -159,7 +94,7 @@ module.exports = function(app, passport) {
 				modusdata.push(obj);
 
 				if(obj){
-					getMovieInfo(obj.imdb_id, function(omdb){
+					getMovieInfo(obj.imdb_id, function(omdb, poster){
 						
 						omdb = JSON.parse(JSON.stringify(omdb));
 						console.log('omdb.title');
@@ -167,7 +102,8 @@ module.exports = function(app, passport) {
 						movieinfo.push({
 						    "title" : omdb[0]['title'],
 						    "year" : omdb[0]['year'],
-						    "rating" : omdb[0]['rating']
+						    "rating" : omdb[0]['rating'],
+						    "poster_path" : poster
 
 						});
 						
@@ -182,7 +118,7 @@ module.exports = function(app, passport) {
 
 			series(modusinfo.shift());
 
-		})
+		});
 	 
 		
 	});
@@ -202,68 +138,58 @@ module.exports = function(app, passport) {
 	// POST REQUEST TO GENERAL SEARCH 
 	app.post('/search', function(req, res) {
 
-		function getMovies(arg, callback){
-			console.log('In search post');
-
-			console.log('searching for '+arg);
-			
-			omdb.search(arg, function(err, movies) {
-			    if(err) {
-			        return console.error(err);
-			    }
-
-			    if(movies.length < 1) {
-			        return console.log('No movies were found!');
-			    }	
-			   	
-			    var moviedata = [];
-			    var poster;
-			 
-			   	movies.forEach(function(movie) {
-			        
-			        // DO POSTER REQUEST HERE
-
-			        //---------------------
-
-			        moviedata.push({
-			        	"title" : movie.title,
-			     		"year" : movie.year,
-			     		//"plot" : movieplot,
-			     		//"rating" : movierating,
-			     		"poster" : poster
-			        });
-			        
-			        //}
-			    });
-
-			   	//result.push(all_movies);
-
-			   	//var json_result = JSON.parse(JSON.stringify(moviedata));
-			    var json_result = moviedata;
-
-				console.log('Here comes json result:');
-			    
-			    
-			    // Saves the titles in a session
-			    req.session.result = json_result;
-			    
-			    
-			    // Done with the API request
-				callback();
-					
-		    });
-
-			
-		}
-
 		var title = req.body.title;
-
-		getMovies(title, function() {
+		allmovies = [];
+		movieposter = [];
+		movieresult = [];
+		
+		getMovies(title, function(movies) {
 			
-			console.log('Done with API request, redirecting to GET SEARCH');
-			res.redirect('/search');
+			function serien(arg){
+
+				if(arg){
+					//console.log('ARG COMES HERE ====================');
+					//console.log(arg);
+					//console.log('==========================');
+
+					
+					getPoster(arg.imdb_id, function(poster){
+							
+						console.log('Posterpath for '+arg.title+' = '+poster);
+							
+						movieresult.push({
+							"title" : arg.title,
+							"year" : arg.year,
+							"imdb_id" : arg.imdb_id,
+							"poster_path" : poster
+						});
+					
+					serien(movies.shift());
+					
+					});
+				}
+				else{
+					finale(movieresult);
+				}
+
+			}
+			
+
+			function finale(result){
+				//console.log(result);
+				//res.send(result);
+				console.log('Done with API requests, redirecting to GET SEARCH');
+				console.log('Got these results from API request');
+				console.log(result);
+				//res.redirect('/search', { moviedata : result, user : req.user });
+				res.render('pages/search.ejs', { result: result, user: req.user });
+			}
+			
+			// starts the function
+			serien(movies.shift());
 
 		});
+		
 
 	});
 
@@ -272,89 +198,37 @@ module.exports = function(app, passport) {
 		// Sessions to register what to send user to after login etc.
 		req.session.lastPage = "/search";
 
-		console.log('in get search');
-		var result = req.session.result;
-		json_result = JSON.stringify(result);
+		res.render('pages/search.ejs', { user: req.user });
 		
-		//console.log('Here comes session \n'+ json_result + '\n');
-		
-		var check = null;
-		for (member in json_result) {
-			if (json_result[member] != null){
-				var check = true;
-				console.log("iiitttsss truuuu3");
-				break;
-			}
-			else{
-			console.log('No movies found!');
-			
-			
-			}
-		}
-		if(check){
-			console.log('Got general results from movies');
-			res.render('pages/search.ejs', { result: result, user: req.user });
-			req.session.result = null;
-			
-		}
-		else{
-			console.log('error in get search');
-		}
-		
+
 	});
 
 
-	//===============================================================================================================================
-	app.post('/search_poster', function(req, res) {
-
-		//var title = req.body.title;
-		console.log("getting poster");
-		console.log(__dirname);
-		var stream = fs.createReadStream(__dirname + '/poster.jpeg');
-    	stream.pipe(res);
-
-		// omdb.poster( {title: title}, true, function(err, movie){
-		// 	if(err){
-		// 		console.log('error'+ err);
-		// 	}
-		// 	else{
-		// 		console.log('found poster');
-		// 		console.log(movie);
 	
-		// 	}				
-			
-		// });
-		// var poster = omdb.poster('hulk');
-
-		
-		// stream = fs.createReadStream(poster);
-		// console.log('stream'+stream);
-		
-	});
 
 	//===============================================================================================================================
 	app.get('/movie', function(req, res) {
 
 		console.log('in /movie');
 		// Sessions to register what to send user to after login etc.
-		req.session.lastPage = "/movie?title="+req.query['title'];
+		req.session.lastPage = "/movie?imdb_id="+req.query['imdb_id'];
 
 
-		var title = req.query['title'];
+		var imdb_id = req.query['imdb_id'];
 		
 
 		// Session to remember what user searched for
 		//req.session.movie = title;
 
 		// Gets the movie info for specific movie
-		getMovieInfo(title, function(moviedata) {
+		getMovieInfo(imdb_id, function(moviedata, poster) {
 			
 			console.log('Done getting movie info, rendering page');
 			moviedata = JSON.parse(JSON.stringify(moviedata));
 			
 			moviedata.forEach(function(object){
-				imdbid = object.id;
-				console.log(imdbid);
+				imdbid = object.imdb_id;
+				//console.log(imdbid);
 			})
 			// Clearing previous sessions
 	    	req.session.moviedata = null;
@@ -363,7 +237,8 @@ module.exports = function(app, passport) {
 			// Saving sessions
 			req.session.imdbid = imdbid;
 			req.session.moviedata = moviedata;
-
+			
+			console.log('poster path is '+poster);
 			// Gets the modus data for specific movie
 			ModusCollect(req.session.imdbid, function(data){
 				
@@ -376,7 +251,7 @@ module.exports = function(app, passport) {
 
 
 				// Renders the page
-				res.render('pages/movie.ejs', { moviedata: moviedata, modusdata : modusdata, counter: counter, user: req.user });
+				res.render('pages/movie.ejs', { moviedata: moviedata, poster : poster, modusdata : modusdata, counter: counter, user: req.user });
 			
 			});
 
@@ -549,6 +424,47 @@ module.exports = function(app, passport) {
 		});
 	});
 
+// Takes title as argument, only returns actual movies
+function getMovies(arg, callback){
+	console.log('Getting movie for searchterm '+arg);
+
+		omdb.search(arg, function(err, movies) {
+		    if(err) {
+		        return console.error(err);
+		    }
+		    if(movies.length < 1) {
+		        return console.log('No movies were found!');
+		    }	
+		   	
+		    var moviedata = [];
+		    //var poster;
+		    //console.log(movies);
+		   	movies.forEach(function(movie) {
+		    	
+				// Check to see if "movie" is an episode or game, ensures TMDb API works
+		        if(movie.type == "movie"){
+				
+					moviedata.push({
+			        	
+			        	"title" : movie.title,
+			     		"year" : movie.year,
+			     		"imdb_id" : movie.imdb,
+			     		
+			        });
+		     	}
+		     	
+		     	else{
+		     		console.log('Skipping '+movie.title+' reason type != movie');
+		     	}
+
+		    });
+
+		    // Done with the API request
+			callback(moviedata);
+			return;
+		});
+}
+
 function getUploadedMovies(user, callback){
 	
 	console.log('Getting Uploaded movies for user');
@@ -567,9 +483,9 @@ function getUploadedMovies(user, callback){
 
 }
 //getMovieInfo(imdb, object.imdb_id, function(data){
-function getMovieInfo(value, callback) {
-	
-	omdb.get( value, true, function(err, movie){
+function getMovieInfo(imdb_id, callback) {
+	console.log('Getting movieInfo for '+imdb_id);
+	omdb.get( imdb_id, true, function(err, movie){
 		
 		console.log('getting info for '+movie.title);
 
@@ -582,7 +498,7 @@ function getMovieInfo(value, callback) {
 		}
 
 		var moviedata = [];
-	    globalshit = movie.imdb.id;
+	    //globalshit = movie.imdb.id;
 	    moviedata.push({
 	        	"title" : movie.title,
 	     		"year" : movie.year,
@@ -593,11 +509,43 @@ function getMovieInfo(value, callback) {
 	     		"actors" : movie.actors,
 	     		"director" : movie.director,
 	     		"writers" : movie.writers,
-	     		"id" : movie.imdb.id
+	     		"imdb_id" : movie.imdb.id
 			     		
-	     });
-	  		
-		callback(moviedata);
+	    });
+	  	//console.log(moviedata);
+	  	getPoster(imdb_id, function(poster){
+	  		callback(moviedata, poster);
+			return;	
+	  	})	
+		
+	});
+}
+
+function getPoster(value, callback){
+
+		// FROM getMovieInfo
+		//imdb_id = value[0].imdb_id;
+		
+		mdb.movieInfo({id: value}, function(err, movie){
+  		
+		if(err) {
+			console.log('Found no poster for movie');
+			var poster = "img/missingposter.jpg"
+			callback(poster);
+			return;
+			
+		}
+
+		if(!movie) {
+			console.log('No movie found for POSTERS');
+			var poster = "img/missingposter.jpg"
+			callback(poster);
+			return;
+		}
+		//console.log(movie);
+  		//console.log('getting poster for '+movie.title);
+  		poster = "http://image.tmdb.org/t/p/w500"+movie.poster_path;
+		callback(poster);
 		return;
 	});
 }

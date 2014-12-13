@@ -17,22 +17,37 @@
         <% include ../partials/header %>
     </header>
     
-	
+	<script>
+            function send_data() {
+              document.forms[1].submit();
+           }
+
+            window.onload = function(){
+            var input = document.getElementById('upload');
+            input.onchange = send_data;
+        }
+    </script>
+      <script>
+              $(document).on('change', '.upload', function(){
+          $('.uploadform').submit();
+           });
+      </script>
+    
     <!-- uploads -->
     <div class="container">
         <div class="row" text-center>
             <div class="col-md-3 text-center">
+                
+                <% moviedata.forEach(function(msgObj){ %>
                 <a href="#" class="thumbnail" style="margin-top:12px">
-                    <img src="img/poster.jpg" alt="...">
+                    <img src="<%= poster %>" alt="...">
                 </a>
+                <% }); %>
+
     			<% if (user) { %>
                     
 
-                    <script>
-                        $(document).on('change', '.upload', function(){
-                            $('.uploadform').submit();
-                        });
-                    </script>
+                  
                     
                     <form action="/upload" id="uploadform" method="post" enctype="multipart/form-data">
                       
@@ -50,16 +65,7 @@
                     
                    
 
-                   <script>
-                        function send_data() {
-                            document.forms[1].submit();
-                        }
-
-                        window.onload = function(){
-                            var input = document.getElementById('upload');
-                            input.onchange = send_data;
-                        }
-                    </script>
+                   
 
                     <% } else { %>
                     Please login to upload data.
