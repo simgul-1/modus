@@ -18,8 +18,6 @@
 	
 	<!-- Script that sends user to search_specific for the movie clicked. -->
 	
-	
-	
 	<div class="container">
 		
 		<div class="row">
@@ -29,10 +27,10 @@
 				
 				<div class="col-xs-6 col-md-3 text-center">
 
-					<a class="thumbnail" href="/movie?imdb_id=<%= msgObj.imdb_id %>">
+					<a class="poster" href="/movie?imdb_id=<%= msgObj.imdb_id %>">
 				  		
 		   					<!--<%= msgObj.title %> (<%= msgObj.year %>) -->
-		  				<img src="<%= msgObj.poster_path %>" height="371">
+		  				<img src="<%= msgObj.poster_path %>" height="376" width="251">
 				  		<!-- <img src="img/poster.jpg" height="371" alt="..."> -->
 
 					</a>
@@ -45,8 +43,6 @@
 			</div>
 		<% } %>
 		</div> 
-		
-				
 		
 	</div> <!-- /container -->
 

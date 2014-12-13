@@ -46,9 +46,6 @@
 
     			<% if (user) { %>
                     
-
-                  
-                    
                     <form action="/upload" id="uploadform" method="post" enctype="multipart/form-data">
                       
                         <p class="file">
@@ -59,13 +56,7 @@
                         </p>
                         <input type="submit" value="submit"/>
 
-                      
-
                     </form>
-                    
-                   
-
-                   
 
                     <% } else { %>
                     Please login to upload data.
@@ -92,97 +83,10 @@
                     <p><b>Director:</b> <%= msgObj.director %></p>
                     <p><b>Writers:</b>  <%= msgObj.director %></p>
 
-                    
-                    
                 <% }); %>
 
             </div>
-        <!--
-            <div class="col-md-4">
-                <h6><span class="fa fa-bar-chart"></span> Your data:</h6> ~ <a class="pulse" href="#"><span class="fa fa-heart-o"></span> Pulse</a>: <b>70 bpm</b>
-                <br> ~ <a href="#"><span class="fa fa-paw"></span> Temperature</a>: <b>27&deg;C</b>
-                <br> ~ <a href="#"><span class="fa fa-tachometer"></span> Excitment</a>: <b>Very High</b>
-            </div>
-        -->
         </div>
-        <hr>
-        <h5 class="text-center">Modus data</h5>
-        <div class="row">
-            <div class="col-md-12">
-                <h6>Pulse:</h6>
-        <!-- MÅSTE FLYTTAS TILL SEPARAT FIL SEN, PROVAR BARA NU -->
-
-        <script src="/js/Chart.min.js"></script>
-        <div style="width:100%">
-            <div>
-                <canvas id="canvas" height="300" width="1200"></canvas>
-            </div>
-        </div>
-
-
-
-        <script>
-        var randomScalingFactor = function(){ return Math.round(Math.random()*100)};
-        
-        var data = [];
-        var time = []
-        for(var i =0; i<100;i++){
-            data.push(randomScalingFactor());
-            if(i%5 == 0){
-              time.push(i);  
-            }
-            
-        }
-            scaleShowGridLines: false;
-            var lineChartData = {
-            labels : time,
-            datasets : [ /*
-                {
-                    label: "My First dataset",
-                    fillColor : "rgba(220,220,220,0.2)",
-                    strokeColor : "rgba(220,220,220,1)",
-                    pointColor : "rgba(220,220,220,1)",
-                    pointStrokeColor : "#fff",
-                    pointHighlightFill : "#fff",
-                    pointHighlightStroke : "rgba(220,220,220,1)",
-                    data : [randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor(),randomScalingFactor()]
-                },*/
-                {
-                    label: "My Second dataset",
-                    fillColor : "rgba(151,187,205,0.2)",
-                    strokeColor : "rgba(151,187,205,1)",
-                    pointColor : "rgba(151,187,205,1)",
-                    pointStrokeColor : "#fff",
-                    pointHighlightFill : "#fff",
-                    pointHighlightStroke : "rgba(151,187,205,1)",
-                    data : data
-                }
-            ]
-        }
-    window.onload = function(){
-        var ctx = document.getElementById("canvas").getContext("2d");
-        window.myLine = new Chart(ctx).Line(lineChartData, {
-            responsive: true,
-            scaleShowGridLines: false,
-        });
-    }
-    </script>
-
-    <!-- END OF CHARTS -->
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h6>Temperature:</h6>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h6>Excitment:</h6>
-            </div>
-        </div>
-       
     </div><!-- /container -->
     <br>
     <!-- FOOTER -->

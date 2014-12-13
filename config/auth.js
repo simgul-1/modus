@@ -6,12 +6,12 @@
 // ---------- kommentera ut erat innan ni commitar och pushar!!! ---------------------
 
 //Live Mode
-
+/*
 module.exports = {
 
 	'facebookAuth' : {
-		'clientID' 		: '755027641218361', // your App ID
-		'clientSecret' 	: '1efc2e1c22ca3198be3d32b04db2aa00', // your App Secret
+		'clientID' 		: '1514454032174240',
+		'clientSecret' 	: '8bdd81b1950ac1f8b01771bc58070db7',
 		'callbackURL' 	: 'http://wayland.campus.ltu.se:3000/auth/facebook/callback'
 	},
 
@@ -23,15 +23,15 @@ module.exports = {
 
 };
 
+*/
 
-/*
 //Developer mode
 module.exports = {
 
 	'facebookAuth' : {
-	'clientID' 	: '1519354678350842', // your App ID
-	'clientSecret' 	: 'ac5c66ec2fdfb9fa5dd43ad40dd5668f', // your App Secret
-	'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
+		'clientID' 		: '1519354678350842',
+		'clientSecret' 	: 'ac5c66ec2fdfb9fa5dd43ad40dd5668f',
+		'callbackURL' 	: 'http://localhost:3000/auth/facebook/callback'
 	},
 
 	'googleAuth' : {
@@ -42,4 +42,3 @@ module.exports = {
 
 
 };
-*/

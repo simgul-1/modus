@@ -152,3 +152,14 @@ pkg {
     background: linear-gradient(to right, #C4E17F, #C4E17F 12.5%, #F7FDCA 12.5%, #F7FDCA 25%, #FECF71 25%, #FECF71 37.5%, #F0776C 37.5%, #F0776C 50%, #DB9DBE 50%, #DB9DBE 62.5%, #C49CDE 62.5%, #C49CDE 75%, #669AE1 75%, #669AE1 87.5%, rgb(98, 194, 228) 87.5%, rgb(98, 194, 228)) repeat scroll 0% 0% rgb(196, 225, 127);
     border-radius: 5px;
 }
+
+.poster {
+	display: block;
+	padding: 4px;
+	margin-bottom: 15px;
+	line-height: 1.72222;
+	background-color: #fff;
+	border: 2px solid #bdc3c7;
+	border-radius: 6px;
+	transition: border .25s ease-in-out;
+}
