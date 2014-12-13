@@ -99,9 +99,6 @@
 					zoomType: 'x',
 					alignTicks: false
 			    },
-				title: {
-					//text: 'ALL'
-				},
 				tooltip: {
 					valueDecimals: 2
 		            /*formatter: function() {
@@ -198,7 +195,7 @@
 			function plotHR(){
 				filesToLoad++;
 				totFiles++;
-				$.get('data/hr.csv', function(data) {
+				$.get('data/IBI.csv', function(data) {
 					var lines = data.split('\n');
 					var startingTimestamp=0;
 					$.each(lines, function(lineNo, line) {
@@ -226,7 +223,7 @@
 				filesToLoad--;
 				if (filesToLoad == 0) {
 					chart = new Highcharts.StockChart(optionsALL);
-					chart.xAxis[0].setExtremes(correctTimestamp, correctTimestamp+504000);
+					chart.xAxis[1].setExtremes(correctTimestamp, correctTimestamp+504000);
 				}
 			}
 		</script>
