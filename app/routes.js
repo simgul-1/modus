@@ -83,7 +83,7 @@ module.exports = function(app, passport) {
 						"poster_path" : object.poster_path,
 						"bpmdata" : modusdata[i].bpmdata
 					})
-					console.log(allinfo);
+					//console.log(allinfo);
 					i++;
 					
 				});
@@ -99,8 +99,8 @@ module.exports = function(app, passport) {
 					getMovieInfo(obj.imdb_id, function(omdb, poster){
 						
 						omdb = JSON.parse(JSON.stringify(omdb));
-						console.log('omdb.title');
-						console.log(omdb);
+						//console.log('omdb.title');
+						//console.log(omdb);
 						movieinfo.push({
 						    "title" : omdb[0]['title'],
 						    "year" : omdb[0]['year'],
