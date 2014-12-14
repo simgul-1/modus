@@ -76,7 +76,7 @@
 	<div class="text-center">
 
 	</div>
-<script type="text/javascript" param_a = "/uploads/0.22151942504569888.csv">
+<script type="text/javascript">
 				var timezoneOffset = -(new Date().getTimezoneOffset()) * 60000;
 				//console.log("OFFSET: " + timezoneOffset);
 				var correctTimestamp = 1418226794000 + timezoneOffset;
@@ -260,7 +260,7 @@
 					filesToLoad++;
 					totFiles++;
 
-					$.get("/uploads/0.22151942504569888.csv", function(data) {
+					$.get("/uploads/0.1573852568399161.csv", function(data) {
                         var lines = data.split('\n');
 						var startingTimestamp = 0;
 						$.each(lines, function(lineNo, line) {
@@ -296,7 +296,7 @@
     <!-- uploads -->
     <div class="container">
 		
-
+    	
         <!-- FOR EACH MOVIE FOUND RUN THIS -->
         <% data.forEach(function(msgObj){ %>
         <div class="row">
