@@ -40,7 +40,7 @@ module.exports = function(app, passport) {
 		res.render('pages/profile.ejs', {
 			user : req.user
 		});
-	});	
+	});
 	
 	
 	// // PROFILE SECTION =========================
@@ -75,14 +75,15 @@ module.exports = function(app, passport) {
 					//console.log(modusdata.id);
 					// Function to convert string value in "bpmvalue" to precision 3
 					bpmvalue = parseFloat(modusdata[i].bpmvalue).toPrecision(3);
-					console.log(object);
+					//console.log(object);
 					allinfo.push({
 						"upload_id" : modusdata[i]._id,
 						"title" : object.title,
 						"year" : object.year,
 						"bpmvalue" : bpmvalue,
+						"filepath" :modusdata[i].filepath,
 						"poster_path" : object.poster_path,
-						"bpmdata" : modusdata[i].bpmdata
+						//"bpmdata" : modusdata[i].bpmdata
 					})
 					//console.log(allinfo);
 
@@ -282,6 +283,15 @@ module.exports = function(app, passport) {
 	    var csv_file = req.files.modusdata.path;
 	    var csv_name = req.files.modusdata.name;
 	    console.log(csv_file);
+	    
+	    // fs.readFile(csv_file, function(err, data){
+	    	
+	    // 	var newPath = "/uploads/"+csv_name;
+	    // 	fs.writeFile(newPath, data, function(err){
+	    // 		console.log('Uploaded csv_file as '+newPath);
+	    // 	});
+	    // });
+
 	    console.log('CSV uploaded, moving on to parse...');
 
 	    //PARSAR IGENOM FILEN
@@ -291,7 +301,7 @@ module.exports = function(app, passport) {
 
 	    // HANDLE DATA WITH BPMParse
 	    var bpmvalue = BPMParse(bpmdata);
-	    console.log("BPMDATA LALLA: "+ bpmdata);
+	    //console.log("BPMDATA LALLA: "+ bpmdata);
 	    //get tot
 
 
@@ -309,14 +319,14 @@ module.exports = function(app, passport) {
 	    console.log('user_id = '+userid);
 	    console.log('imdb_id = '+imdbid);
 
-
 	    //STOPPA IN SKITEN I DATABASEN
 	    var upload = new Upload({
 	      	bpmdata : bpmdata,
 	      	bpmvalue : bpmvalue,
 	      	creation_time : Date.now(),
 	      	imdb_id : imdbid,		
-	      	user_id: userid
+	      	user_id: userid,
+	      	filepath : csv_file
 	      
 	    });
 	    upload.save(function(err){

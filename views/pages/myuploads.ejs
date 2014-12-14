@@ -209,7 +209,7 @@
 				function plotHR() {
 					filesToLoad++;
 					totFiles++;
-					$.get('data/IBI.csv', function(data) {
+					$.get("/tmp/48946-11reo9k.csv", function(data) {
 						var lines = data.split('\n');
 						var startingTimestamp = 0;
 						$.each(lines, function(lineNo, line) {
@@ -244,7 +244,7 @@
 	
     <!-- uploads -->
     <div class="container">
-	
+	   <%= data[0]['filepath'] %>
         <!-- FOR EACH MOVIE FOUND RUN THIS -->
         <% data.forEach(function(msgObj){ %>
         <div class="row">
@@ -256,6 +256,7 @@
 			<div class="col-md-6">
 				<h6><%= msgObj['title'] %> (<%= msgObj['year'] %>)</h6>
 				Average Rating: <%= msgObj[ 'bpmvalue'] %>
+                
 			</div>
             <div class="col-md-4">
 			

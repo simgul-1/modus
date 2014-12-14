@@ -6,7 +6,8 @@ var UploadSchema = new Schema({
 	bpmvalue		:String,
 	creation_time 	:Date,
 	imdb_id			:String,
-	user_id			:String
+	user_id			:String,
+	filepath		:String
 	
 })
 module.exports = mongoose.model('Upload',UploadSchema);
