@@ -76,6 +76,7 @@ module.exports = function(app, passport) {
 					// Function to convert string value in "bpmvalue" to precision 3
 					bpmvalue = parseFloat(modusdata[i].bpmvalue).toPrecision(3);
 					//console.log(object);
+					
 					allinfo.push({
 						"upload_id" : modusdata[i]._id,
 						"timestamp" : modusdata[i].creation_time,
@@ -84,6 +85,7 @@ module.exports = function(app, passport) {
 						"bpmvalue" : bpmvalue,
 						"filepath" :modusdata[i].filepath,
 						"poster_path" : object.poster_path,
+						//"average_modusrating" : object.average_modusrating
 						//"bpmdata" : modusdata[i].bpmdata
 					})
 					//console.log(allinfo);
@@ -92,6 +94,7 @@ module.exports = function(app, passport) {
 					
 				});
 				//res.send(allinfo);
+				
 				res.render('pages/myuploads.ejs', { data: allinfo, user: req.user });
 	    	}
 			
@@ -104,11 +107,14 @@ module.exports = function(app, passport) {
 						
 						omdb = JSON.parse(JSON.stringify(omdb));
 
+						//average = getAverageModusRating(obj.imdb_id);
+						
 						movieinfo.push({
 						    "title" : omdb[0]['title'],
 						    "year" : omdb[0]['year'],
 						    "rating" : omdb[0]['rating'],
-						    "poster_path" : poster
+						    "poster_path" : poster,
+						    //"average_modusrating" : average
 
 						});
 						
@@ -501,6 +507,27 @@ function getUploadedMovies(user, callback){
 	
 	callback(allmovies);
 	return;
+	
+	})
+
+}
+function getAverageModusRating(imdb_id, callback){
+	var totalrating = 0;
+	var count = 0;
+	console.log('Getting average rating for imdb_id '+imdb_id);
+	// "117455612749622948262"
+	Upload.find({imdb_id : imdb_id}, function(err, info){
+		var allmovies = [];
+		info.forEach(function(object) {
+			count++;
+			totalrating += object.bpmvalue;
+			
+		});
+		average = totalrating/count;
+		console.log('Average value = '+average);
+	
+		callback(average);
+		return;
 	
 	})
 
