@@ -64,7 +64,7 @@ module.exports = function(app, passport) {
 		modusdata = [];
 		i = 0;
 	    
-	    console.log(userid);
+	    //console.log(userid);
 	    getUploadedMovies(userid, function(modusinfo){
 			
 			console.log('Got uploaded movies for user '+userid);
@@ -72,18 +72,20 @@ module.exports = function(app, passport) {
 			function final(){
 	    		
 				movieinfo.forEach(function(object){
-					
+					//console.log(modusdata.id);
 					// Function to convert string value in "bpmvalue" to precision 3
 					bpmvalue = parseFloat(modusdata[i].bpmvalue).toPrecision(3);
-					
+					console.log(object);
 					allinfo.push({
+						"upload_id" : modusdata[i]._id,
 						"title" : object.title,
 						"year" : object.year,
 						"bpmvalue" : bpmvalue,
 						"poster_path" : object.poster_path,
 						"bpmdata" : modusdata[i].bpmdata
 					})
-					console.log(allinfo);
+					//console.log(allinfo);
+					
 					i++;
 					
 				});
@@ -99,8 +101,7 @@ module.exports = function(app, passport) {
 					getMovieInfo(obj.imdb_id, function(omdb, poster){
 						
 						omdb = JSON.parse(JSON.stringify(omdb));
-						console.log('omdb.title');
-						console.log(omdb);
+						
 						movieinfo.push({
 						    "title" : omdb[0]['title'],
 						    "year" : omdb[0]['year'],
@@ -108,7 +109,6 @@ module.exports = function(app, passport) {
 						    "poster_path" : poster
 
 						});
-						//console.log(movieinfo);
 						
 						return series(modusinfo.shift());
 					
