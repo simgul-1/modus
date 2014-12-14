@@ -34,7 +34,51 @@
 	<div class="text-center">
 
 	</div>
-	<script type="text/javascript">
+
+	<!-- uploads -->
+	<div class="container">
+		<!-- FOR EACH MOVIE FOUND RUN THIS -->
+		<% data.forEach(function(msgObj){ %>
+			<div class="row">
+				<div class="col-md-2">
+					<a href="/movie?title=<% msgObj['title'] %>" class="thumbnail">
+                    <img src="<%= msgObj.poster_path %>">
+                </a>
+				</div>
+				<div class="col-md-6">
+					<h6><%= msgObj['title'] %> (<%= msgObj['year'] %>)</h6> Average Modus Rating:
+					<%= msgObj['bpmvalue'] %>
+				</div>
+				<div class="col-md-4">
+
+					<!-- Large modal -->
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".<%= msgObj['upload_id'] %>" id="button">Show Heart Rate</button>
+					<div class="modal fade <%= msgObj['upload_id'] %>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+									<h4 class="text-center" id="myModalLabel">Heart Rate (BPM)</h4>
+								</div>
+								<div class="modal-body">
+									<div id="graph_container" style="height: 400px; width: 868px; margin: 0 auto"></div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr>
+		<% }); %>
+
+	</div>
+	<!-- /container -->
+	<br>
+	
+<script type="text/javascript">
 		var timezoneOffset = -(new Date().getTimezoneOffset()) * 60000;
 		//console.log("OFFSET: " + timezoneOffset);
 		var correctTimestamp = 1418226794000 + timezoneOffset;
@@ -112,7 +156,7 @@
 				minPointLength: 0,
 			},
 			chart: {
-				renderTo: 'ALL_container',
+				renderTo: "graph_container",
 				type: lType,
 				zoomType: 'x',
 				alignTicks: false
@@ -247,50 +291,7 @@
 			}
 		}
 	</script>
-
-	<!-- uploads -->
-	<div class="container">
-		<!-- FOR EACH MOVIE FOUND RUN THIS -->
-		<% data.forEach(function(msgObj){ %>
-			<div class="row">
-				<div class="col-md-2">
-					<a href="/movie?title=<% msgObj['title'] %>" class="thumbnail">
-                    <img src="<%= msgObj.poster_path %>" alt="...">
-                </a>
-				</div>
-				<div class="col-md-6">
-					<h6><%= msgObj['title'] %> (<%= msgObj['year'] %>)</h6> Average Modus Rating:
-					<%= msgObj['bpmvalue'] %>
-					<%= msgObj['upload_id'] %>
-				</div>
-				<div class="col-md-4">
-
-					<!-- Large modal -->
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".<%= msgObj['upload_id'] %>" id="button">Show Heart Rate</button>
-					<div class="modal fade <%= msgObj['upload_id'] %>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-						<div class="modal-dialog modal-lg">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-									<h4 class="text-center" id="myModalLabel">Heart Rate (BPM)</h4>
-								</div>
-								<div class="modal-body">
-									<div id="ALL_container" style="height: 400px; width: 868px; margin: 0 auto"></div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<hr>
-		<% }); %>
-
-	</div>
-	<!-- /container -->
-	<br>
+	
 	<!-- FOOTER -->
 	<footer>
 		<% include ../partials/footer %>
