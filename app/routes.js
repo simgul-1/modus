@@ -85,10 +85,7 @@ module.exports = function(app, passport) {
 						"bpmdata" : modusdata[i].bpmdata
 					})
 					//console.log(allinfo);
-<<<<<<< HEAD
-					
-=======
->>>>>>> 10e6fa37b1c69147846d65fdff27c6fc37e34b7f
+
 					i++;
 					
 				});
@@ -104,12 +101,7 @@ module.exports = function(app, passport) {
 					getMovieInfo(obj.imdb_id, function(omdb, poster){
 						
 						omdb = JSON.parse(JSON.stringify(omdb));
-<<<<<<< HEAD
-						
-=======
-						//console.log('omdb.title');
-						//console.log(omdb);
->>>>>>> 10e6fa37b1c69147846d65fdff27c6fc37e34b7f
+
 						movieinfo.push({
 						    "title" : omdb[0]['title'],
 						    "year" : omdb[0]['year'],
