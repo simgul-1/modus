@@ -282,23 +282,29 @@ module.exports = function(app, passport) {
 	    //Parsing function
 	    var parse = require('csv-parse');
 	    var tmp_path = req.files.modusdata.path;
-	    //var csv_name = req.files.modusdata.name;
-	    console.log('tmp_path: '+tmp_path);
-	    console.log('1');
 	    
-	    // fs.readFile(csv_file, function(err, data){
-	    	
-	    // 	var newPath = "/uploads/"+csv_name;
-	    // 	fs.writeFile(newPath, data, function(err){
-	    // 		console.log('Uploaded csv_file as '+newPath);
-	    // 	});
-	    // });
+	    var filename = Math.random()+'.csv';
+	    var path = 'public/uploads/'+filename;
+	   	var dbpath = '/uploads/'+filename;
+	   	
+	   	fs.readFile(tmp_path, function(err, data){
+	   		fs.writeFile(path, data, function(err){
+				if(err) throw err;
+				console.log('uploaded file as: '+path);
+				console.log('Should uploaded the file by now...');
+				
+				fs.unlink(tmp_path, function (err) {
+  					if (err) throw err;
+  				console.log('successfully deleted '+tmp_path);
+				});
+			});
+			
 
-		filename = Math.random()+'.csv';
-	    path = 'public/uploads/'+filename;
-	   
-		console.log('CSV uploaded, moving on to parse...');
-		console.log('3');
+		});
+		
+
+		
+	    
 	    //PARSAR IGENOM FILEN
 	    stream = fs.createReadStream(tmp_path);
 
@@ -309,9 +315,7 @@ module.exports = function(app, passport) {
 	    //console.log("BPMDATA LALLA: "+ bpmdata);
 	    //get tot
 
-	   
-
-	    console.log('Parse done, moving on to save..');
+	   	console.log('Parse done, moving on to save..');
 	    console.log()
 	    if(req.user.facebook.id) {
 	    	var userid = req.user.facebook.id;
@@ -332,7 +336,7 @@ module.exports = function(app, passport) {
 	      	creation_time : Date.now(),
 	      	imdb_id : imdbid,		
 	      	user_id: userid,
-	      	filepath : path
+	      	filepath : dbpath
 	      
 	    });
 	    upload.save(function(err){

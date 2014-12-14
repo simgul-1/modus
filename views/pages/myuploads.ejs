@@ -17,7 +17,7 @@
 	<div class="text-center">
 
 	</div>
-<script type="text/javascript">
+<script type="text/javascript" param_a = "/uploads/0.22151942504569888.csv">
 				var timezoneOffset = -(new Date().getTimezoneOffset()) * 60000;
 				//console.log("OFFSET: " + timezoneOffset);
 				var correctTimestamp = 1418226794000 + timezoneOffset;
@@ -192,13 +192,16 @@
 				}
 
 				$(document).ready(function() {
+					
 					plotHR();
 				});
+
 
 				function plotHR() {
 					filesToLoad++;
 					totFiles++;
-					$.get(data[0]['filepath'], function(data) {
+
+					$.get("/uploads/0.22151942504569888.csv", function(data) {
                         var lines = data.split('\n');
 						var startingTimestamp = 0;
 						$.each(lines, function(lineNo, line) {
@@ -233,12 +236,13 @@
 	
     <!-- uploads -->
     <div class="container">
-		
+		<%= data[0]['filepath'] %>
+
         <!-- FOR EACH MOVIE FOUND RUN THIS -->
         <% data.forEach(function(msgObj){ %>
         <div class="row">
             <div class="col-md-2">
-                <a href="/movie?title=<% msgObj['title'] %>" class="thumbnail">
+                <a href="/movie?imdb_id=<% msgObj['imdb_id'] %>" class="thumbnail">
                     <img src="<%= msgObj.poster_path %>" alt="...">
                 </a>
             </div>
