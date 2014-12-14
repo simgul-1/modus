@@ -2,52 +2,275 @@
 <html lang="en">
 
 <head>
-	<% include ../partials/head %>
+    <% include ../partials/head %>
 </head>
 
 <body>
 
-	<header>
-		<% include ../partials/header %>
-	</header>
+    <header>
+        <% include ../partials/header %>
+    <!-- GOOGLE ANALYTICS -->
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	<div class="page-header text-center">
-		<h1><span class="fa fa-upload"></span> My Uploads</h1>
-	</div>
+          ga('create', 'UA-57484255-1', 'auto');
+          ga('send', 'pageview');
+
+        </script>
+    </header>
+
+    <div class="page-header text-center">
+        <h1><span class="fa fa-upload"></span> My Uploads</h1>
+    </div>
 	<div class="text-center">
 
 	</div>
+<script type="text/javascript">
+				var timezoneOffset = -(new Date().getTimezoneOffset()) * 60000;
+				//console.log("OFFSET: " + timezoneOffset);
+				var correctTimestamp = 1418226794000 + timezoneOffset;
+
+				var HR = 1;
+				var DEFAULT = 7;
+
+				//----------------------------------------------
+				var lineColors = new Array(20);
+				lineColors[HR] = "#db843d";
+
+				var alternateColors = new Array(20);
+				alternateColors[HR] = "#fff0e5"
+
+				var dataGrouping = new Array(20);
+
+				var groupingUnits = [
+					['second', [5, 10, 15, 30]],
+					['minute', [1, 2, 5, 10, 15, 30]]
+				];
+
+				dataGrouping[DEFAULT] = {
+					enabled: true,
+					smoothed: false,
+					forced: false,
+					approximation: 'low',
+					units: groupingUnits,
+					groupPixelWidth: 1
+				};
+
+				dataGrouping[HR] = $.extend({}, dataGrouping[DEFAULT]);
+
+				dataGrouping[HR].forced = true;
+
+				//----------------------------------------------
+
+				var series = new Array(20);
+				var lWidth = 2;
+				var lType = 'line';
+
+				series[HR] = [];
+				series[HR].type = 'spline';
+				series[HR].pointStart = correctTimestamp;
+				series[HR].data = new Array();
+				series[HR].name = 'HR';
+				series[HR].id = 'HR';
+				series[HR].yAxis = 0;
+				series[HR].color = lineColors[HR];
+				series[HR].dataGrouping = dataGrouping[HR];
+				series[HR].lineWidth = lWidth;
+				series[HR].states = {
+					hover: {
+						enabled: false
+					}
+				};
+
+				var chart;
+				var totFiles = 0;
+				var filesToLoad = 0;
+				var s = new Array();
+				var optionsALL = {
+
+					plotOptions: {
+						spline: {
+							turboThreshold: 1000
+						},
+						areaspline: {
+							opacity: 0.2,
+							fillOpacity: 0.15,
+							threshold: -2
+						}
+
+					},
+					bar: {
+						minPointLength: 0,
+					},
+					chart: {
+						renderTo: 'ALL_container',
+						type: lType,
+						zoomType: 'x',
+						alignTicks: false
+					},
+					tooltip: {
+						valueDecimals: 2
+							/*formatter: function() {
+							    return Highcharts.numberFormat(this.y, 2);
+							}*/
+					},
+
+					rangeSelector: {
+						inputEnabled: false,
+						buttons: [{
+							type: 'second',
+							count: 10,
+							text: '10s'
+						}, {
+							type: 'second',
+							count: 30,
+							text: '30s'
+						}, {
+							type: 'minute',
+							count: 1,
+							text: '1m'
+						}, {
+							type: 'minute',
+							count: 5,
+							text: '5m'
+						}, {
+							type: 'minute',
+							count: 15,
+							text: '15m'
+						}, {
+							type: 'minute',
+							count: 30,
+							text: '30m'
+						}, {
+							type: 'hour',
+							count: 2,
+							text: '2h'
+						}, {
+							type: 'all',
+							text: 'All'
+						}],
+						selected: 7
+					},
+					scrollbar: {
+						enabled: false
+					},
+
+					yAxis: [{
+						alternateGridColor: alternateColors[HR],
+						top: 50,
+						height: 200,
+						offset: 0,
+						title: {
+							text: 'HR (BPM)'
+						},
+						allowDecimals: true,
+						tickPositioner: function() {
+							return positionTicks(this, HR)
+						}
+					}, ],
+					series: s
+				};
+
+				function positionTicks(t, source) {
+					var minY, maxY;
+
+					minY = t.dataMin;
+					maxY = t.dataMax;
+
+					var positions = [];
+					var numberOfTicks = 6.0;
+					var padding = (maxY - minY) * 0.05;
+					var increment = ((maxY - minY + padding * 2) / (numberOfTicks - 1));
+
+					var div = 1.0;
+					if (increment <= 10 && increment > 1) {
+						div = 10.0;
+					} else if (increment <= 1 && increment > 0.1) {
+						div = 100.0;
+					} else if (increment <= 0.1 && increment > 0.01) {
+						div = 1000.0;
+					} else if (increment <= 0.01) {
+						div = 10000.0;
+					}
+
+					for (i = 0; i < numberOfTicks; i++) {
+						positions.push(Math.round((minY - padding + i * increment) * div) / div);
+					}
+					return positions;
+				}
+
+				$(document).ready(function() {
+					plotHR();
+				});
+
+				function plotHR() {
+					filesToLoad++;
+					totFiles++;
+					$.get('data/IBI.csv', function(data) {
+                        var lines = data.split('\n');
+						var startingTimestamp = 0;
+						$.each(lines, function(lineNo, line) {
+							if (lineNo < lines.length - 3) {
+								var values = line.split(',');
+								if (lineNo == 0) {
+									if (parseFloat(values[0]) < 60 * 60 * 24 * 10) {
+										startingTimestamp = (parseFloat(values[0]) + correctTimestamp);
+										//console.log(startingTimestamp);
+									} else {
+										startingTimestamp = parseFloat(values[0]) * 1000 + timezoneOffset;
+									}
+								} else {
+									series[HR].data.push([startingTimestamp + parseFloat(values[0]) * 1000, 60 / parseFloat(values[1])]);
+								}
+							}
+						});
+						optionsALL.series.push(series[HR]);
+					}).always(function() {
+						displayChart();
+					});
+				}
+
+				function displayChart() {
+					filesToLoad--;
+					if (filesToLoad == 0) {
+						chart = new Highcharts.StockChart(optionsALL);
+						chart.xAxis[1].setExtremes(correctTimestamp, correctTimestamp + 504000);
+					}
+				}
+			</script>
 	
-    
-	<!-- uploads -->
-	<div class="container">
-        <%= data[0]['filepath'] %>
-		<!-- FOR EACH MOVIE FOUND RUN THIS -->
-		<% data.forEach(function(msgObj){ %>
-			<div class="row">
-				<div class="col-md-2">
-					<a href="/movie?title=<% msgObj['title'] %>" class="thumbnail">
-                    <img src="<%= msgObj.poster_path %>">
+    <!-- uploads -->
+    <div class="container">
+	
+        <!-- FOR EACH MOVIE FOUND RUN THIS -->
+        <% data.forEach(function(msgObj){ %>
+        <div class="row">
+            <div class="col-md-2">
+                <a href="/movie?title=<% msgObj['title'] %>" class="thumbnail">
+                    <img src="<%= msgObj.poster_path %>" alt="...">
                 </a>
-				</div>
-				<div class="col-md-6">
-					<h6><%= msgObj['title'] %> (<%= msgObj['year'] %>)</h6> Average Modus Rating:
-					<%= msgObj['bpmvalue'] %>
-				</div>
-				<div class="col-md-4">
-
-
+            </div>
+			<div class="col-md-6">
+				<h6><%= msgObj['title'] %> (<%= msgObj['year'] %>)</h6>
+				Average Rating: <%= msgObj[ 'bpmvalue'] %>
+			</div>
+            <div class="col-md-4">
+			
 					<!-- Large modal -->
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".<%= msgObj['upload_id'] %>" id="button">Show Heart Rate</button>
-					<div class="modal fade <%= msgObj['upload_id'] %>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Show Heart Rate</button>
+					<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
 								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+									<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+									</button>
 									<h4 class="text-center" id="myModalLabel">Heart Rate (BPM)</h4>
 								</div>
 								<div class="modal-body">
-									<div id="graph_container" style="height: 400px; width: 868px; margin: 0 auto"></div>
+									<div id="ALL_container" style="height: 400px; width: 868px; margin: 0 auto"></div>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -56,232 +279,21 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<hr>
-		<% }); %>
+        </div>
+		<hr>
+        <% }); %>
 
-	</div>
-	<!-- /container -->
-	<br>
-	
-<script type="text/javascript">
-		var timezoneOffset = -(new Date().getTimezoneOffset()) * 60000;
-		//console.log("OFFSET: " + timezoneOffset);
-		var correctTimestamp = 1418226794000 + timezoneOffset;
-
-		var HR = 1;
-		var DEFAULT = 7;
-
-		//----------------------------------------------
-		var lineColors = new Array(20);
-		lineColors[HR] = "#db843d";
-
-		var alternateColors = new Array(20);
-		alternateColors[HR] = "#fff0e5"
-
-		var dataGrouping = new Array(20);
-
-		var groupingUnits = [
-			['second', [5, 10, 15, 30]],
-			['minute', [1, 2, 5, 10, 15, 30]]
-		];
-
-		dataGrouping[DEFAULT] = {
-			enabled: true,
-			smoothed: false,
-			forced: false,
-			approximation: 'low',
-			units: groupingUnits,
-			groupPixelWidth: 1
-		};
-
-		dataGrouping[HR] = $.extend({}, dataGrouping[DEFAULT]);
-
-		dataGrouping[HR].forced = true;
-
-		//----------------------------------------------
-
-		var series = new Array(20);
-		var lWidth = 2;
-		var lType = 'line';
-
-		series[HR] = [];
-		series[HR].type = 'spline';
-		series[HR].pointStart = correctTimestamp;
-		series[HR].data = new Array();
-		series[HR].name = 'HR';
-		series[HR].id = 'HR';
-		series[HR].yAxis = 0;
-		series[HR].color = lineColors[HR];
-		series[HR].dataGrouping = dataGrouping[HR];
-		series[HR].lineWidth = lWidth;
-		series[HR].states = {
-			hover: {
-				enabled: false
-			}
-		};
-
-		var chart;
-		var totFiles = 0;
-		var filesToLoad = 0;
-		var s = new Array();
-		var optionsALL = {
-
-			plotOptions: {
-				spline: {
-					turboThreshold: 1000
-				},
-				areaspline: {
-					opacity: 0.2,
-					fillOpacity: 0.15,
-					threshold: -2
-				}
-
-			},
-			bar: {
-				minPointLength: 0,
-			},
-			chart: {
-				renderTo: "graph_container",
-				type: lType,
-				zoomType: 'x',
-				alignTicks: false
-			},
-			tooltip: {
-				valueDecimals: 2
-					/*formatter: function() {
-					    return Highcharts.numberFormat(this.y, 2);
-					}*/
-			},
-
-			rangeSelector: {
-				inputEnabled: false,
-				buttons: [{
-					type: 'second',
-					count: 10,
-					text: '10s'
-				}, {
-					type: 'second',
-					count: 30,
-					text: '30s'
-				}, {
-					type: 'minute',
-					count: 1,
-					text: '1m'
-				}, {
-					type: 'minute',
-					count: 5,
-					text: '5m'
-				}, {
-					type: 'minute',
-					count: 15,
-					text: '15m'
-				}, {
-					type: 'minute',
-					count: 30,
-					text: '30m'
-				}, {
-					type: 'hour',
-					count: 2,
-					text: '2h'
-				}, {
-					type: 'all',
-					text: 'All'
-				}],
-				selected: 7
-			},
-			scrollbar: {
-				enabled: false
-			},
-
-			yAxis: [{
-				alternateGridColor: alternateColors[HR],
-				top: 50,
-				height: 200,
-				offset: 0,
-				title: {
-					text: 'HR (BPM)'
-				},
-				allowDecimals: true,
-				tickPositioner: function() {
-					return positionTicks(this, HR)
-				}
-			}, ],
-			series: s
-		};
-
-		function positionTicks(t, source) {
-			var minY, maxY;
-
-			minY = t.dataMin;
-			maxY = t.dataMax;
-
-			var positions = [];
-			var numberOfTicks = 6.0;
-			var padding = (maxY - minY) * 0.05;
-			var increment = ((maxY - minY + padding * 2) / (numberOfTicks - 1));
-
-			var div = 1.0;
-			if (increment <= 10 && increment > 1) {
-				div = 10.0;
-			} else if (increment <= 1 && increment > 0.1) {
-				div = 100.0;
-			} else if (increment <= 0.1 && increment > 0.01) {
-				div = 1000.0;
-			} else if (increment <= 0.01) {
-				div = 10000.0;
-			}
-
-			for (i = 0; i < numberOfTicks; i++) {
-				positions.push(Math.round((minY - padding + i * increment) * div) / div);
-			}
-			return positions;
-		}
-
-		$(document).ready(function() {
-			plotHR();
-		});
-
-		function plotHR() {
-			filesToLoad++;
-			totFiles++;
-			$.get('data/IBI.csv', function(data) {
-				var lines = data.split('\n');
-				var startingTimestamp = 0;
-				$.each(lines, function(lineNo, line) {
-					if (lineNo < lines.length - 3) {
-						var values = line.split(',');
-						if (lineNo == 0) {
-							if (parseFloat(values[0]) < 60 * 60 * 24 * 10) {
-								startingTimestamp = (parseFloat(values[0]) + correctTimestamp);
-								//console.log(startingTimestamp);
-							} else {
-								startingTimestamp = parseFloat(values[0]) * 1000 + timezoneOffset;
-							}
-						} else {
-							series[HR].data.push([startingTimestamp + parseFloat(values[0]) * 1000, 60 / parseFloat(values[1])]);
-						}
-					}
-				});
-				optionsALL.series.push(series[HR]);
-			}).always(function() {
-				displayChart();
-			});
-		}
-
-		function displayChart() {
-			filesToLoad--;
-			if (filesToLoad == 0) {
-				chart = new Highcharts.StockChart(optionsALL);
-				chart.xAxis[1].setExtremes(correctTimestamp, correctTimestamp + 504000);
-			}
-		}
-	</script>
-	
-	<!-- FOOTER -->
-	<footer>
-		<% include ../partials/footer %>
-	</footer>
+    </div>
+    <hr>
+    <!-- /container -->
+    <br>
+    
+    <!-- /container -->
+    <br>
+    <!-- FOOTER -->
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
 </body>
 
 </html>
