@@ -78,6 +78,7 @@ module.exports = function(app, passport) {
 					//console.log(object);
 					allinfo.push({
 						"upload_id" : modusdata[i]._id,
+						"timestamp" : modusdata[i].creation_time,
 						"title" : object.title,
 						"year" : object.year,
 						"bpmvalue" : bpmvalue,
@@ -280,9 +281,10 @@ module.exports = function(app, passport) {
 
 	    //Parsing function
 	    var parse = require('csv-parse');
-	    var csv_file = req.files.modusdata.path;
-	    var csv_name = req.files.modusdata.name;
-	    console.log(csv_file);
+	    var tmp_path = req.files.modusdata.path;
+	    //var csv_name = req.files.modusdata.name;
+	    console.log('tmp_path: '+tmp_path);
+	    console.log('1');
 	    
 	    // fs.readFile(csv_file, function(err, data){
 	    	
@@ -292,10 +294,13 @@ module.exports = function(app, passport) {
 	    // 	});
 	    // });
 
-	    console.log('CSV uploaded, moving on to parse...');
-
+		filename = Math.random()+'.csv';
+	    path = 'public/uploads/'+filename;
+	   
+		console.log('CSV uploaded, moving on to parse...');
+		console.log('3');
 	    //PARSAR IGENOM FILEN
-	    stream = fs.createReadStream(csv_file);
+	    stream = fs.createReadStream(tmp_path);
 
 	    var parser = parse({delimiter: ','}, function(err, bpmdata){
 
@@ -304,6 +309,7 @@ module.exports = function(app, passport) {
 	    //console.log("BPMDATA LALLA: "+ bpmdata);
 	    //get tot
 
+	   
 
 	    console.log('Parse done, moving on to save..');
 	    console.log()
@@ -326,13 +332,13 @@ module.exports = function(app, passport) {
 	      	creation_time : Date.now(),
 	      	imdb_id : imdbid,		
 	      	user_id: userid,
-	      	filepath : csv_file
+	      	filepath : path
 	      
 	    });
 	    upload.save(function(err){
 	     if(err)
 	      res.send(err);
-	     console.log('Data saved from ' + csv_file);
+	    console.log('Data uploaded successfully to '+path);
 
 	    });
 	    

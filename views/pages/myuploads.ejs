@@ -9,17 +9,6 @@
 
     <header>
         <% include ../partials/header %>
-    <!-- GOOGLE ANALYTICS -->
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-          ga('create', 'UA-57484255-1', 'auto');
-          ga('send', 'pageview');
-
-        </script>
     </header>
 
     <div class="page-header text-center">
@@ -209,7 +198,7 @@
 				function plotHR() {
 					filesToLoad++;
 					totFiles++;
-					$.get('data/IBI.csv', function(data) {
+					$.get(data[0]['filepath'], function(data) {
                         var lines = data.split('\n');
 						var startingTimestamp = 0;
 						$.each(lines, function(lineNo, line) {
@@ -244,7 +233,7 @@
 	
     <!-- uploads -->
     <div class="container">
-	
+		
         <!-- FOR EACH MOVIE FOUND RUN THIS -->
         <% data.forEach(function(msgObj){ %>
         <div class="row">
@@ -256,6 +245,8 @@
 			<div class="col-md-6">
 				<h6><%= msgObj['title'] %> (<%= msgObj['year'] %>)</h6>
 				Average Rating: <%= msgObj[ 'bpmvalue'] %>
+				<br>Filepath: <%= msgObj['filepath'] %>
+				<br>Uploaded: <%= msgObj['timestamp'] %>
 			</div>
             <div class="col-md-4">
 			
