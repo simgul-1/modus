@@ -251,8 +251,8 @@
             <div class="col-md-4">
 			
 					<!-- Large modal -->
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Show Heart Rate</button>
-					<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".<%= msgObj['upload_id'] %>">Show Heart Rate</button>
+					<div class="modal fade <%= msgObj['upload_id'] %>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -275,12 +275,9 @@
         <% }); %>
 
     </div>
-    <hr>
     <!-- /container -->
     <br>
-    
-    <!-- /container -->
-    <br>
+ 
     <!-- FOOTER -->
     <footer>
         <% include ../partials/footer %>
