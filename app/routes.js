@@ -78,6 +78,7 @@ module.exports = function(app, passport) {
 					//console.log(object);
 					
 					allinfo.push({
+						"imdb_id" : object.imdb_id,
 						"upload_id" : modusdata[i]._id,
 						"timestamp" : modusdata[i].creation_time,
 						"title" : object.title,
@@ -113,6 +114,7 @@ module.exports = function(app, passport) {
 						    "title" : omdb[0]['title'],
 						    "year" : omdb[0]['year'],
 						    "rating" : omdb[0]['rating'],
+						    "imdb_id" : omdb[0]['imdb_id']
 						    // "poster_path" : poster,
 						    //"average_modusrating" : average
 
