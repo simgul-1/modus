@@ -6,15 +6,44 @@ The Modus project is a media rating search engine website combined with an E3 wr
 
 Think IMdb meets scientific data.
 
-## API:
-- Add your data to a movie (limited for the time being, security and tampering reasons)
-- POST request to http://wayland.campus.ltu.se/upload
-	title : "title"
+API PART ----------------------------------
+OPEN API
+GET /movie, requires imdb_id.
+returns JSON for the movie containing:
+-title
+-year
+-plot
+-imdb_rating
+-imdb_votes
+-runtime
+-actors
+-directors
+-writers
+-imdb_id
+-totalmodusvalue
+-number of modus ratings
 
-	ADD key values here
+CLOSED API
+GET /myuploads, requires userid.
+returns JSON for each movie user have uploaded containing:
+-upload_id
+-timestamp
+-title
+-year
+-bpmvalue
+-filepath
+-poster_path
 
-- Get Modus data for a movie
-GET request to http://wayland.campus.ltu.se/movie?title="title"
+POST /search, requires title
+returns JSON for each movie found containing:
+-title
+-year
+-imdb_id
+-poster_path
+
+POST /upload, requires userid (will be OPEN)
+takes the file named “modusdata” as option. Needs to be .csv file.
+parses the file and saves all data in the database. Also saved the file on disk and a record of it in the database for that upload. (For graph).
 
 
 
