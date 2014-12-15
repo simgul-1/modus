@@ -84,7 +84,7 @@ module.exports = function(app, passport) {
 						"year" : object.year,
 						"bpmvalue" : bpmvalue,
 						"filepath" :modusdata[i].filepath,
-						"poster_path" : object.poster_path,
+						//"poster_path" : object.poster_path,
 						//"average_modusrating" : object.average_modusrating
 						//"bpmdata" : modusdata[i].bpmdata
 					})
@@ -103,7 +103,7 @@ module.exports = function(app, passport) {
 				modusdata.push(obj);
 
 				if(obj){
-					getMovieInfo(obj.imdb_id, function(omdb, poster){
+					getMovieInfo(obj.imdb_id, function(omdb){
 						
 						omdb = JSON.parse(JSON.stringify(omdb));
 
@@ -113,7 +113,7 @@ module.exports = function(app, passport) {
 						    "title" : omdb[0]['title'],
 						    "year" : omdb[0]['year'],
 						    "rating" : omdb[0]['rating'],
-						    "poster_path" : poster,
+						    // "poster_path" : poster,
 						    //"average_modusrating" : average
 
 						});
@@ -164,20 +164,20 @@ module.exports = function(app, passport) {
 					//console.log('==========================');
 
 					
-					getPoster(arg.imdb_id, function(poster){
+					// getPoster(arg.imdb_id, function(poster){
 							
-						console.log('Posterpath for '+arg.title+' = '+poster);
+						//console.log('Posterpath for '+arg.title+' = '+poster);
 							
 						movieresult.push({
 							"title" : arg.title,
 							"year" : arg.year,
 							"imdb_id" : arg.imdb_id,
-							"poster_path" : poster
+							//"poster_path" : poster
 						});
 					
 					serien(movies.shift());
 					
-					});
+					// });
 				}
 				else{
 					finale(movieresult);
@@ -360,11 +360,11 @@ module.exports = function(app, passport) {
 	});
 	
 
-	app.get('/upload_form', isLoggedIn, function(req, res) {
+	// app.get('/upload_form', isLoggedIn, function(req, res) {
 
-		res.render('pages/upload_form.ejs');
+	// 	res.render('pages/upload_form.ejs');
 
-	});
+	// });
 
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================
@@ -511,27 +511,27 @@ function getUploadedMovies(user, callback){
 	})
 
 }
-function getAverageModusRating(imdb_id, callback){
-	var totalrating = 0;
-	var count = 0;
-	console.log('Getting average rating for imdb_id '+imdb_id);
-	// "117455612749622948262"
-	Upload.find({imdb_id : imdb_id}, function(err, info){
-		var allmovies = [];
-		info.forEach(function(object) {
-			count++;
-			totalrating += object.bpmvalue;
+// function getAverageModusRating(imdb_id, callback){
+// 	var totalrating = 0;
+// 	var count = 0;
+// 	console.log('Getting average rating for imdb_id '+imdb_id);
+// 	// "117455612749622948262"
+// 	Upload.find({imdb_id : imdb_id}, function(err, info){
+// 		var allmovies = [];
+// 		info.forEach(function(object) {
+// 			count++;
+// 			totalrating += object.bpmvalue;
 			
-		});
-		average = totalrating/count;
-		console.log('Average value = '+average);
+// 		});
+// 		average = totalrating/count;
+// 		console.log('Average value = '+average);
 	
-		callback(average);
-		return;
+// 		callback(average);
+// 		return;
 	
-	})
+// 	})
 
-}
+// }
 //getMovieInfo(imdb, object.imdb_id, function(data){
 function getMovieInfo(imdb_id, callback) {
 	console.log('Getting movieInfo for '+imdb_id);
@@ -553,8 +553,8 @@ function getMovieInfo(imdb_id, callback) {
 	        	"title" : movie.title,
 	     		"year" : movie.year,
 	     		"plot" : movie.plot,
-	     		"rating" : movie.imdb.rating,
-	     		"votes" : movie.imdb.votes,
+	     		"imdb_rating" : movie.imdb.rating,
+	     		"imdb_votes" : movie.imdb.votes,
 	     		"runtime" : movie.runtime,
 	     		"actors" : movie.actors,
 	     		"director" : movie.director,
@@ -562,43 +562,40 @@ function getMovieInfo(imdb_id, callback) {
 	     		"imdb_id" : movie.imdb.id
 			     		
 	    });
-	  	//console.log(moviedata);
-	  	getPoster(imdb_id, function(poster){
-	  		callback(moviedata, poster);
-			return;	
-	  	})	
+	  	callback(moviedata);
+		return;	
 		
 	});
 }
 
-function getPoster(value, callback){
+// function getPoster(value, callback){
 
-		// FROM getMovieInfo
-		//imdb_id = value[0].imdb_id;
+// 		// FROM getMovieInfo
+// 		//imdb_id = value[0].imdb_id;
 		
-		mdb.movieInfo({id: value}, function(err, movie){
+// 		mdb.movieInfo({id: value}, function(err, movie){
   		
-		if(err) {
-			console.log('Found no poster for movie');
-			var poster = "img/missingposter.jpg"
-			callback(poster);
-			return;
+// 		if(err) {
+// 			console.log('Found no poster for movie');
+// 			var poster = "img/missingposter.jpg"
+// 			callback(poster);
+// 			return;
 			
-		}
+// 		}
 
-		if(!movie) {
-			console.log('No movie found for POSTERS');
-			var poster = "img/missingposter.jpg"
-			callback(poster);
-			return;
-		}
-		//console.log(movie);
-  		//console.log('getting poster for '+movie.title);
-  		poster = "http://image.tmdb.org/t/p/w500"+movie.poster_path;
-		callback(poster);
-		return;
-	});
-}
+// 		if(!movie) {
+// 			console.log('No movie found for POSTERS');
+// 			var poster = "img/missingposter.jpg"
+// 			callback(poster);
+// 			return;
+// 		}
+// 		//console.log(movie);
+//   		//console.log('getting poster for '+movie.title);
+//   		poster = "http://image.tmdb.org/t/p/w500"+movie.poster_path;
+// 		callback(poster);
+// 		return;
+// 	});
+// }
 
 function ModusCollect(arg, callback){
 	console.log('in moduscollect');
@@ -619,9 +616,9 @@ function ModusCollect(arg, callback){
 			info.forEach(function(object){
 				bpmvalue = parseFloat(object.bpmvalue);
 				values.push(bpmvalue);
-				})
-				var count = values.length-1;
-				var result = findAverage(values);
+			})
+			var count = values.length-1;
+			var result = findAverage(values);
 
 			console.log(values);
 			totalmodusvalue = result;
