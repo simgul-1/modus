@@ -23,7 +23,7 @@ returns JSON for the movie containing:
 -totalmodusvalue
 -number of modus ratings
 
-GET /api/v1/modusrating?imdb_id=tt0903624
+GET /api/v1/modusrating?imdb_id=tt0903624 returns: 
 {
     imdb_id: "tt0903624",
     modusvalue: 11.884919024242425,
