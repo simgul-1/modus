@@ -7,7 +7,7 @@ The Modus project is a media rating search engine website combined with an E3 wr
 Think IMdb meets scientific data.
 
 API PART ----------------------------------
-OPEN API
+
 GET /api/v1/movie, requires imdb_id.
 returns JSON for the movie containing:
 -title
@@ -20,8 +20,8 @@ returns JSON for the movie containing:
 -directors
 -writers
 -imdb_id
--totalmodusvalue
--number of modus ratings
+-modusvalue
+-contributors
 
 GET /api/v1/modusrating?imdb_id=tt0903624 returns: 
 {
@@ -51,25 +51,7 @@ writers,
 imdb_id
 }
 
-CLOSED API
-GET /myuploads, requires userid.
-returns JSON for each movie user have uploaded containing:
--upload_id
--timestamp
--title
--year
--bpmvalue
--filepath
--poster_path
-
-POST /search, requires title
-returns JSON for each movie found containing:
--title
--year
--imdb_id
--poster_path
-
-POST /upload, requires userid (will be OPEN)
+POST /api/v1/upload, requires userid and IMDb_id
 takes the file named “modusdata” as option. Needs to be .csv file.
 parses the file and saves all data in the database. Also saved the file on disk and a record of it in the database for that upload. (For graph).
 
