@@ -30,6 +30,17 @@ GET /api/v1/modusrating?imdb_id=tt0903624 returns:
     contributors: 1
 }
 
+GET /api/v1/uploads?user_id=117455612749622948262 returns:
+forEachMovieFound
+{
+_id (unique upload id),
+bpmvalue,
+creation_time,
+imdb_id,
+user_id,
+filepath:,
+bpmdata: [ loads of shit ]    
+}
 
 CLOSED API
 GET /myuploads, requires userid.
