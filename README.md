@@ -8,7 +8,7 @@ Think IMdb meets scientific data.
 
 API PART ----------------------------------
 OPEN API
-GET /movie, requires imdb_id.
+GET /api/v1/movie, requires imdb_id.
 returns JSON for the movie containing:
 -title
 -year
@@ -22,6 +22,14 @@ returns JSON for the movie containing:
 -imdb_id
 -totalmodusvalue
 -number of modus ratings
+
+GET /api/v1/modusrating?imdb_id=tt0903624
+{
+    imdb_id: "tt0903624",
+    modusvalue: 11.884919024242425,
+    contributors: 1
+}
+
 
 CLOSED API
 GET /myuploads, requires userid.
