@@ -33,13 +33,22 @@ GET /api/v1/modusrating?imdb_id=tt0903624 returns:
 GET /api/v1/uploads?user_id=117455612749622948262 returns:
 forEachMovieFound
 {
-_id (unique upload id),
+upload_id,
 bpmvalue,
 creation_time,
-imdb_id,
-user_id,
-filepath:,
-bpmdata: [ loads of shit ]    
+modusvalue,
+contributors,
+filepath,
+title,
+year,
+plot,
+imdb_rating ,
+imdb_votes,
+runtime,
+actors,
+director,
+writers,
+imdb_id
 }
 
 CLOSED API
