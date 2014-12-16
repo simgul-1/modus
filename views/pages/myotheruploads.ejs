@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include ../partials/head %>
+</head>
+
+<body>
+
+    <header>
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+					</button>
+					<a class="navbar-brand" href="/">Modus</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="navbar-collapse-5">
+					<ul class="nav navbar-nav">
+						<li><a href="/"><span class="fui-home"></span> Home</a>
+						</li>
+						<li><a href="/about"><span class="fui-info-circle"></span> About</a>
+						</li>
+					</ul>
+					<form class="navbar-form navbar-left" action="/search" method="post" role="search">
+						<div class="form-group">
+							<div class="input-group">
+								<input class="form-control" id="navbarInput-01" name="title" type="search" placeholder="Search">
+								<span class="input-group-btn">
+
+								  <button type="submit" class="btn"><span class="fui-search"></span>
+								</button>
+								</span>
+							</div>
+						</div>
+					</form>
+					<!-- check if the user is logged in -->
+					<% if (user) { %>
+						<ul class="nav navbar-nav navbar-right">
+							<li class="dropdown active">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<%= user.google.name %> <b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="/myuploads">My Uploads</a>
+									</li>
+									<li class="divider"></li>
+									<li><a href="/logout">Logout</a>
+									</li>
+								</ul>
+							</li>
+							<li><a href="/profile"><span class="visible-sm visible-xs">Settings<span class="fui-gear"></span></span><span class="visible-md visible-lg"><span class="fui-gear"></span></span></a>
+							</li>
+						</ul>
+						<% } else { %>
+							<form class="navbar-right">
+								<ul class="nav navbar-nav">
+									<a class="btn btn-danger" href="/auth/google">Google</a>
+									<a class="btn btn-info" href="/auth/facebook">Facebook</a>
+								</ul>
+							</form>
+					<% } %>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+		</nav>
+    </header>
+
+    <div class="page-header text-center">
+        <h1><span class="fa fa-upload"></span> My Uploads</h1>
+    </div>
+	<div class="text-center">
+
+	</div>
+
+
+
+<script>
+var modusAPI = "http://localhost:3000/api/v1/uploads?user_id=117455612749622948262";
+	$.getJSON(modusAPI,
+   		function(data){
+	       	$.each(data, function(i,data){
+	       		content = '<div class="col-md-2">';
+	       		content += '<a href="/movie?imdb_id='+data.imdb_id+'" class="thumbnail">';
+	       		content += '<img src="http://img.omdbapi.com/?apikey=a69bf97e&i='+data.imdb_id+'" alt="...">';
+	       		content += '</a>';
+	       		content += '</div>';
+
+	       		content += '<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".'+data.upload_id+'">Show Heart Rate</button>';
+	       		content += '<div class="modal fade '+data.upload_id+'" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">';
+	       		content += '<div class="modal-dialog modal-lg">';
+	       		content += '<div class="modal-content">';
+	       		content += '<div class="modal-header">';
+	       		content += '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>';
+	       		content += '</button>';
+	       		content += '<h4 class="text-center" id="myModalLabel">Heart Rate (BPM)</h4>
+								</div>';
+	       		content += '<div class="modal-body">';
+	       		content += '<div id="ALL_container" style="height: 400px; width: 868px; margin: 0 auto"></div>';
+	       		content += '</div>';
+	       		content += '<div class="modal-footer">';
+	       		content += '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
+	       		content += '</div>';
+	       		content += '</div>';
+	       		content += '</div>';
+	       		content += '</div>';
+	       		//content += '';
+
+
+	       		
+	       		
+       			
+
+       		$(content).appendTo("#movies");
+   		});
+   	});
+</script>
+
+
+<!-- uploads -->
+    <div class="container">
+		<div class="row">
+            
+            
+			<div class="col-md-6" id="movies">
+				
+			</div>
+    	<!-- Large modal -->
+					
+
+  
+       
+
+    </div>
+    <!-- /container -->
+    <br>
+ 
+    <!-- FOOTER -->
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+</body>
+
+</html>

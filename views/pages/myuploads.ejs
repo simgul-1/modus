@@ -297,8 +297,11 @@
     <div class="container">
 		
     	
+
+
         <!-- FOR EACH MOVIE FOUND RUN THIS -->
         <% data.forEach(function(msgObj){ %>
+       
         <div class="row">
             <div class="col-md-2">
                 <a href="/movie?imdb_id=<% msgObj['imdb_id'] %>" class="thumbnail">
@@ -307,11 +310,12 @@
                 </a>
             </div>
 			<div class="col-md-6">
+
 				<h6><%= msgObj['title'] %> (<%= msgObj['year'] %>)</h6>
-				Your modusrating: <%= msgObj[ 'bpmvalue'] %> / Average modusrating: <%= msgObj['average_modusrating'] %> 
+				Your modusrating: <%= msgObj[ 'bpmvalue'] %> / Average modusrating: <%= msgObj['modusvalue'] %> 
 				<br>
 				<br>
-				Uploaded: <%= msgObj['timestamp'] %>
+				Uploaded: <%= msgObj['creation_time'] %>
 			</div>
             <div class="col-md-4">
 			

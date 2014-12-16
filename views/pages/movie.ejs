@@ -38,11 +38,10 @@
         <div class="row" text-center>
             <div class="col-md-3 text-center">
                 
-                <% moviedata.forEach(function(msgObj){ %>
                 <a href="#" class="thumbnail" style="margin-top:12px">
-                    <img src="http://img.omdbapi.com/?apikey=a69bf97e&h=376&i=<%= msgObj.imdb_id %>" alt="...">
+                    <img src="http://img.omdbapi.com/?apikey=a69bf97e&h=376&i=<%= moviedata.imdb_id %>" alt="...">
                 </a>
-                <% }); %>
+                
 
     			<% if (user) { %>
                     
@@ -64,26 +63,26 @@
             </div>
             <div class="col-md-9">
                
-                <% moviedata.forEach(function(msgObj){ %>
+                
             
-                    <h5><%= msgObj.title %><span class="text-muted"> (<%= msgObj.year %>)</span></h5>
+                    <h5><%= moviedata.title %><span class="text-muted"> (<%= moviedata.year %>)</span></h5>
 
 					<div class="row">   
 						<div class="col-md-6">
-							<p><b>IMDb rating:</b> <b><%= msgObj.imdb_rating %></b>/10 from <%= msgObj.imdb_votes %> users</p>
+							<p><b>IMDb rating:</b> <b><%= moviedata.imdb_rating %></b>/10 from <%= moviedata.imdb_votes %> users</p>
 						</div>
 						<div class="col-md-6">
-							<p><b>Modus rating:</b> <b><%= modusdata %></b> from <%= counter %> users</p> 
+							<p><b>Modus rating:</b> <b><%= moviedata.modusvalue %></b> from <%= moviedata.contributors %> users</p> 
                             						</div>
 					</div>
-                    <p><b>Runtime:</b> <%= msgObj.runtime %> minutes</p>
-                    <p><%= msgObj.plot %></p>
+                    <p><b>Runtime:</b> <%= moviedata.runtime %> minutes</p>
+                    <p><%= moviedata.plot %></p>
 
                     <!-- Fix parser to add a whitespace between directors and writers and all the like -->
-                    <p><b>Director:</b> <%= msgObj.director %></p>
-                    <p><b>Writers:</b>  <%= msgObj.director %></p>
+                    <p><b>Director:</b> <%= moviedata.director %></p>
+                    <p><b>Writers:</b>  <%= moviedata.director %></p>
 
-                <% }); %>
+               
 
             </div>
         </div>

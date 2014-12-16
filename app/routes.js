@@ -58,82 +58,19 @@ module.exports = function(app, passport) {
 	    	var userid = req.user.google.id;
 	    }
 
-	   
-	    allinfo = [];
-		movieinfo = [];
-		modusdata = [];
-		i = 0;
-	    
-	    //console.log(userid);
-	    getUploadedMovies(userid, function(modusinfo){
+	   	getUploadedMovies(userid, function(info){
 			
 			console.log('Got uploaded movies for user '+userid);
-
-			function final(){
-	    		
-				movieinfo.forEach(function(object){
-					//console.log(modusdata.id);
-					// Function to convert string value in "bpmvalue" to precision 3
-					bpmvalue = parseFloat(modusdata[i].bpmvalue).toPrecision(3);
-					//console.log(object);
-					
-					allinfo.push({
-						"imdb_id" : object.imdb_id,
-						"upload_id" : modusdata[i]._id,
-						"timestamp" : modusdata[i].creation_time,
-						"title" : object.title,
-						"year" : object.year,
-						"bpmvalue" : bpmvalue,
-						"filepath" :modusdata[i].filepath,
-						//"poster_path" : object.poster_path,
-						//"average_modusrating" : object.average_modusrating
-						//"bpmdata" : modusdata[i].bpmdata
-					})
-					//console.log(allinfo);
-
-					i++;
-					
-				});
-				//res.send(allinfo);
-				
-				res.render('pages/myuploads.ejs', { data: allinfo, user: req.user });
-	    	}
+			res.render('pages/myuploads.ejs', { data: info, user: req.user });
 			
-			function series(obj){
-				//console.log(modusinfo);
-				modusdata.push(obj);
-
-				if(obj){
-					getMovieInfo(obj.imdb_id, function(omdb){
-						
-						omdb = JSON.parse(JSON.stringify(omdb));
-
-						//average = getAverageModusRating(obj.imdb_id);
-						
-						movieinfo.push({
-						    "title" : omdb[0]['title'],
-						    "year" : omdb[0]['year'],
-						    "rating" : omdb[0]['rating'],
-						    "imdb_id" : omdb[0]['imdb_id']
-						    // "poster_path" : poster,
-						    //"average_modusrating" : average
-
-						});
-						
-						return series(modusinfo.shift());
-					
-					});
-				}
-				else{
-					return final();
-				}
-			}
-
-			series(modusinfo.shift());
-
 		});
 	 
 		
+	});
+
+	app.get('/myotheruploads', function(req, res){
+
+		res.render('pages/myotheruploads.ejs', { user : req.user });
 	});
 
 	// LOGOUT ==============================
@@ -156,7 +93,7 @@ module.exports = function(app, passport) {
 		movieposter = [];
 		movieresult = [];
 		
-		getMovies(title, function(movies) {
+		searchForMovies(title, function(movies) {
 			
 			function serien(arg){
 
@@ -234,46 +171,74 @@ module.exports = function(app, passport) {
 		//req.session.movie = title;
 
 		// Gets the movie info for specific movie
-		getMovieInfo(imdb_id, function(moviedata, poster) {
+		getMovieInfo(imdb_id, function(moviedata) {
 			
 			console.log('Done getting movie info, rendering page');
-			moviedata = JSON.parse(JSON.stringify(moviedata));
 			
-			moviedata.forEach(function(object){
-				imdbid = object.imdb_id;
-				//console.log(imdbid);
-			})
-			// Clearing previous sessions
-	    	req.session.moviedata = null;
-	    	req.session.imdbid = null;
-
-			// Saving sessions
-			req.session.imdbid = imdbid;
-			req.session.moviedata = moviedata;
+			res.render('pages/movie.ejs', { moviedata: moviedata, user: req.user });
 			
-			console.log('poster path is '+poster);
-			// Gets the modus data for specific movie
-			ModusCollect(req.session.imdbid, function(data){
-				
-				var modusdata = data.modusdata.toPrecision(3);
-				var counter = data.counter;
+		});
+	});
 
-				console.log('Modusdata from BPMParse = '+modusdata+' by '+counter+' persons');
-				
-				// FUNCTION TO GET MEDIUM VALUE FROM ALL MODUS RESULTS FOR SPECIFIC MOVIE
+	// ========================================================================
+	// ==================================== API PART ==========================
+	// ========================================================================
+	app.get('/api/v1/movie', function(req, res) {
 
+		var imdb_id = req.query['imdb_id'];
 
-				// Renders the page
-				res.render('pages/movie.ejs', { moviedata: moviedata, poster : poster, modusdata : modusdata, counter: counter, user: req.user });
+		// Gets the movie info for specific movie
+		getMovieInfo(imdb_id, function(moviedata) {
 			
-			});
-
-
-			
-			
+			res.json(moviedata);
+		
 		});
 		
 	});
+
+	app.get('/api/v1/uploads', function(req, res){
+
+		getUploadedMovies(req.query.user_id, function(movies){
+			res.json(movies);
+		});
+
+		
+	});
+
+
+	app.get('/api/v1/modusrating', function(req, res){
+
+		imdb_id = req.query['imdb_id'];
+
+		var result = [];
+		
+		getModusRating(imdb_id, function(data){
+			
+			console.log(data);
+			//json = JSON.stringify(data);
+			
+			
+			result.push({
+				"imdb_id" 		: imdb_id,
+				"modusvalue" 	: data.modusvalue,
+				"contributors" 	: data.contributors
+			});
+			res.json(result);
+		});
+
+	});
+
+	app.post('/api/v1/upload', function(req, res){
+		
+		console.log('Uploading from API');
+		
+		upload_bpmvalue(arg, function(result){
+			console.log('Successfully uploaded BPM value from API');
+		});
+
+
+	});
+	//=======================================================================================
 
 	app.get('/audio', function(req, res) {
 		// search specific song or audio
@@ -295,6 +260,9 @@ module.exports = function(app, passport) {
 	    var path = 'public/uploads/'+filename;
 	   	var dbpath = '/uploads/'+filename;
 	   	
+	   	// DONT ACCEPT UPLOAD IF NOT .CSV.
+	   	// FIX FUNCTION TO UNZIP AND USE THE FILE NAMED IBI.CSV
+
 	   	fs.readFile(tmp_path, function(err, data){
 	   		fs.writeFile(path, data, function(err){
 				if(err) throw err;
@@ -456,7 +424,7 @@ module.exports = function(app, passport) {
 	});
 
 // Takes title as argument, only returns actual movies
-function getMovies(arg, callback){
+function searchForMovies(arg, callback){
 	console.log('Getting movie for searchterm '+arg);
 
 		omdb.search(arg, function(err, movies) {
@@ -498,46 +466,70 @@ function getMovies(arg, callback){
 
 function getUploadedMovies(user, callback){
 	
-	console.log('Getting Uploaded movies for user');
+	console.log('Getting Uploaded movies for user '+user);
 	// "117455612749622948262"
-	Upload.find({user_id : user}, function(err, info){
-		var allmovies = [];
-		info.forEach(function(object) {
-			allmovies.push(object);
-			
-		})
-	
-	callback(allmovies);
-	return;
-	
-	})
+	var allmovies = [];
 
+	Upload.find({user_id : user}, function(err, uploaded_movies){
+		
+		function finale(){
+
+			console.log('Done getting uploaded movies');
+			callback(allmovies);
+			return;
+		}
+
+		function serien(obj){
+			
+			if(obj){
+				getMovieInfo(obj.imdb_id,function(movie){
+			
+					allmovies.push({
+						
+						"upload_id" 	: obj._id,
+						"bpmvalue"  	: obj.bpmvalue,
+						"creation_time" : obj.creation_time,
+						"modusvalue" 	: modusvalue,
+			     		"contributors"	: contributors,
+						"filepath" 		: obj.filepath,
+						"title" 		: movie.title,
+			     		"year" 			: movie.year,
+			     		"plot" 			: movie.plot,
+			     		"imdb_rating" 	: movie.imdb_rating,
+			     		"imdb_votes" 	: movie.imdb_votes,
+			     		"runtime" 		: movie.runtime,
+			     		"actors" 		: movie.actors,
+			     		"director" 		: movie.director,
+			     		"writers" 		: movie.writers,
+			     		"imdb_id" 		: movie.imdb_id,
+			     		
+					});
+					//console.log(allmovies);
+					serien(uploaded_movies.shift());
+				});
+				
+			}
+			else{
+				return finale();
+			}
+		}
+
+		serien(uploaded_movies.shift());
+
+	});
 }
-// function getAverageModusRating(imdb_id, callback){
-// 	var totalrating = 0;
-// 	var count = 0;
-// 	console.log('Getting average rating for imdb_id '+imdb_id);
-// 	// "117455612749622948262"
-// 	Upload.find({imdb_id : imdb_id}, function(err, info){
-// 		var allmovies = [];
-// 		info.forEach(function(object) {
-// 			count++;
-// 			totalrating += object.bpmvalue;
-			
-// 		});
-// 		average = totalrating/count;
-// 		console.log('Average value = '+average);
-	
-// 		callback(average);
-// 		return;
-	
-// 	})
 
-// }
-//getMovieInfo(imdb, object.imdb_id, function(data){
+// app.get('/lol', function(req, res){
+// 	getUploadedMovies("117455612749622948262", function(hej){
+// 		res.json(hej);
+// 	});
+// });
+
 function getMovieInfo(imdb_id, callback) {
+	
 	console.log('Getting movieInfo for '+imdb_id);
-	omdb.get( imdb_id, true, function(err, movie){
+	
+	omdb.get(imdb_id, true, function(err, movie){
 		
 		console.log('getting info for '+movie.title);
 
@@ -549,58 +541,46 @@ function getMovieInfo(imdb_id, callback) {
 			return console.log('No movie found');
 		}
 
-		var moviedata = [];
-	    //globalshit = movie.imdb.id;
-	    moviedata.push({
-	        	"title" : movie.title,
-	     		"year" : movie.year,
-	     		"plot" : movie.plot,
-	     		"imdb_rating" : movie.imdb.rating,
-	     		"imdb_votes" : movie.imdb.votes,
-	     		"runtime" : movie.runtime,
-	     		"actors" : movie.actors,
-	     		"director" : movie.director,
-	     		"writers" : movie.writers,
-	     		"imdb_id" : movie.imdb.id
-			     		
-	    });
-	  	callback(moviedata);
-		return;	
 		
+		getModusRating(imdb_id, function(modusdata){
+			if(modusdata){
+				modusvalue = modusdata.modusvalue.toPrecision(3);
+				contributors = modusdata.contributors;
+			}
+			else{
+				bpmvalue = 0;
+				contributors = 0;
+			}
+			var moviedata = {
+	        	"title" 		: movie.title,
+	     		"year" 			: movie.year,
+	     		"plot" 			: movie.plot,
+	     		"imdb_rating" 	: movie.imdb.rating,
+	     		"imdb_votes" 	: movie.imdb.votes,
+	     		"runtime" 		: movie.runtime,
+	     		"actors" 		: movie.actors,
+	     		"director" 		: movie.director,
+	     		"writers" 		: movie.writers,
+	     		"imdb_id" 		: movie.imdb.id,
+	     		"modusvalue" 	: modusvalue,
+	     		"contributors"	: contributors
+
+			};
+		  	//console.log(moviedata);
+		  	callback(moviedata);
+			return;	
+		});
+
+			
+			
+
+		
+	    
 	});
 }
 
-// function getPoster(value, callback){
-
-// 		// FROM getMovieInfo
-// 		//imdb_id = value[0].imdb_id;
-		
-// 		mdb.movieInfo({id: value}, function(err, movie){
-  		
-// 		if(err) {
-// 			console.log('Found no poster for movie');
-// 			var poster = "img/missingposter.jpg"
-// 			callback(poster);
-// 			return;
-			
-// 		}
-
-// 		if(!movie) {
-// 			console.log('No movie found for POSTERS');
-// 			var poster = "img/missingposter.jpg"
-// 			callback(poster);
-// 			return;
-// 		}
-// 		//console.log(movie);
-//   		//console.log('getting poster for '+movie.title);
-//   		poster = "http://image.tmdb.org/t/p/w500"+movie.poster_path;
-// 		callback(poster);
-// 		return;
-// 	});
-// }
-
-function ModusCollect(arg, callback){
-	console.log('in moduscollect');
+function getModusRating(arg, callback){
+	console.log('in getModusRating');
 
 	Upload.find({imdb_id : arg}, function(err, info){
 		
@@ -613,29 +593,124 @@ function ModusCollect(arg, callback){
 		
 		else{
 			
-			var values = ['Results']
+			var values = [];
 			
 			info.forEach(function(object){
+				
 				bpmvalue = parseFloat(object.bpmvalue);
+				//console.log('BPM value = '+bpmvalue);
 				values.push(bpmvalue);
-			})
-			var count = values.length-1;
-			var result = findAverage(values);
 
-			console.log(values);
-			totalmodusvalue = result;
+			});
+			
+			var count = values.length;
+			console.log('count = '+count);
+			
+			var averageModusValue = values/count;
+			console.log('average modusvalue = '+averageModusValue);
+			
+			var jsonstring = {
+				"modusvalue" 	: averageModusValue,
+				"contributors"	: count
+			};
+			
+			// json = JSON.parse(jsonstring);
+			
+			//json = JSON.stringify(JSON.parse(jsonarray));
 
-
-			var callbackString = {};
-			callbackString.modusdata = totalmodusvalue;
-			callbackString.counter = count;
-			//console.log(modusdata.length);
-			callback(callbackString);
+			//console.log(json);
+			
+			callback(jsonstring);
 			return;
 		}
 
 		
 	})
+}
+
+
+// NOT WORKING YET! NEEDS IMDB_ID AND USER AND PROBABLY MORE STUFF.
+// CHECK FOR ERRORS AND GIVE CORRECT RESPONSES
+
+function upload_bpmvalue(modusdata, callback){
+	require('should');
+
+		//Parsing function
+	    var parse = require('csv-parse');
+	    var tmp_path = req.files.modusdata.path;
+	    
+	    var filename = Math.random()+'.csv';
+	    var path = 'public/uploads/'+filename;
+	   	var dbpath = '/uploads/'+filename;
+	   	
+	   	// DONT ACCEPT UPLOAD IF NOT .CSV.
+	   	// FIX FUNCTION TO UNZIP AND USE THE FILE NAMED IBI.CSV
+
+	   	fs.readFile(tmp_path, function(err, data){
+	   		fs.writeFile(path, data, function(err){
+				
+				if(err) throw err;
+				console.log('uploaded file as: '+path);
+				console.log('Should uploaded the file by now...');
+				
+				// Unlinks the file in /tmp
+				fs.unlink(tmp_path, function (err) {
+  					if (err) throw err;
+  				console.log('successfully deleted '+tmp_path);
+				});
+
+				//PARSAR IGENOM FILEN
+			    stream = fs.createReadStream(tmp_path);
+
+			    var parser = parse({delimiter: ','}, function(err, bpmdata){
+
+			    // HANDLE DATA WITH BPMParse
+			    var bpmvalue = BPMParse(bpmdata);
+			    //console.log("BPMDATA LALLA: "+ bpmdata);
+			    //get tot
+
+			   	console.log('Parse done, moving on to save..');
+			    console.log()
+			    
+			    if(req.user.facebook.id) {
+			    	var userid = req.user.facebook.id;
+			    }
+			    else if(req.user.google.id) {
+			    	var userid = req.user.google.id;
+			    }
+			    
+			    // Getting IMDb_id from sessions
+			    imdbid = req.session.imdbid;
+
+			    console.log('user_id = '+userid);
+			    console.log('imdb_id = '+imdbid);
+
+			    //STOPPA IN SKITEN I DATABASEN
+			    var upload = new Upload({
+			      	bpmdata : bpmdata,
+			      	bpmvalue : bpmvalue,
+			      	creation_time : Date.now(),
+			      	imdb_id : imdbid,		
+			      	user_id: userid,
+			      	filepath : dbpath
+			      
+			    });
+			    upload.save(function(err){
+			     if(err)
+			      res.send(err);
+			    console.log('Data uploaded successfully to '+path);
+
+			    });
+			    
+			    });
+			    stream.pipe(parser);
+			    
+			    callback();
+			});
+			
+
+		});
+		
 }
 
 
@@ -708,7 +783,7 @@ function ModusCollect(arg, callback){
 	function findAverage(array){
 		var Average = 0;
 		for(i=0; i < array.length;i++){
-				//skipping first line. 
+			//skipping first line. 
 			if(i != 0){
 				Average = Average + parseFloat(array[i]);
 			}
