@@ -5,7 +5,7 @@
 // ---------------------- THE REAL DEAL ---------------------------
 // ---------- kommentera ut erat innan ni commitar och pushar!!! ---------------------
 
-/*
+
 //Live Mode
 module.exports = {
 
@@ -22,8 +22,8 @@ module.exports = {
     }
 
 };
-*/
 
+/*
 //Developer mode
 module.exports = {
 
@@ -41,4 +41,4 @@ module.exports = {
 
 
 };
-
+*/
