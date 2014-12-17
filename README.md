@@ -9,7 +9,6 @@ Think IMdb meets scientific data.
 -------------API--------------------- 
 
 GET http://wayland.campus.ltu.se:3000/api/v1/movie?imdb_id=tt0903624
-
 returns JSON for the movie containing:
 -title
 -year
