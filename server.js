@@ -21,13 +21,21 @@ require('./config/passport')(passport); // pass passport for configuration
 
 var app = express();
 
+// Needed to access our API from another webpage "Cross Site Requests" (and hopefully mobile apps)
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+    next();
+}
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
-
+app.use(allowCrossDomain);
 app.set('view engine', 'ejs'); // set up ejs for templating
 
 // required for passport

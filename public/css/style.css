@@ -60,6 +60,11 @@ pkg {
   color: #1abc9c;
 }
 
+.poster-container{
+	padding: 10px;
+
+}
+
 /*Change icons size here*/
 .social-icons .fa {
 	font-size: 1.8em;

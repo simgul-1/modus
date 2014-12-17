@@ -256,11 +256,11 @@
 				});
 
 
-				function plotHR() {
+				function plotHR(arg) {
 					filesToLoad++;
 					totFiles++;
 
-					$.get("/uploads/0.1573852568399161.csv", function(data) {
+					$.get(arg, function(data) {
                         var lines = data.split('\n');
 						var startingTimestamp = 0;
 						$.each(lines, function(lineNo, line) {
