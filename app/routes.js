@@ -255,6 +255,7 @@ module.exports = function(app, passport) {
 	    //Parsing function
 	    var parse = require('csv-parse');
 	    var tmp_path = req.files.modusdata.path;
+	    var imdb_id = req.body.imdb_id;
 	    
 	    var filename = Math.random()+'.csv';
 	    var path = 'public/uploads/'+filename;
@@ -300,17 +301,17 @@ module.exports = function(app, passport) {
 	    	var userid = req.user.google.id;
 	    }
 	    // Getting IMDb_id from sessions
-	    imdbid = req.session.imdbid;
+	    //imdbid = req.session.imdbid;
 
 	    console.log('user_id = '+userid);
-	    console.log('imdb_id = '+imdbid);
+	    console.log('imdb_id = '+imdb_id);
 
 	    //STOPPA IN SKITEN I DATABASEN
 	    var upload = new Upload({
 	      	bpmdata : bpmdata,
 	      	bpmvalue : bpmvalue,
 	      	creation_time : Date.now(),
-	      	imdb_id : imdbid,		
+	      	imdb_id : imdb_id,		
 	      	user_id: userid,
 	      	filepath : dbpath
 	      
@@ -544,8 +545,10 @@ function getMovieInfo(imdb_id, callback) {
 		
 		getModusRating(imdb_id, function(modusdata){
 			if(modusdata){
+
 				modusvalue = modusdata.modusvalue.toPrecision(3);
 				contributors = modusdata.contributors;
+				
 			}
 			else{
 				bpmvalue = 0;
@@ -593,32 +596,27 @@ function getModusRating(arg, callback){
 		
 		else{
 			
-			var values = [];
-			
+			var totalmodusvalue = 0;
+			var contributors = 0;
 			info.forEach(function(object){
 				
 				bpmvalue = parseFloat(object.bpmvalue);
 				//console.log('BPM value = '+bpmvalue);
-				values.push(bpmvalue);
-
+				totalmodusvalue += bpmvalue;
+				contributors++;
+				//console.log(values);
 			});
 			
-			var count = values.length;
-			console.log('count = '+count);
-			
-			var averageModusValue = values/count;
+			var averageModusValue = totalmodusvalue/contributors;
+
+			console.log('contributors = '+contributors);
+			console.log('totalmodusvalue = '+totalmodusvalue);
 			console.log('average modusvalue = '+averageModusValue);
 			
 			var jsonstring = {
 				"modusvalue" 	: averageModusValue,
-				"contributors"	: count
+				"contributors"	: contributors
 			};
-			
-			// json = JSON.parse(jsonstring);
-			
-			//json = JSON.stringify(JSON.parse(jsonarray));
-
-			//console.log(json);
 			
 			callback(jsonstring);
 			return;
@@ -632,86 +630,86 @@ function getModusRating(arg, callback){
 // NOT WORKING YET! NEEDS IMDB_ID AND USER AND PROBABLY MORE STUFF.
 // CHECK FOR ERRORS AND GIVE CORRECT RESPONSES
 
-function upload_bpmvalue(modusdata, callback){
-	require('should');
+// function upload_bpmvalue(modusdata, callback){
+// 	require('should');
 
-		//Parsing function
-	    var parse = require('csv-parse');
-	    var tmp_path = req.files.modusdata.path;
+// 		//Parsing function
+// 	    var parse = require('csv-parse');
+// 	    var tmp_path = req.files.modusdata.path;
 	    
-	    var filename = Math.random()+'.csv';
-	    var path = 'public/uploads/'+filename;
-	   	var dbpath = '/uploads/'+filename;
+// 	    var filename = Math.random()+'.csv';
+// 	    var path = 'public/uploads/'+filename;
+// 	   	var dbpath = '/uploads/'+filename;
 	   	
-	   	// DONT ACCEPT UPLOAD IF NOT .CSV.
-	   	// FIX FUNCTION TO UNZIP AND USE THE FILE NAMED IBI.CSV
+// 	   	// DONT ACCEPT UPLOAD IF NOT .CSV.
+// 	   	// FIX FUNCTION TO UNZIP AND USE THE FILE NAMED IBI.CSV
 
-	   	fs.readFile(tmp_path, function(err, data){
-	   		fs.writeFile(path, data, function(err){
+// 	   	fs.readFile(tmp_path, function(err, data){
+// 	   		fs.writeFile(path, data, function(err){
 				
-				if(err) throw err;
-				console.log('uploaded file as: '+path);
-				console.log('Should uploaded the file by now...');
+// 				if(err) throw err;
+// 				console.log('uploaded file as: '+path);
+// 				console.log('Should uploaded the file by now...');
 				
-				// Unlinks the file in /tmp
-				fs.unlink(tmp_path, function (err) {
-  					if (err) throw err;
-  				console.log('successfully deleted '+tmp_path);
-				});
+// 				// Unlinks the file in /tmp
+// 				fs.unlink(tmp_path, function (err) {
+//   					if (err) throw err;
+//   				console.log('successfully deleted '+tmp_path);
+// 				});
 
-				//PARSAR IGENOM FILEN
-			    stream = fs.createReadStream(tmp_path);
+// 				//PARSAR IGENOM FILEN
+// 			    stream = fs.createReadStream(tmp_path);
 
-			    var parser = parse({delimiter: ','}, function(err, bpmdata){
+// 			    var parser = parse({delimiter: ','}, function(err, bpmdata){
 
-			    // HANDLE DATA WITH BPMParse
-			    var bpmvalue = BPMParse(bpmdata);
-			    //console.log("BPMDATA LALLA: "+ bpmdata);
-			    //get tot
+// 			    // HANDLE DATA WITH BPMParse
+// 			    var bpmvalue = BPMParse(bpmdata);
+// 			    //console.log("BPMDATA LALLA: "+ bpmdata);
+// 			    //get tot
 
-			   	console.log('Parse done, moving on to save..');
-			    console.log()
+// 			   	console.log('Parse done, moving on to save..');
+// 			    console.log()
 			    
-			    if(req.user.facebook.id) {
-			    	var userid = req.user.facebook.id;
-			    }
-			    else if(req.user.google.id) {
-			    	var userid = req.user.google.id;
-			    }
+// 			    if(req.user.facebook.id) {
+// 			    	var userid = req.user.facebook.id;
+// 			    }
+// 			    else if(req.user.google.id) {
+// 			    	var userid = req.user.google.id;
+// 			    }
 			    
-			    // Getting IMDb_id from sessions
-			    imdbid = req.session.imdbid;
+// 			    // Getting IMDb_id from sessions
+// 			    imdbid = req.session.imdbid;
 
-			    console.log('user_id = '+userid);
-			    console.log('imdb_id = '+imdbid);
+// 			    console.log('user_id = '+userid);
+// 			    console.log('imdb_id = '+imdbid);
 
-			    //STOPPA IN SKITEN I DATABASEN
-			    var upload = new Upload({
-			      	bpmdata : bpmdata,
-			      	bpmvalue : bpmvalue,
-			      	creation_time : Date.now(),
-			      	imdb_id : imdbid,		
-			      	user_id: userid,
-			      	filepath : dbpath
+// 			    //STOPPA IN SKITEN I DATABASEN
+// 			    var upload = new Upload({
+// 			      	bpmdata : bpmdata,
+// 			      	bpmvalue : bpmvalue,
+// 			      	creation_time : Date.now(),
+// 			      	imdb_id : imdbid,		
+// 			      	user_id: userid,
+// 			      	filepath : dbpath
 			      
-			    });
-			    upload.save(function(err){
-			     if(err)
-			      res.send(err);
-			    console.log('Data uploaded successfully to '+path);
+// 			    });
+// 			    upload.save(function(err){
+// 			     if(err)
+// 			      res.send(err);
+// 			    console.log('Data uploaded successfully to '+path);
 
-			    });
+// 			    });
 			    
-			    });
-			    stream.pipe(parser);
+// 			    });
+// 			    stream.pipe(parser);
 			    
-			    callback();
-			});
+// 			    callback();
+// 			});
 			
 
-		});
+// 		});
 		
-}
+// }
 
 
 	// PARSES ONLY YOUR UPLOADED DATA FOR ONE MOVIE
