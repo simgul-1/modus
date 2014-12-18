@@ -26,10 +26,17 @@
                             alert('404, no results found');
                         }
                         else{
-                            data = JSON.stringify(data);
-
+                            content ="";
+                            $('#movieresults').empty();
                             $.each(data, function(index,movie) {
-                                alert(movie.imdb_id);
+                                //content += '<p>Movie ID: '+movie.imdb_id+'</p>';
+                                //alert(movie.imdb_id);
+                                content += '<div class="col-xs-6 col-md-3 text-center">' +
+                                      '<a class="poster-container" href="/movie?imdb_id='+ movie.imdb_id +'">'+
+                                         '<img src="http://img.omdbapi.com/?apikey=a69bf97e&h=376&i='+movie.imdb_id+'" height="376" width="251">'+
+                                      '</a>'+
+                                   '</div>';
+
                                 // content += '<div class="col-xs-6 col-md-3 text-center">
                                 //                 <a class="poster-container" href="/movie?imdb_id='+ movie.imdb_id +'">
                                 //                 <img src="http://img.omdbapi.com/?apikey=a69bf97e&h=376&i='+movie.imdb_id+'" height="376" width="251">
@@ -37,8 +44,11 @@
                                 //             </div>';
                                 
                             });
+
                             //content = '<div class="img_wrapper">';
-                            //$('#movieresults').append(content);
+                            $('#movieresults').append(content);
+
+
                             //$('#movieresults').append(JSON.stringify(data)); 
                         }
                         
@@ -58,8 +68,8 @@
                 <li><a href="/about"><span class="fui-info-circle"></span> About</a>
                 </li>
             </ul>
-            <!-- <form class="navbar-form navbar-left" id="searchmovie" action="http://localhost:3000/api/v1/search" method="post" role="search"> -->
-            <form class="navbar-form navbar-left" action="/search" method="post" role="search">
+            <form class="navbar-form navbar-left" id="searchmovie" action="http://localhost:3000/api/v1/search" method="post" role="search">
+            <!-- <form class="navbar-form navbar-left" action="/search" method="post" role="search"> -->
                 <div class="form-group">
                     <div class="input-group">
                         <input class="form-control" id="navbarInput-01" name="title" type="search" placeholder="Search">
