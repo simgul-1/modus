@@ -18,6 +18,12 @@
     </header>
     
 	<script>
+    function imgLoaded(img){
+        var imgWrapper = img.parentNode;
+
+        imgWrapper.className += imgWrapper.className ? ' loaded' : 'loaded';
+    };
+
             function send_data() {
               document.forms[1].submit();
            }
@@ -39,13 +45,24 @@
             <div class="col-md-3 text-center poster-container">
                 
                 <a>
-                    <img src="http://img.omdbapi.com/?apikey=a69bf97e&h=376&i=<%= moviedata.imdb_id %>" alt="...">
+                    <div class="img_wrapper">
+                        <div class="css_spinner">
+                            <div class="half left">
+                                <div class="band"></div>
+                            </div>
+                            <div class="half right">
+                                <div class="band"></div>
+                            </div>
+                        </div>
+                        <img src="http://img.omdbapi.com/?apikey=a69bf97e&h=376&i=<%= moviedata.imdb_id %>" alt="..." onload="imgLoaded(this)" height="376" width="251"/>
+                    </div>
+                    
                 </a>
                 
 
     			<% if (user) { %>
                     
-                    <form action="/upload" id="uploadform" method="post" enctype="multipart/form-data">
+                    <form action="/upload" class="uploadform" method="post" enctype="multipart/form-data">
                       
                         <p class="file">
                         <input type="file" class="upload" name="modusdata"/>
@@ -53,7 +70,7 @@
                         <label for="file">Upload your data</label>
                         
                         </p>
-                        <input type="submit" value="submit"/>
+                        
 
                     </form>
 

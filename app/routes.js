@@ -196,6 +196,17 @@ module.exports = function(app, passport) {
 		
 	});
 
+	app.post('/api/v1/search', function(req, res) {
+
+		var title = req.body.title;
+
+		// Gets the movie info for specific movie
+		searchForMovies(title, function(movies){
+			res.json(movies)
+		});
+		
+	});
+
 	app.get('/api/v1/uploads', function(req, res){
 
 		getUploadedMovies(req.query.user_id, function(movies){
@@ -264,85 +275,6 @@ module.exports = function(app, passport) {
 		upload_bpmvalue(tmp_path, imdb_id, user_id, function(){
 			res.redirect(req.session.lastPage);
 		});
-		// console.log('uploading');
-		
-		// require('should');
-
-	 //    //Parsing function
-	 //    var parse = require('csv-parse');
-	 //    var tmp_path = req.files.modusdata.path;
-	 //    var imdb_id = req.body.imdb_id;
-	    
-	 //    var filename = Math.random()+'.csv';
-	 //    var path = 'public/uploads/'+filename;
-	 //   	var dbpath = '/uploads/'+filename;
-	   	
-	 //   	// DONT ACCEPT UPLOAD IF NOT .CSV.
-	 //   	// FIX FUNCTION TO UNZIP AND USE THE FILE NAMED IBI.CSV
-
-	 //   	fs.readFile(tmp_path, function(err, data){
-	 //   		fs.writeFile(path, data, function(err){
-		// 		if(err) throw err;
-		// 		console.log('uploaded file as: '+path);
-		// 		console.log('Should uploaded the file by now...');
-				
-		// 		fs.unlink(tmp_path, function (err) {
-  // 					if (err) throw err;
-  // 				console.log('successfully deleted '+tmp_path);
-		// 		});
-		// 	});
-			
-
-		// });
-		
-
-		
-	    
-	 //    //PARSAR IGENOM FILEN
-	 //    stream = fs.createReadStream(tmp_path);
-
-	 //    var parser = parse({delimiter: ','}, function(err, bpmdata){
-
-	 //    // HANDLE DATA WITH BPMParse
-	 //    var bpmvalue = BPMParse(bpmdata);
-	 //    //console.log("BPMDATA LALLA: "+ bpmdata);
-	 //    //get tot
-
-	 //   	console.log('Parse done, moving on to save..');
-	 //    console.log()
-	 //    if(req.user.facebook.id) {
-	 //    	var userid = req.user.facebook.id;
-	 //    }
-	 //    else if(req.user.google.id) {
-	 //    	var userid = req.user.google.id;
-	 //    }
-	 //    // Getting IMDb_id from sessions
-	 //    //imdbid = req.session.imdbid;
-
-	 //    console.log('user_id = '+userid);
-	 //    console.log('imdb_id = '+imdb_id);
-
-	 //    //STOPPA IN SKITEN I DATABASEN
-	 //    var upload = new Upload({
-	 //      	bpmdata : bpmdata,
-	 //      	bpmvalue : bpmvalue,
-	 //      	creation_time : Date.now(),
-	 //      	imdb_id : imdb_id,		
-	 //      	user_id: userid,
-	 //      	filepath : dbpath
-	      
-	 //    });
-	 //    upload.save(function(err){
-	 //     if(err)
-	 //      res.send(err);
-	 //    console.log('Data uploaded successfully to '+path);
-
-	 //    });
-	    
-	 //    });
-	 //    stream.pipe(parser);
-
-	   
 
 	});
 	
@@ -446,10 +378,17 @@ function searchForMovies(arg, callback){
 
 		omdb.search(arg, function(err, movies) {
 		    if(err) {
-		    	return console.error(err);
+		    	console.error(err);
+
+		    	callback(500);
+		    	return;
+		    	
 		    }
 		    if(movies.length < 1) {
-		        return console.log('No movies were found!');
+		        
+		    	callback(404);
+		    	return;
+
 		    }	
 		   	
 		    var moviedata = [];
