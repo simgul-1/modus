@@ -10,7 +10,14 @@
             </button>
             <a class="navbar-brand" href="/">Modus</a>
         </div>
-        
+        <script>
+        // FUNCTION TO HIDE IMAGES UNTIL LOADED
+            function imgLoaded(img){
+            var imgWrapper = img.parentNode;
+
+            imgWrapper.className += imgWrapper.className ? ' loaded' : 'loaded';
+        };
+        </script>
         <script>
         $(document).ready(function() {
             var frm = $('#searchmovie');
@@ -31,25 +38,29 @@
                             $.each(data, function(index,movie) {
                                 //content += '<p>Movie ID: '+movie.imdb_id+'</p>';
                                 //alert(movie.imdb_id);
-                                content += '<div class="col-xs-6 col-md-3 text-center">' +
-                                      '<a class="poster-container" href="/movie?imdb_id='+ movie.imdb_id +'">'+
-                                         '<img src="http://img.omdbapi.com/?apikey=a69bf97e&h=376&i='+movie.imdb_id+'" height="376" width="251">'+
-                                      '</a>'+
-                                   '</div>';
-
-                                // content += '<div class="col-xs-6 col-md-3 text-center">
-                                //                 <a class="poster-container" href="/movie?imdb_id='+ movie.imdb_id +'">
-                                //                 <img src="http://img.omdbapi.com/?apikey=a69bf97e&h=376&i='+movie.imdb_id+'" height="376" width="251">
-                                //                 </a>
-                                //             </div>';
+                                content +=  '<div class="col-xs-6 col-md-3 text-center">' +
+                                            '<a class="poster-container" href="/movie?imdb_id='+ movie.imdb_id +'">'+
+                                                '<div class="img_wrapper">'+
+                                                    '<div class="css_spinner">'+
+                                                        '<div class="half left">'+
+                                                            '<div class="band"></div>'+
+                                                        '</div>'+
+                                                        '<div class="half right">'+
+                                                            '<div class="band"></div>'+
+                                                        '</div>'+
+                                                    '</div>'+
+                                                    '<img src="http://img.omdbapi.com/?apikey=a69bf97e&h=376&i='+movie.imdb_id+'" height="376" width="251" onload="imgLoaded(this)"/>'+
+                                                      
+                                                   '</div>'+
+                                                '</a>'+
+                                            '</div>';
+                                
                                 
                             });
+                            $('.marketing').empty();
+                            $('#myCarousel').empty();
+                            $('#myCarousel').append(content);
 
-                            //content = '<div class="img_wrapper">';
-                            $('#movieresults').append(content);
-
-
-                            //$('#movieresults').append(JSON.stringify(data)); 
                         }
                         
                     }
