@@ -173,7 +173,7 @@ pkg {
 /* CSS FOR HIDING IMAGES UNTIL THEY ARE LOADED */
 .img_wrapper img{
     
-    width: 100%;
+    /*width: 100%;*/
    	opacity: 0;
   	-webkit-transition: opacity .5s;
     -moz-transition: opacity .5s;

@@ -316,6 +316,7 @@ module.exports = function(app, passport) {
 
 		app.get('/auth/success', function(req, res) {
 			console.log('In auth/success, redirecting to '+req.session.lastPage);
+			res.set('token', req.token);
 			res.redirect(req.session.lastPage || '/');
 		});
 
