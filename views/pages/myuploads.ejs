@@ -252,10 +252,8 @@
 
         //Exekverar plotHR och kör alltså programet.
 				$(document).ready(function() {
-					$('#msgObj['upload_id']').click(function(){
-						plotHR(msgObj['upload_id']);
-					});
-					
+
+					plotHR(arg);
 				});
 
 
@@ -298,9 +296,6 @@
 
     <!-- uploads -->
     <div class="container">
-
-
-
 
         <!-- FOR EACH MOVIE FOUND RUN THIS -->
         <% data.forEach(function(msgObj){ %>

@@ -1,11 +1,5 @@
 // config/auth.js
-// TEST MESSAGE
-// expose our config directly to our application using module.exports
 
-// ---------------------- THE REAL DEAL ---------------------------
-// ---------- kommentera ut erat innan ni commitar och pushar!!! ---------------------
-
-/*
 //Live Mode
 module.exports = {
 
@@ -22,8 +16,8 @@ module.exports = {
     }
 
 };
-*/
 
+/*
 //Developer mode
 module.exports = {
 
@@ -41,4 +35,4 @@ module.exports = {
 
 
 };
-
+*/

@@ -77,7 +77,7 @@
 
         <div class="row">
 
-        	<% if(user.facebook){ %>
+        	<% if(user.facebook.token){ %>
             <!-- FACEBOOK INFORMATION -->
             <div class="col-sm-12">
                 <div class="well">
@@ -97,7 +97,7 @@
 
                 </div>
             </div>
-            <% } if(user.google) { %>
+            <% } if(user.google.token) { %>
             <!-- GOOGLE INFORMATION -->
             <div class="col-sm-12">
                 <div class="well">
