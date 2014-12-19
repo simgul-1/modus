@@ -95,7 +95,7 @@ module.exports = function(app, passport) {
 		
 		searchForMovies(title, function(movies) {
 			
-			function serien(arg){
+			function serie(arg){
 
 				if(arg){
 					//console.log('ARG COMES HERE ====================');
@@ -114,18 +114,18 @@ module.exports = function(app, passport) {
 							//"poster_path" : poster
 						});
 					
-					serien(movies.shift());
+					serie(movies.shift());
 					
 					// });
 				}
 				else{
-					finale(movieresult);
+					final(movieresult);
 				}
 
 			}
 			
 
-			function finale(result){
+			function final(result){
 				//console.log(result);
 				//res.send(result);
 				console.log('Done with API requests, redirecting to GET SEARCH');
@@ -136,7 +136,7 @@ module.exports = function(app, passport) {
 			}
 			
 			// starts the function
-			serien(movies.shift());
+			serie(movies.shift());
 
 		});
 		
@@ -270,7 +270,16 @@ module.exports = function(app, passport) {
 		// gets the values from body and files (These needs to be set when sending to API also)
 	    var tmp_path = req.files.modusdata.path;
 	    var imdb_id = req.body.imdb_id;
-	    var user_id = req.userid
+	    if(req.user.google.token){
+	    	var user_id = req.user.google.id;
+	    	console.log(' GOING WITH GOOGLE ID: '+user_id);
+	    }
+	    else if(req.user.facebook.token){
+	    	var user_id = req.user.facebook.id;
+	    	console.log(' GOING WITH FACEBOOK ID: '+user_id);
+	    }
+
+	    var user_id = user_id;
 
 		upload_bpmvalue(tmp_path, imdb_id, user_id, function(){
 			res.redirect(req.session.lastPage);
@@ -429,9 +438,12 @@ function getUploadedMovies(user, callback){
 
 	Upload.find({user_id : user}, function(err, uploaded_movies){
 		
+		console.log(uploaded_movies);
+		
 		function finale(){
 
 			console.log('Done getting uploaded movies');
+			console.log(allmovies);
 			callback(allmovies);
 			return;
 		}
@@ -441,7 +453,8 @@ function getUploadedMovies(user, callback){
 			if(obj){
 
 				getMovieInfo(obj.imdb_id,function(movie){
-			
+					console.log(obj.imdb_id);
+					console.log(movie);
 					allmovies.push({
 						
 						"upload_id" 	: obj._id,
@@ -471,6 +484,7 @@ function getUploadedMovies(user, callback){
 				return finale();
 			}
 		}
+		//console.log(uploaded_movies);
 		serien(uploaded_movies.shift());
 
 	});

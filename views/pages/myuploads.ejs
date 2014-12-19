@@ -252,8 +252,10 @@
 
         //Exekverar plotHR och kör alltså programet.
 				$(document).ready(function() {
-
-					plotHR();
+					$('#msgObj['upload_id']').click(function(){
+						plotHR(msgObj['upload_id']);
+					});
+					
 				});
 
 
