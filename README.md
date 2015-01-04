@@ -8,7 +8,7 @@ Think IMdb meets scientific data.
 
 ## API:
 
-- GET /api/v1/movie?imdb_id=tt0903624 
+GET /api/v1/movie?imdb_id=tt0903624 
 
 returns JSON for the movie containing:
 - title
