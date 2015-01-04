@@ -1,5 +1,5 @@
 // config/auth.js
-
+/*
 //Live Mode
 module.exports = {
 
@@ -16,8 +16,8 @@ module.exports = {
     }
 
 };
+*/
 
-/*
 //Developer mode
 module.exports = {
 
@@ -36,4 +36,3 @@ module.exports = {
 
 };
 
-*/

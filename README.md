@@ -6,10 +6,11 @@ The Modus project is a media rating search engine website combined with an E3 wr
 
 Think IMdb meets scientific data.
 
-<<<<<<< HEAD
 ## API:
 
-- GET /api/v1/movie?imdb_id=tt0903624 returns JSON for the movie containing:
+- GET http://wayland.campus.ltu.se:3000/api/v1/movie?imdb_id=tt0903624 
+
+returns JSON for the movie containing:
 - title
 - year
 - plot
@@ -23,30 +24,9 @@ Think IMdb meets scientific data.
 - modusvalue
 - contributors
 
-- GET /api/v1/modusrating?imdb_id=tt0903624 returns: 
-=======
-# API
-
-GET http://wayland.campus.ltu.se:3000/api/v1/movie?imdb_id=tt0903624
-
-returns JSON for the movie containing:
--title
--year
--plot
--imdb_rating
--imdb_votes
--runtime
--actors
--directors
--writers
--imdb_id
--modusvalue
--contributors
-
 GET http://wayland.campus.ltu.se:3000/api/v1/modusrating?imdb_id=tt0903624 
 
 returns: 
->>>>>>> 6896413921d3e665eb4661b8822fe17a3569eddb
 {
     imdb_id: "tt0903624",
     modusvalue: 11.884919024242425,
@@ -58,31 +38,28 @@ GET http://wayland.campus.ltu.se:3000/api/v1/uploads?user_id=1174556127496229482
 returns:
 forEachMovieFound
 {
-upload_id,
-bpmvalue,
-creation_time,
-modusvalue,
-contributors,
-filepath,
-title,
-year,
-plot,
-imdb_rating ,
-imdb_votes,
-runtime,
-actors,
-director,
-writers,
-imdb_id
+	upload_id,
+	bpmvalue,
+	creation_time,
+	modusvalue,
+	contributors,
+	filepath,
+	title,
+	year,
+	plot,
+	imdb_rating ,
+	imdb_votes,
+	runtime,
+	actors,
+	director,
+	writers,
+	imdb_id
 }
 
 POST http://wayland.campus.ltu.se:3000/api/v1/upload,
 requires userid and IMDb_id
 takes the file named “modusdata” as option. Needs to be .csv file.
 parses the file and saves all data in the database. Also saved the file on disk and a record of it in the database for that upload. (For graph).
-
-
-
 
 ## Front end:
 - jQuery [https://jquery.com/]
