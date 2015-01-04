@@ -8,7 +8,7 @@ Think IMdb meets scientific data.
 
 ## API:
 
-GET /api/v1/movie?imdb_id=tt0903624 
+**GET /api/v1/movie?imdb_id=tt0903624** 
 
 returns JSON for the movie containing:
 - title
@@ -24,7 +24,7 @@ returns JSON for the movie containing:
 - modusvalue
 - contributors
 
-GET /api/v1/modusrating?imdb_id=tt0903624 
+**GET /api/v1/modusrating?imdb_id=tt0903624** 
 
 returns JSON for the movie: 
 - imdb_id
@@ -32,7 +32,7 @@ returns JSON for the movie:
 - contributors
 
 
-GET /api/v1/uploads?user_id=117455612749622948262
+**GET /api/v1/uploads?user_id=117455612749622948262**
 
 returns JSON for each movie found:
 - upload_id
@@ -52,8 +52,7 @@ returns JSON for each movie found:
 - writers
 - imdb_id
 
-
-POST /api/v1/upload
+**POST /api/v1/upload**
 - requires userid and imdb_id
 - takes the file named “modusdata” as option. Needs to be .csv file.
 - parses the file and saves all data in the database. Also saved the file on disk and a record of it in the database for that upload. (For graph).
