@@ -8,7 +8,7 @@ Think IMdb meets scientific data.
 
 ## API:
 
-- GET http://wayland.campus.ltu.se:3000/api/v1/movie?imdb_id=tt0903624 
+- GET /api/v1/movie?imdb_id=tt0903624 
 
 returns JSON for the movie containing:
 - title
@@ -24,42 +24,39 @@ returns JSON for the movie containing:
 - modusvalue
 - contributors
 
-GET http://wayland.campus.ltu.se:3000/api/v1/modusrating?imdb_id=tt0903624 
+GET /api/v1/modusrating?imdb_id=tt0903624 
 
-returns: 
-{
-    imdb_id: "tt0903624",
-    modusvalue: 11.884919024242425,
-    contributors: 1
-}
+returns JSON for the movie: 
+- imdb_id
+- modusvalue
+- contributors
 
-GET http://wayland.campus.ltu.se:3000/api/v1/uploads?user_id=117455612749622948262
 
-returns:
-forEachMovieFound
-{
-	upload_id,
-	bpmvalue,
-	creation_time,
-	modusvalue,
-	contributors,
-	filepath,
-	title,
-	year,
-	plot,
-	imdb_rating ,
-	imdb_votes,
-	runtime,
-	actors,
-	director,
-	writers,
-	imdb_id
-}
+GET /api/v1/uploads?user_id=117455612749622948262
 
-POST http://wayland.campus.ltu.se:3000/api/v1/upload,
-requires userid and IMDb_id
-takes the file named “modusdata” as option. Needs to be .csv file.
-parses the file and saves all data in the database. Also saved the file on disk and a record of it in the database for that upload. (For graph).
+returns JSON for each movie found:
+- upload_id
+- bpmvalue
+- creation_time
+- modusvalue
+- contributors
+- filepath
+- title
+- year
+- plot
+- imdb_rating
+- imdb_votes
+- runtime
+- actors
+- director
+- writers
+- imdb_id
+
+
+POST /api/v1/upload
+- requires userid and imdb_id
+- takes the file named “modusdata” as option. Needs to be .csv file.
+- parses the file and saves all data in the database. Also saved the file on disk and a record of it in the database for that upload. (For graph).
 
 ## Front end:
 - jQuery [https://jquery.com/]
