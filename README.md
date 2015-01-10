@@ -74,9 +74,13 @@ returns JSON for each movie found:
 
 ## How do I run this?
 ```sh   
+Install node.js with express framework for your OS.
+Install npm.
+Install nodemon (recommendation).
 git clone https://github.com/simgul-1/modus 
 cd modus
-npm install    #will install all project dependencies
-nodemon
+run: "npm install" to install all dependencies.
+run: nodemon
+
 ```
 Enjoy.
