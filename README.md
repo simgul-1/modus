@@ -73,14 +73,14 @@ returns JSON for each movie found:
 - Passport.js [http://passportjs.org/]
 
 ## How do I run this?
-```sh   
 Install node.js with express framework for your OS.
 Install npm.
 Install nodemon (recommendation).
+```sh   
 git clone https://github.com/simgul-1/modus 
 cd modus
-run: "npm install" to install all dependencies.
-run: nodemon
+npm install #Installs all dependencies.
+nodemon #Runs the server (can be found on port 3000)
 
 ```
 Enjoy.
