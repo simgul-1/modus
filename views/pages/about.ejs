@@ -12,70 +12,7 @@
             background-color: white;
         }
     </style>
-    <script>
-        // FUNCTION TO HIDE IMAGES UNTIL LOADED
-            function imgLoaded(img){
-            var imgWrapper = img.parentNode;
-
-            imgWrapper.className += imgWrapper.className ? ' loaded' : 'loaded';
-        };
-        </script>
-        <script>
-        $(document).ready(function() {
-            var frm = $('#searchmovie');
-            frm.submit(function (ev) {
-                $.ajax({
-                    type: frm.attr('method'),
-                    url: frm.attr('action'),
-                    data: frm.serialize(),
-                    crossDomain: true,
-                    success: function (data) {
-                        //alert('Got response from server!');
-                        if(data == "404"){
-                            alert('404, no results found');
-                        }
-                        else{
-                           // content = '';
-                            content = '<div class="container" style="padding-top: 20px">';
-                            content +='<div class="row">';
-                            content += '<div class="col-sm-12">';
-                            // $('#movieresults').empty();
-                            $.each(data, function(index,movie) {
-                                //content += '<p>Movie ID: '+movie.imdb_id+'</p>';
-                                //alert(movie.imdb_id);
-                                content +=  '<a class="poster-container" href="/movie?imdb_id='+ movie.imdb_id +'">'+
-                                                //'<div class="img_wrapper">'+
-                                                    // '<div class="css_spinner">'+
-                                                    //     '<div class="half left">'+
-                                                    //         '<div class="band"></div>'+
-                                                    //     '</div>'+
-                                                    //     '<div class="half right">'+
-                                                    //         '<div class="band"></div>'+
-                                                    //     '</div>'+
-                                                    // '</div>'+
-                                                    '<img src="http://img.omdbapi.com/?apikey=a69bf97e&h=376&i='+movie.imdb_id+'" height="376" width="251" style="padding-right:20px; padding-bottom: 20px;" onload="imgLoaded(this)"/>'+
-                                                //'</div>'+
-                                            '</a>';
-                                                
-                                
-                                
-                            });
-                            content += '</div>';
-                            content += '</div>';
-                            content += '</div>';
-                            // //$('.marketing').empty();
-                            $('#myCarousel').empty();
-                            $('#myCarousel').append(content);
-
-                        }
-                        
-                    }
-                });
-
-                ev.preventDefault();
-            });
-          });
-        </script>
+	<% include ../partials/search %>
     <header>
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
@@ -137,28 +74,29 @@
             </div>
         </nav>
     </header>
+	<div id="searchbox">
+		<!-- =========================CAROUSEL========================= -->
+		<div id="myCarousel" class="carousel slide" data-ride="carousel">
 
-    <!-- =========================CAROUSEL========================= -->
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+			<div class="carousel-inner" role="listbox">
+				<div class="item active">
+					<div class="overlay-section-container">
+						<div class="overlay-medium"></div>
+					</div>
+					<div class="container-fluid full-screen about-background"></div>
 
-        <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <div class="overlay-section-container">
-                    <div class="overlay-medium"></div>
-                </div>
-                <div class="container-fluid full-screen about-background"></div>
+					<div class="container">
+						<div class="carousel-caption">
+							<h1>About us</h1>
+							<p>Modus is a student project in Computer Science focused on the use of human data analytics in rating media.</p>
+						</div>
+					</div>
+				</div>
 
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>About us</h1>
-                        <p>Modus is a student project in Computer Science focused on the use of human data analytics in rating media.</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <!-- /.carousel -->
+			</div>
+		</div>
+		<!-- /.carousel -->
+	</div>
 	
     <!-- The Team
     ================================================== -->

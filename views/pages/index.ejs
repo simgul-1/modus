@@ -3,7 +3,6 @@
 
 <head>
     <% include ../partials/head %>
-
 </head>
 
 <body>
@@ -13,235 +12,171 @@
             background-color: white;
         }
     </style>
-    <script>
-        // FUNCTION TO HIDE IMAGES UNTIL LOADED
-            function imgLoaded(img){
-            var imgWrapper = img.parentNode;
+    <% include ../partials/search %>
+        <header>
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                        </button>
+                        <a class="navbar-brand" href="/">Modus</a>
+                    </div>
 
-            imgWrapper.className += imgWrapper.className ? ' loaded' : 'loaded';
-        };
-        </script>
-        <script>
-        $(document).ready(function() {
-            var frm = $('#searchmovie');
-            frm.submit(function (ev) {
-                $.ajax({
-                    type: frm.attr('method'),
-                    url: frm.attr('action'),
-                    data: frm.serialize(),
-                    crossDomain: true,
-                    success: function (data) {
-                        //alert('Got response from server!');
-                        if(data == "404"){
-                            alert('404, no results found');
-                        }
-                        else{
-                           // content = '';
-                            content = '<div class="container" style="padding-top: 20px">';
-                            content +='<div class="row">';
-                            content += '<div class="col-sm-12">';
-                            // $('#movieresults').empty();
-                            $.each(data, function(index,movie) {
-                                //content += '<p>Movie ID: '+movie.imdb_id+'</p>';
-                                //alert(movie.imdb_id);
-                                content +=  '<a class="poster-container" href="/movie?imdb_id='+ movie.imdb_id +'">'+
-                                                //'<div class="img_wrapper">'+
-                                                    // '<div class="css_spinner">'+
-                                                    //     '<div class="half left">'+
-                                                    //         '<div class="band"></div>'+
-                                                    //     '</div>'+
-                                                    //     '<div class="half right">'+
-                                                    //         '<div class="band"></div>'+
-                                                    //     '</div>'+
-                                                    // '</div>'+
-                                                    '<img src="http://img.omdbapi.com/?apikey=a69bf97e&h=376&i='+movie.imdb_id+'" height="376" width="251" style="padding-right:20px; padding-bottom: 20px;" onload="imgLoaded(this)"/>'+
-                                                //'</div>'+
-                                            '</a>';
-                                                
-                                
-                                
-                            });
-                            content += '</div>';
-                            content += '</div>';
-                            content += '</div>';
-                            // //$('.marketing').empty();
-                            $('#myCarousel').empty();
-                            $('#myCarousel').append(content);
-
-                        }
-                        
-                    }
-                });
-
-                ev.preventDefault();
-            });
-          });
-        </script>
-    <header>
-		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                    </button>
-                    <a class="navbar-brand" href="/">Modus</a>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="navbar-collapse-5">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="/"><span class="fui-home"></span> Home</a>
-                        </li>
-                        <li ><a href="/about"><span class="fui-info-circle"></span> About</a>
-                        </li>
-                    </ul>
-                    <form class="navbar-form navbar-left" id="searchmovie" action="http://localhost:3000/api/v1/search" method="post" role="search">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input class="form-control" id="navbarInput-01" name="title" type="search" placeholder="Search">
-                                <span class="input-group-btn">
-                          <button type="submit" class="btn"><span class="fui-search"></span>
-                                </button>
-                                </span>
-                            </div>
-                        </div>
-                    </form>
-                    <!-- check if the user is logged in -->
-                    <% if (user) { %>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <%= user.google.name %> <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="/myuploads">My Uploads</a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li><a href="/logout">Logout</a>
-                                    </li>
-                                </ul>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="navbar-collapse-5">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="/"><span class="fui-home"></span> Home</a>
                             </li>
-                            <li><a href="/profile"><span class="visible-sm visible-xs">Settings<span class="fui-gear"></span></span><span class="visible-md visible-lg"><span class="fui-gear"></span></span></a>
+                            <li><a href="/about"><span class="fui-info-circle"></span> About</a>
                             </li>
                         </ul>
-                        <% } else { %>
-                            <form class="navbar-right">
-                                <ul class="nav navbar-nav">
-                                    <a class="btn btn-danger" href="/auth/google">Google</a>
-                                    <a class="btn btn-info" href="/auth/facebook">Facebook</a>
-                                </ul>
-                            </form>
-                            <% } %>
+                        <form class="navbar-form navbar-left" id="searchmovie" action="http://localhost:3000/api/v1/search" method="post" role="search">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input class="form-control" id="navbarInput-01" name="title" type="search" placeholder="Search">
+                                    <span class="input-group-btn">
+									<button type="submit" class="btn"><span class="fui-search"></span></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- check if the user is logged in -->
+                        <% if (user) { %>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <%= user.google.name %> <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/myuploads">My Uploads</a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li><a href="/logout">Logout</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="/profile"><span class="visible-sm visible-xs">Settings<span class="fui-gear"></span></span><span class="visible-md visible-lg"><span class="fui-gear"></span></span></a>
+                                </li>
+                            </ul>
+                            <% } else { %>
+                                <form class="navbar-right">
+                                    <ul class="nav navbar-nav">
+                                        <a class="btn btn-danger" href="/auth/google">Google</a>
+                                        <a class="btn btn-info" href="/auth/facebook">Facebook</a>
+                                    </ul>
+                                </form>
+                                <% } %>
+                    </div>
+                    <!-- /.navbar-collapse -->
                 </div>
-                <!-- /.navbar-collapse -->
-            </div>
-        </nav>
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </header>
 
-    <!-- Carousel -->
-	<div class=row-fluid>
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <div class="container-fluid full-screen index-1"></div>
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>Emote yourself through technology</h1>
-                        <p>Search and Rate Movies, Music, TV Shows, Games and much more.</p>
-                        </p>
+        <!-- Carousel -->
+        <div class=row-fluid>
+		  <div id="searchbox">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <div class="container-fluid full-screen index-1"></div>
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <h1>Emote yourself through technology</h1>
+                                <p>Search and Rate Movies, Music, TV Shows, Games and much more.</p>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="container-fluid full-screen index-3"></div>
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <h1>An Open API that serves the whole audience</h1>
+                                <p>Experience rating through facial expressions</p>
+                                <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="container-fluid full-screen index-2"></div>
+                        <div class="container">
+                            <div class="carousel-caption">
+                                <h1>Movies in focus</h1>
+                                <p>Search for your favourite movies and upload your data</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
-            <div class="item">
-                <div class="container-fluid full-screen index-3"></div>
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>An Open API that serves the whole audience</h1>
-                        <p>Experience rating through facial expressions</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a>
-                        </p>
-                    </div>
+            <!-- /.carousel -->
+		  </div>
+        </div>
+
+
+        <!-- Marketing messaging and featurettes -->
+        <!-- Wrap the rest of the page in another container to center all the content. -->
+
+        <div class="container marketing">
+            <!-- START THE FEATURETTES -->
+
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">The idea.<br> <span class="text-muted">Ubiquitous monitoring.</span></h2>
+                    <p class="lead">The pace at which monitoring devices and their underlying technologies advances at is at an extremely high. Everyday, more accessories have physiological sensors embedded in them. A new area is opening up.</p>
+                </div>
+                <div class="col-md-5">
+                    <img class="featurette-image img-responsive" src="/img/index/e3.png" alt="E3">
                 </div>
             </div>
-            <div class="item">
-                <div class="container-fluid full-screen index-2"></div>
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>Movies in focus</h1>
-                        <p>Search for your favourite movies and upload your data</p>
-                    </div>
+
+            <hr class="featurette-divider">
+
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <h2>Empatica Wristband.</h2>
                 </div>
             </div>
+
+            <div class="row text-center">
+                <img src="img/index/E4specs.png" alt="Empatica E3 Wristband">
+            </div>
+
+            <hr class="featurette-divider">
+
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">Media rating. <span class="text-muted"><br>Through sensor data analysis.</span></h2>
+                    <p class="lead">Thanks to the different sensors in the Empatica wristband, we are able to analyze the measured data and create a unique way of rating media (currently focused on movies).</p>
+                </div>
+                <div class="col-md-5">
+                    <img class="featurette-image img-responsive" style="margin-top: 60px" src="https://cdn4.iconfinder.com/data/icons/pretty_office_3/256/Star-Half-Full.png" alt="Generic placeholder image">
+                </div>
+            </div>
+            <br>
+
+            <!-- /END THE FEATURETTES -->
         </div>
-        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-    <!-- /.carousel -->
-	</div>
-
-
-    <!-- Marketing messaging and featurettes -->
-    <!-- Wrap the rest of the page in another container to center all the content. -->
-
-    <div class="container marketing">
-        <!-- START THE FEATURETTES -->
-
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading">The idea.<br> <span class="text-muted">Ubiquitous monitoring.</span></h2>
-                <p class="lead">The pace at which monitoring devices and their underlying technologies advances at is at an extremely high. Everyday, more accessories have physiological sensors embedded in them. A new area is opening up.</p>
-            </div>
-            <div class="col-md-5">
-                <img class="featurette-image img-responsive" src="/img/index/e3.png" alt="E3">
-            </div>
-        </div>
-
-        <hr class="featurette-divider">
-		
-		<div class="row text-center">
-            <div class="col-md-12">
-                <h2>Empatica Wristband.</h2>
-            </div>
-		</div>
-
-        <div class="row text-center">
-            <img src="img/index/E4specs.png" alt="Empatica E3 Wristband">
-		</div>
-
-        <hr class="featurette-divider">
-
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading">Media rating. <span class="text-muted"><br>Through sensor data analysis.</span></h2>
-                <p class="lead">Thanks to the different sensors in the Empatica wristband, we are able to analyze the measured data and create a unique way of rating media (currently focused on movies).</p>
-            </div>
-            <div class="col-md-5">
-                <img class="featurette-image img-responsive" style="margin-top: 60px" src="https://cdn4.iconfinder.com/data/icons/pretty_office_3/256/Star-Half-Full.png" alt="Generic placeholder image">
-            </div>
-        </div>
-		<br>
-
-        <!-- /END THE FEATURETTES -->
-    </div>
-    <!-- FOOTER -->
-    <footer>
-        <% include ../partials/footer %>
-    </footer>
+        <!-- FOOTER -->
+        <footer>
+            <% include ../partials/footer %>
+        </footer>
 </body>
 
 </html>

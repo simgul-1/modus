@@ -1,11 +1,12 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <% include ../partials/head %>
 </head>
 
 <body>
+	<% include ../partials/search %>
     <header>
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 			<div class="container">
@@ -25,13 +26,12 @@
 						<li><a href="/about"><span class="fui-info-circle"></span> About</a>
 						</li>
 					</ul>
-					<form class="navbar-form navbar-left" action="/search" method="post" role="search">
+					<form class="navbar-form navbar-left" id="searchmovie" action="http://localhost:3000/api/v1/search" method="post" role="search">
 						<div class="form-group">
 							<div class="input-group">
 								<input class="form-control" id="navbarInput-01" name="title" type="search" placeholder="Search">
 								<span class="input-group-btn">
-
-								  <button type="submit" class="btn"><span class="fui-search"></span>
+								<button type="submit" class="btn"><span class="fui-search"></span>
 								</button>
 								</span>
 							</div>
@@ -74,7 +74,7 @@
             <h1><span class="fa fa-anchor"></span> Profile Page</h1>
             <a href="/logout" class="btn btn-default btn-sm">Logout</a>
         </div>
-
+		<div id="searchbox"></div>
         <div class="row">
 
         	<% if(user.facebook.token){ %>
